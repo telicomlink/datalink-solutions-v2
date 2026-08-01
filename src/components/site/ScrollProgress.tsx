@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Section = { id: string; label: string };
 
@@ -117,7 +117,7 @@ export function ScrollProgress() {
     if (next === null) return;
     e.preventDefault();
     btnRefs.current[next]?.focus();
-    scrollToId(marks[next]!.id);
+    scrollToId(marks[next]!.id, false);
   };
 
   return (
@@ -152,7 +152,7 @@ export function ScrollProgress() {
               ref={(el) => {
                 btnRefs.current[i] = el;
               }}
-              onClick={() => scrollToId(m.id)}
+              onClick={() => scrollToId(m.id, true)}
               onKeyDown={(e) => onKeyDown(e, i)}
               aria-label={`Jump to ${m.label} section`}
               aria-current={active === i ? "true" : undefined}
