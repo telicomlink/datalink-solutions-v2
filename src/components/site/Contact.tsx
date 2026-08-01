@@ -190,7 +190,6 @@ export function Contact() {
               variant="surface"
               className="w-full !justify-start !rounded-2xl !text-sm"
             >
-
               <MessageCircle size={18} /> Message us on WhatsApp
             </MotionButton>
           </div>
