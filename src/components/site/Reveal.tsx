@@ -36,14 +36,17 @@ export function Reveal({
       className={className}
       style={{
         opacity: shown ? 1 : 0,
-        transform: shown ? "translateY(0)" : "translateY(16px)",
+        transform: shown ? "translateY(0) scale(1)" : "translateY(28px) scale(0.985)",
+        filter: shown ? "blur(0px)" : "blur(6px)",
         transition:
-          "opacity .6s cubic-bezier(.22,.8,.24,1), transform .6s cubic-bezier(.22,.8,.24,1)",
+          "opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1), filter .9s cubic-bezier(.16,1,.3,1)",
         transitionDelay: shown ? `${delay}ms` : "0ms",
+        willChange: "opacity, transform",
       }}
     >
       {children}
     </div>
+
   );
 }
 
