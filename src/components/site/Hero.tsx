@@ -13,7 +13,7 @@ const STATS = [
 
 export function Hero() {
   return (
-    <section className="relative overflow-hidden px-6 pb-[clamp(56px,8vw,104px)] pt-[clamp(112px,12vw,160px)]">
+    <section className="relative overflow-hidden px-6 pb-[clamp(16px,3vw,40px)] pt-[clamp(112px,12vw,160px)]">
       <img
         src={heroImage}
         alt="Cold aisle of a data center with rows of server racks and green accent lighting"
