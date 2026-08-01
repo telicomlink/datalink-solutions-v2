@@ -105,7 +105,7 @@ export function ScrollProgress() {
   return (
     <nav
       aria-label="Page sections"
-      className="fixed inset-x-0 top-0 z-50 h-3 print:hidden"
+      className="fixed inset-x-0 top-0 z-[60] h-3 print:hidden"
     >
       {/* clickable track */}
       <div
