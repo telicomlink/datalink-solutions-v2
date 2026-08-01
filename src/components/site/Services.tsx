@@ -89,26 +89,50 @@ export function Services() {
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {SERVICES.map((svc, i) => {
             const Icon = ICONS[svc.icon] ?? Server;
+            const img = IMAGES[svc.slug];
 
             return (
               <Reveal key={svc.slug} delay={(i % 3) * 80} className="h-full">
                 <MotionCard className="h-full rounded-2xl">
-                <div className="group flex h-full flex-col rounded-2xl border border-border bg-surface p-8 shadow-[inset_0_1px_0_color-mix(in_oklab,white_6%,transparent)] transition-colors duration-300 hover:border-primary/50 hover:bg-surface-raised">
-                  <div className="flex items-start justify-between">
-                    <span className="flex h-12 w-12 items-center justify-center rounded-xl border border-border bg-background text-primary shadow-[0_0_24px_color-mix(in_oklab,var(--primary)_20%,transparent)]">
-                      <Icon size={22} />
+                <div className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-[inset_0_1px_0_color-mix(in_oklab,white_6%,transparent)] transition-colors duration-300 hover:border-primary/50 hover:bg-surface-raised">
+                  <div className="relative aspect-16/10 overflow-hidden">
+                    {img && (
+                      <img
+                        src={img.src}
+                        alt={img.alt}
+                        width={800}
+                        height={600}
+                        loading="lazy"
+                        className="h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.07]"
+                      />
+                    )}
+                    <div
+                      aria-hidden="true"
+                      className="absolute inset-0"
+                      style={{
+                        background:
+                          "linear-gradient(180deg, color-mix(in oklab, var(--background) 20%, transparent) 0%, color-mix(in oklab, var(--background) 55%, transparent) 55%, var(--surface) 100%)",
+                      }}
+                    />
+                    <span className="absolute left-4 top-4 flex h-11 w-11 items-center justify-center rounded-xl border border-border bg-background/80 text-primary shadow-[0_0_24px_color-mix(in_oklab,var(--primary)_22%,transparent)] backdrop-blur">
+                      <Icon size={20} />
                     </span>
-                    <span className="font-mono text-xs text-subtle">{svc.num}</span>
+                    <span className="absolute right-4 top-4 rounded-md border border-border bg-background/70 px-2 py-1 font-mono text-[11px] text-subtle backdrop-blur">
+                      {svc.num}
+                    </span>
                   </div>
-                  <h3 className="mt-5 font-display text-xl font-semibold">{svc.name}</h3>
-                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
-                    {svc.descriptor}
-                  </p>
+                  <div className="flex flex-1 flex-col p-7 pt-5">
+                    <h3 className="font-display text-xl font-semibold">{svc.name}</h3>
+                    <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+                      {svc.descriptor}
+                    </p>
+                  </div>
                 </div>
                 </MotionCard>
               </Reveal>
             );
           })}
+
         </div>
       </div>
     </section>
