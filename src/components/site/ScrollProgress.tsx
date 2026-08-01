@@ -16,14 +16,16 @@ function scrollMax() {
   return Math.max(document.documentElement.scrollHeight - window.innerHeight, 1);
 }
 
-function scrollToId(id: string) {
+function scrollToId(id: string, moveFocus: boolean) {
   const el = document.getElementById(id);
   if (!el) return;
   const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   el.scrollIntoView({ behavior: reduced ? "auto" : "smooth", block: "start" });
-  // Move keyboard focus into the section so screen readers follow the jump.
-  el.setAttribute("tabindex", "-1");
-  el.focus({ preventScroll: true });
+  if (moveFocus) {
+    // Move keyboard focus into the section so screen readers follow the jump.
+    el.setAttribute("tabindex", "-1");
+    el.focus({ preventScroll: true });
+  }
 }
 
 /**
@@ -36,19 +38,38 @@ export function ScrollProgress() {
   const fillRef = useRef<HTMLDivElement>(null);
   const btnRefs = useRef<(HTMLButtonElement | null)[]>([]);
   const [marks, setMarks] = useState<{ id: string; label: string; pct: number }[]>([]);
+  const marksRef = useRef(marks);
+  marksRef.current = marks;
   const [active, setActive] = useState(0);
 
-  const measure = useCallback(() => {
-    const max = scrollMax();
-    const next = SECTIONS.flatMap((s) => {
-      const el = document.getElementById(s.id);
-      if (!el) return [];
-      const top = el.getBoundingClientRect().top + window.scrollY;
-      return [{ id: s.id, label: s.label, pct: Math.min(Math.max(top / max, 0), 1) }];
-    });
-    setMarks(next);
+  // Measure section positions (only re-renders when the positions actually change).
+  useEffect(() => {
+    const measure = () => {
+      const max = scrollMax();
+      const next = SECTIONS.flatMap((s) => {
+        const el = document.getElementById(s.id);
+        if (!el) return [];
+        const top = el.getBoundingClientRect().top + window.scrollY;
+        return [{ id: s.id, label: s.label, pct: Math.min(Math.max(top / max, 0), 1) }];
+      });
+      setMarks((prev) =>
+        prev.length === next.length &&
+        prev.every((m, i) => m.id === next[i]!.id && Math.abs(m.pct - next[i]!.pct) < 0.002)
+          ? prev
+          : next,
+      );
+    };
+
+    measure();
+    const t = window.setTimeout(measure, 600); // after images/fonts settle
+    window.addEventListener("resize", measure);
+    return () => {
+      window.clearTimeout(t);
+      window.removeEventListener("resize", measure);
+    };
   }, []);
 
+  // Progress fill + active section tracking.
   useEffect(() => {
     let frame = 0;
     let current = 0;
@@ -56,8 +77,9 @@ export function ScrollProgress() {
 
     const read = () => {
       target = Math.min(window.scrollY / scrollMax(), 1);
-      const idx = marks.reduce((acc, m, i) => (target + 0.02 >= m.pct ? i : acc), 0);
-      setActive(idx);
+      const list = marksRef.current;
+      const idx = list.reduce((acc, m, i) => (target + 0.02 >= m.pct ? i : acc), 0);
+      setActive((prev) => (prev === idx ? prev : idx));
     };
 
     const tick = () => {
@@ -66,20 +88,16 @@ export function ScrollProgress() {
       frame = requestAnimationFrame(tick);
     };
 
-    measure();
     read();
     current = target;
     frame = requestAnimationFrame(tick);
     window.addEventListener("scroll", read, { passive: true });
-    window.addEventListener("resize", measure);
-    const t = window.setTimeout(measure, 600); // after images/fonts settle
     return () => {
       cancelAnimationFrame(frame);
-      window.clearTimeout(t);
       window.removeEventListener("scroll", read);
-      window.removeEventListener("resize", measure);
     };
-  }, [measure, marks]);
+  }, []);
+
 
   const seekFromPointer = (clientX: number) => {
     const rect = trackRef.current?.getBoundingClientRect();
