@@ -90,7 +90,7 @@ export function MotionButton({
     <motion.a
       ref={magnet.ref as React.Ref<HTMLAnchorElement>}
       className={`${BASE} ${VARIANTS[variant]} ${className}`}
-      style={reduced ? undefined : { x: magnet.x, y: magnet.y }}
+      style={reduced ? {} : { x: magnet.x, y: magnet.y }}
       onPointerMove={magnet.onPointerMove}
       onPointerLeave={magnet.onPointerLeave}
       transition={SPRING}
@@ -123,7 +123,7 @@ export function MotionSubmit({
     <motion.button
       ref={magnet.ref as React.Ref<HTMLButtonElement>}
       className={`${BASE} ${VARIANTS[variant]} ${className}`}
-      style={reduced ? undefined : { x: magnet.x, y: magnet.y }}
+      style={reduced ? {} : { x: magnet.x, y: magnet.y }}
       onPointerMove={magnet.onPointerMove}
       onPointerLeave={magnet.onPointerLeave}
       transition={SPRING}
