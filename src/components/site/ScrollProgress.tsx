@@ -145,7 +145,7 @@ export function ScrollProgress() {
           <li
             key={m.id}
             className="pointer-events-auto absolute top-0 -translate-x-1/2"
-            style={{ left: `${m.pct * 100}%` }}
+            style={{ left: `${Math.min(Math.max(m.pct, 0.01), 0.99) * 100}%` }}
           >
             <button
               type="button"
