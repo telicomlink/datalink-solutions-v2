@@ -11,6 +11,15 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import fiberImage from "@/assets/fiber-testing.jpg";
+import imgRemoteHands from "@/assets/svc-remote-hands.jpg";
+import imgRackStack from "@/assets/svc-rack-stack.jpg";
+import imgSurvey from "@/assets/svc-survey.jpg";
+import imgMigration from "@/assets/svc-migration.jpg";
+import imgColocation from "@/assets/svc-colocation.jpg";
+import imgDestruction from "@/assets/svc-destruction.jpg";
+import imgSpares from "@/assets/svc-spares.jpg";
+import imgTesting from "@/assets/svc-testing.jpg";
+import imgCommissioning from "@/assets/svc-commissioning.jpg";
 import { SERVICES, CAPABILITIES } from "@/lib/site-data";
 
 import { MotionCard } from "./Motion";
@@ -27,6 +36,46 @@ const ICONS: Record<string, LucideIcon> = {
   activity: Activity,
   rocket: Rocket,
 };
+
+const IMAGES: Record<string, { src: string; alt: string }> = {
+  "smart-remote-hands": {
+    src: imgRemoteHands,
+    alt: "Technician with a headset working at a server rack during a night shift",
+  },
+  "rack-and-stack": {
+    src: imgRackStack,
+    alt: "Engineer sliding a rackmount server into a cabinet",
+  },
+  "site-survey-audit": {
+    src: imgSurvey,
+    alt: "Engineer auditing rack assets on a tablet in a data center aisle",
+  },
+  "migrations-decommissioning": {
+    src: imgMigration,
+    alt: "Servers loaded on a transport trolley during a data center migration",
+  },
+  colocation: {
+    src: imgColocation,
+    alt: "Rows of locked colocation cabinets with green status lights",
+  },
+  "secure-data-destruction": {
+    src: imgDestruction,
+    alt: "Stacked hard drives staged for certified secure destruction",
+  },
+  "spare-parts-management": {
+    src: imgSpares,
+    alt: "Labelled shelving of data center spare parts and optics",
+  },
+  "testing-certification": {
+    src: imgTesting,
+    alt: "OTDR handset connected to a fiber patch panel during testing",
+  },
+  "data-center-commissioning": {
+    src: imgCommissioning,
+    alt: "New data center hall powering on during commissioning",
+  },
+};
+
 
 export function Services() {
   return (
