@@ -1,21 +1,23 @@
-import { useRef, type ComponentProps, type ReactNode } from "react";
+import { useRef, type ComponentPropsWithoutRef, type ReactNode } from "react";
 import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from "motion/react";
 
 const SPRING = { type: "spring" as const, stiffness: 420, damping: 26, mass: 0.6 };
 
-/** Animated anchor / button: springy lift, press-in, and a sweeping sheen. */
+/** Animated anchor: springy lift, press-in, and a sweeping sheen. */
 export function MotionButton({
   children,
   className = "",
   ...rest
-}: ComponentProps<typeof motion.a>) {
+}: ComponentPropsWithoutRef<"a">) {
   const reduced = useReducedMotion();
+  const hover = reduced ? {} : { whileHover: { y: -3, scale: 1.025 }, whileTap: { y: -1, scale: 0.97 } };
+  const sheen = reduced ? {} : { whileHover: { x: "460%" } };
+
   return (
     <motion.a
       className={`group/btn relative overflow-hidden ${className}`}
-      whileHover={reduced ? undefined : { y: -3, scale: 1.025 }}
-      whileTap={reduced ? undefined : { y: -1, scale: 0.97 }}
       transition={SPRING}
+      {...hover}
       {...rest}
     >
       <span className="relative z-10 inline-flex items-center gap-2">{children}</span>
@@ -27,8 +29,8 @@ export function MotionButton({
             "linear-gradient(90deg, transparent, color-mix(in oklab, white 26%, transparent), transparent)",
         }}
         initial={{ x: "-160%" }}
-        whileHover={reduced ? undefined : { x: "460%" }}
         transition={{ duration: 0.75, ease: [0.22, 0.8, 0.24, 1] }}
+        {...sheen}
       />
     </motion.a>
   );
@@ -39,20 +41,22 @@ export function MotionSubmit({
   children,
   className = "",
   ...rest
-}: ComponentProps<typeof motion.button>) {
+}: ComponentPropsWithoutRef<"button">) {
   const reduced = useReducedMotion();
+  const hover = reduced ? {} : { whileHover: { y: -3, scale: 1.025 }, whileTap: { y: -1, scale: 0.97 } };
+
   return (
     <motion.button
       className={`relative overflow-hidden ${className}`}
-      whileHover={reduced ? undefined : { y: -3, scale: 1.025 }}
-      whileTap={reduced ? undefined : { y: -1, scale: 0.97 }}
       transition={SPRING}
+      {...hover}
       {...rest}
     >
       <span className="relative z-10 inline-flex items-center gap-2">{children}</span>
     </motion.button>
   );
 }
+
 
 /**
  * Card with a subtle 3D tilt toward the cursor plus a glow that follows the
