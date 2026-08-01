@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/site/SiteHeader";
+import { PageBackground } from "@/components/site/PageBackground";
 import { Hero } from "@/components/site/Hero";
 import { Services, Capabilities } from "@/components/site/Services";
 import { WhyUs, Coverage, Process } from "@/components/site/WhyCoverageProcess";
