@@ -1,12 +1,11 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { SiteHeader } from "@/components/site/SiteHeader";
-import { PageBackground } from "@/components/site/PageBackground";
-import { ScrollProgress } from "@/components/site/ScrollProgress";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { ArrowRight } from "lucide-react";
+import { SiteLayout } from "@/components/site/SiteLayout";
 import { Hero } from "@/components/site/Hero";
 import { Services, Capabilities } from "@/components/site/Services";
 import { WhyUs, Coverage, Process } from "@/components/site/WhyCoverageProcess";
-import { Faq, CtaBand, SiteFooter } from "@/components/site/FaqFooter";
-import { Contact } from "@/components/site/Contact";
+import { Faq } from "@/components/site/FaqFooter";
+import { Reveal } from "@/components/site/Reveal";
 
 const TITLE = "TelicomLink — Data Center Remote Hands, Rack & Stack, Testing";
 const DESCRIPTION =
@@ -54,28 +53,48 @@ const JSON_LD = {
   ],
 };
 
+const PAGES = [
+  { to: "/services", label: "Services", body: "Nine services, from survey and rack & stack to 400G testing and decommissioning." },
+  { to: "/why-us", label: "Why us", body: "How we work, who we work with, our four-step process, and the questions we get asked." },
+  { to: "/coverage", label: "Coverage", body: "Eight facilities across Europe and APAC, plus dispatch into your own sites." },
+  { to: "/contact", label: "Contact", body: "24/7 numbers for Europe and APAC, business hours, and a scoping form." },
+];
+
 function Index() {
   return (
-    <div id="top" className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
+    <SiteLayout>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />
-      <PageBackground />
-      <ScrollProgress />
-      <SiteHeader />
-      <main className="relative z-10">
-        <Hero />
-        <Services />
-        <WhyUs />
-        <Capabilities />
-        <Coverage />
-        <Process />
-        <Faq />
-        <Contact />
-        <CtaBand />
-      </main>
-      <div className="relative z-10">
-        <SiteFooter />
-      </div>
+      <Hero />
+      <Services />
 
-    </div>
+      <section className="px-6 pb-[clamp(48px,8vw,96px)]">
+        <div className="mx-auto grid max-w-[1200px] gap-4 sm:grid-cols-2 lg:grid-cols-4">
+          {PAGES.map((page, i) => (
+            <Reveal key={page.to} delay={(i % 4) * 60}>
+              <Link
+                to={page.to}
+                className="group flex h-full flex-col rounded-2xl border border-border bg-surface/80 p-6 no-underline backdrop-blur transition-colors hover:border-primary/60"
+              >
+                <span className="font-display text-lg font-semibold text-foreground">
+                  {page.label}
+                </span>
+                <span className="mt-2 flex-1 text-sm leading-relaxed text-muted-foreground">
+                  {page.body}
+                </span>
+                <span className="mt-4 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.08em] text-primary">
+                  Open <ArrowRight size={13} className="transition-transform group-hover:translate-x-1" />
+                </span>
+              </Link>
+            </Reveal>
+          ))}
+        </div>
+      </section>
+
+      <WhyUs />
+      <Capabilities />
+      <Coverage />
+      <Process />
+      <Faq />
+    </SiteLayout>
   );
 }

@@ -1,5 +1,9 @@
 import { useRef, type ReactNode } from "react";
 import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from "motion/react";
+import { Link } from "@tanstack/react-router";
+
+const MotionRouterLink = motion.create(Link);
+
 
 const SPRING = { type: "spring" as const, stiffness: 420, damping: 26, mass: 0.6 };
 const MAGNET = { stiffness: 300, damping: 20, mass: 0.5 };
@@ -86,8 +90,14 @@ export function MotionButton({
   const magnet = useMagnet(reduced);
   const hover = reduced ? {} : { whileHover: { scale: 1.03 }, whileTap: { scale: 0.97 } };
 
+  const internal = rest.href.startsWith("/") && !rest.href.startsWith("//");
+  const Comp = (internal ? MotionRouterLink : motion.a) as typeof motion.a;
+  const linkProps = internal
+    ? ({ to: rest.href, onClick: rest.onClick } as Record<string, unknown>)
+    : rest;
+
   return (
-    <motion.a
+    <Comp
       ref={magnet.ref as React.Ref<HTMLAnchorElement>}
       className={`${BASE} ${VARIANTS[variant]} ${className}`}
       style={reduced ? {} : { x: magnet.x, y: magnet.y }}
@@ -95,13 +105,14 @@ export function MotionButton({
       onPointerLeave={magnet.onPointerLeave}
       transition={SPRING}
       {...hover}
-      {...rest}
+      {...linkProps}
     >
       <span className="relative z-10 inline-flex items-center gap-2">{children}</span>
       {!reduced && <Chrome variant={variant} />}
-    </motion.a>
+    </Comp>
   );
 }
+
 
 /** Same treatment for real <button> elements (e.g. form submit). */
 export function MotionSubmit({

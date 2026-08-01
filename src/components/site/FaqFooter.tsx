@@ -2,6 +2,7 @@ import { MotionButton } from "./Motion";
 import { useState } from "react";
 import { Plus, ArrowRight, Linkedin } from "lucide-react";
 import { FAQS, SERVICES, CONTACT } from "@/lib/site-data";
+import { Link } from "@tanstack/react-router";
 import { Eyebrow, SectionHeading } from "./Reveal";
 import { Wordmark } from "./SiteHeader";
 
@@ -63,7 +64,7 @@ export function CtaBand() {
           Tell us the facility, the task, and the timeline — we'll take it from there.
         </p>
         <div className="mt-10 flex justify-center">
-          <MotionButton href="#contact">
+          <MotionButton href="/contact">
             Talk to an engineer <ArrowRight size={18} />
           </MotionButton>
 
@@ -99,8 +100,14 @@ export function SiteFooter() {
           </h3>
           <ul className="mt-4 flex list-none flex-col gap-3 p-0">
             {SERVICES.map((svc) => (
-              <li key={svc.slug} className="text-sm text-muted-foreground">
-                {svc.name}
+              <li key={svc.slug}>
+                <Link
+                  to="/services"
+                  hash={svc.slug}
+                  className="text-sm text-muted-foreground no-underline hover:text-foreground"
+                >
+                  {svc.name}
+                </Link>
               </li>
             ))}
           </ul>
@@ -111,17 +118,18 @@ export function SiteFooter() {
           </h3>
           <ul className="mt-4 flex list-none flex-col gap-3 p-0">
             {[
-              { href: "#why", label: "About" },
-              { href: "#coverage", label: "Coverage" },
-              { href: "#contact", label: "Contact" },
+              { to: "/services", label: "Services" },
+              { to: "/why-us", label: "Why us" },
+              { to: "/coverage", label: "Coverage" },
+              { to: "/contact", label: "Contact" },
             ].map((link) => (
-              <li key={link.href}>
-                <a
-                  href={link.href}
+              <li key={link.to}>
+                <Link
+                  to={link.to}
                   className="text-sm text-muted-foreground no-underline hover:text-foreground"
                 >
                   {link.label}
-                </a>
+                </Link>
               </li>
             ))}
           </ul>

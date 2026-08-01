@@ -37,7 +37,7 @@ const ICONS: Record<string, LucideIcon> = {
   rocket: Rocket,
 };
 
-const IMAGES: Record<string, { src: string; alt: string }> = {
+export const SERVICE_IMAGES: Record<string, { src: string; alt: string }> = {
   "smart-remote-hands": {
     src: imgRemoteHands,
     alt: "Technician with a headset working at a server rack during a night shift",
@@ -89,7 +89,7 @@ export function Services() {
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {SERVICES.map((svc, i) => {
             const Icon = ICONS[svc.icon] ?? Server;
-            const img = IMAGES[svc.slug];
+            const img = SERVICE_IMAGES[svc.slug];
 
             return (
               <Reveal key={svc.slug} delay={(i % 3) * 80} className="h-full">

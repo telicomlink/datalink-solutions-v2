@@ -1,22 +1,23 @@
 import { MotionButton } from "./Motion";
 import { useEffect, useState } from "react";
-import { Menu, X, ArrowRight } from "lucide-react";
+import { Link } from "@tanstack/react-router";
+import { Menu, X } from "lucide-react";
 
 const NAV = [
-  { href: "#services", label: "Services" },
-  { href: "#why", label: "Why us" },
-  { href: "#coverage", label: "Coverage" },
-  { href: "#contact", label: "Contact" },
+  { to: "/services", label: "Services" },
+  { to: "/why-us", label: "Why us" },
+  { to: "/coverage", label: "Coverage" },
+  { to: "/contact", label: "Contact" },
 ];
 
 export function Wordmark({ className = "" }: { className?: string }) {
   return (
-    <a
-      href="#top"
+    <Link
+      to="/"
       className={`font-display font-bold tracking-[-0.03em] text-foreground no-underline ${className}`}
     >
       TELICOM<span className="text-primary">LINK</span>
-    </a>
+    </Link>
   );
 }
 
@@ -44,23 +45,23 @@ export function SiteHeader() {
 
         <nav className="hidden items-center gap-10 md:flex">
           {NAV.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
+            <Link
+              key={item.to}
+              to={item.to}
+              activeProps={{ className: "!text-primary" }}
               className="text-sm font-medium text-muted-foreground no-underline transition-colors hover:text-foreground"
             >
               {item.label}
-            </a>
+            </Link>
           ))}
         </nav>
 
         <MotionButton
-          href="#contact"
+          href="/contact"
           className="hidden !min-h-11 !px-5 !py-2.5 !text-sm md:inline-flex"
         >
           Talk to an engineer
         </MotionButton>
-
 
         <button
           type="button"
@@ -75,22 +76,22 @@ export function SiteHeader() {
       {open && (
         <div className="border-t border-border bg-background px-6 pb-8 md:hidden">
           {NAV.map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
+            <Link
+              key={item.to}
+              to={item.to}
               onClick={() => setOpen(false)}
               className="block border-b border-border py-4 font-display text-lg font-semibold text-foreground no-underline"
             >
               {item.label}
-            </a>
+            </Link>
           ))}
-          <a
-            href="#contact"
+          <Link
+            to="/contact"
             onClick={() => setOpen(false)}
-            className="mt-6 flex min-h-12 items-center justify-center gap-2 rounded-xl bg-primary px-7 py-3 font-semibold text-primary-foreground no-underline"
+            className="mt-6 flex min-h-12 items-center justify-center rounded-xl bg-primary px-6 font-semibold text-primary-foreground no-underline"
           >
-            Talk to an engineer <ArrowRight size={18} />
-          </a>
+            Talk to an engineer
+          </Link>
         </div>
       )}
     </header>
