@@ -6,7 +6,7 @@ import { Faq } from "@/components/site/FaqFooter";
 import { Reveal, Eyebrow, SectionHeading } from "@/components/site/Reveal";
 import { MotionCard, MotionButton } from "@/components/site/Motion";
 import { WHY_STATS, INDUSTRIES } from "@/lib/site-data";
-import whyImage from "@/assets/why-engineer.jpg";
+import whyHero from "@/assets/hero-why.jpg";
 
 const TITLE = "Why TelicomLink — Data Center Engineering Partner in EU & APAC";
 const DESCRIPTION =
@@ -33,8 +33,8 @@ function WhyUsPage() {
         eyebrow="Why us"
         title="Data center as a service, run like an engineering team."
         lead="We work inside the facility on your behalf — deploying servers and DWDM, patching, testing, and keeping it running. No handoffs between three vendors, no business-hours-only excuses."
-        image={whyImage}
-        imageAlt="Engineer patching fibre optic cables into a network switch"
+        image={whyHero}
+        imageAlt="Two engineers reviewing rack and network diagrams in a night operations room"
       />
 
       <section className="px-6 pb-[clamp(40px,7vw,80px)]">

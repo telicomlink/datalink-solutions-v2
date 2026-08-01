@@ -5,7 +5,7 @@ import { Services, Capabilities, SERVICE_IMAGES } from "@/components/site/Servic
 import { Reveal, Eyebrow, SectionHeading } from "@/components/site/Reveal";
 import { MotionButton } from "@/components/site/Motion";
 import { SERVICES, SERVICE_DETAILS } from "@/lib/site-data";
-import rackImage from "@/assets/rack-stack.jpg";
+import servicesHero from "@/assets/hero-services.jpg";
 
 const TITLE = "Data Center Services — Remote Hands, Rack & Stack | TelicomLink";
 const DESCRIPTION =
@@ -32,8 +32,8 @@ function ServicesPage() {
         eyebrow="Services"
         title="Everything inside the rack, handled by one team."
         lead="From the first site survey to the final certificate of destruction — deployment, testing, and day-2 operations delivered by our own engineers in Europe and APAC."
-        image={rackImage}
-        imageAlt="Engineer installing a rackmount server inside a data center cabinet"
+        image={servicesHero}
+        imageAlt="Technician terminating fibre patch cords in a dense cable management panel"
       />
 
       <Services />

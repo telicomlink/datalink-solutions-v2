@@ -4,6 +4,7 @@ import { SiteLayout, PageHero } from "@/components/site/SiteLayout";
 import { Contact } from "@/components/site/Contact";
 import { Reveal, Eyebrow, SectionHeading } from "@/components/site/Reveal";
 import { CONTACT, HOURS } from "@/lib/site-data";
+import contactHero from "@/assets/hero-contact.jpg";
 
 const TITLE = "Contact TelicomLink — 24/7 Data Center Support, EU & APAC";
 const DESCRIPTION =
@@ -30,6 +31,8 @@ function ContactPage() {
         eyebrow="Contact"
         title="Tell us the facility, the task, and the timeline."
         lead="An engineer answers — not a call centre. Emergency remote hands runs 24/7, 365 days a year, across Europe and APAC."
+        image={contactHero}
+        imageAlt="Support engineer with a headset monitoring network dashboards overnight"
       />
 
       <section className="px-6 pb-[clamp(32px,6vw,64px)]">

@@ -2,9 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { Hero } from "@/components/site/Hero";
-import { Services, Capabilities } from "@/components/site/Services";
-import { WhyUs, Coverage, Process } from "@/components/site/WhyCoverageProcess";
-import { Faq } from "@/components/site/FaqFooter";
+import { Services } from "@/components/site/Services";
 import { Reveal } from "@/components/site/Reveal";
 
 const TITLE = "TelicomLink — Data Center Remote Hands, Rack & Stack, Testing";
@@ -90,11 +88,6 @@ function Index() {
         </div>
       </section>
 
-      <WhyUs />
-      <Capabilities />
-      <Coverage />
-      <Process />
-      <Faq />
     </SiteLayout>
   );
 }
