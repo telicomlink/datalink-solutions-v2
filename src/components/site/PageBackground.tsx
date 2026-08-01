@@ -104,14 +104,7 @@ export function PageBackground() {
           }}
         />
       </div>
-
-      {/* scroll progress */}
-      <div
-        aria-hidden
-        ref={barRef}
-        className="fixed inset-x-0 top-0 z-50 h-[2px] origin-left bg-primary/80 will-change-transform"
-        style={{ transform: "scaleX(0)" }}
-      />
     </>
+
   );
 }
