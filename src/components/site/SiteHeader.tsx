@@ -1,3 +1,4 @@
+import { MotionButton } from "./Motion";
 import { useEffect, useState } from "react";
 import { Menu, X, ArrowRight } from "lucide-react";
 
