@@ -1,5 +1,7 @@
 import { Check, ShieldCheck, ArrowRight } from "lucide-react";
 import whyImage from "@/assets/why-engineer.jpg";
+import coverageMap from "@/assets/coverage-map.jpg";
+
 import { DIFFERENTIATORS, EUROPE_CITIES, APAC_CITIES, PROCESS_STEPS } from "@/lib/site-data";
 import { Eyebrow, Reveal, SectionHeading } from "./Reveal";
 
@@ -72,28 +74,58 @@ function CityList({ title, cities }: { title: string; cities: string[] }) {
 
 export function Coverage() {
   return (
-    <section id="coverage" className="px-6 py-[clamp(56px,10vw,128px)]">
-      <div className="mx-auto max-w-[1200px]">
+    <section id="coverage" className="relative overflow-hidden px-6 py-[clamp(56px,10vw,128px)]">
+      <div className="relative mx-auto max-w-[1200px]">
         <Eyebrow>Coverage</Eyebrow>
         <SectionHeading>Colocation across Europe and APAC.</SectionHeading>
         <p className="mt-4 max-w-[60ch] text-base leading-relaxed text-muted-foreground">
           Eight facilities today, with more on request — and remote-hands coverage tied to every one
           of them.
         </p>
-        <div className="mt-10 grid gap-12 sm:grid-cols-2">
-          <CityList title="Europe" cities={EUROPE_CITIES} />
-          <CityList title="APAC" cities={APAC_CITIES} />
+
+        <div className="mt-10 grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-1">
+            <div className="rounded-3xl border border-border bg-surface p-8">
+              <CityList title="Europe" cities={EUROPE_CITIES} />
+            </div>
+            <div className="rounded-3xl border border-border bg-surface p-8">
+              <CityList title="APAC" cities={APAC_CITIES} />
+            </div>
+          </div>
+
+          <Reveal>
+            <div className="relative overflow-hidden rounded-3xl border border-border bg-surface shadow-[0_30px_70px_-25px_rgba(0,0,0,.85)]">
+              <img
+                src={coverageMap}
+                alt="Map showing TelicomLink coverage routes between Europe and South Asia"
+                width={1600}
+                height={912}
+                loading="lazy"
+                className="aspect-16/10 w-full object-cover [filter:brightness(2.6)_saturate(1.3)]"
+              />
+              <div className="pointer-events-none absolute inset-x-5 bottom-5 flex flex-wrap items-center gap-x-6 gap-y-2 rounded-2xl border border-border bg-background/75 px-4 py-3 backdrop-blur">
+                <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-muted-foreground">
+                  Two regions
+                </span>
+                <span className="font-mono text-[11px] text-primary">EU · Paris hub</span>
+                <span className="font-mono text-[11px] text-primary">APAC · Andhra Pradesh hub</span>
+              </div>
+            </div>
+          </Reveal>
         </div>
+
         <a
           href="#contact"
-          className="mt-10 inline-flex min-h-11 items-center gap-2 rounded-xl border border-border bg-surface/40 px-5 py-2.5 text-sm font-semibold text-foreground no-underline transition-colors hover:border-primary/50 hover:text-primary"
+          className="mt-10 inline-flex min-h-11 items-center gap-2 rounded-xl border border-border bg-surface/60 px-5 py-2.5 text-sm font-semibold text-foreground no-underline transition-colors hover:border-primary/50 hover:text-primary"
         >
           Ask about a specific facility <ArrowRight size={16} />
         </a>
       </div>
     </section>
   );
+
 }
+
 
 export function Process() {
   return (
