@@ -10,7 +10,9 @@ import {
   Rocket,
   type LucideIcon,
 } from "lucide-react";
+import fiberImage from "@/assets/fiber-testing.jpg";
 import { SERVICES, CAPABILITIES } from "@/lib/site-data";
+
 import { Eyebrow, Reveal, SectionHeading } from "./Reveal";
 
 const ICONS: Record<string, LucideIcon> = {

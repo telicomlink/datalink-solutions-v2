@@ -1,5 +1,7 @@
 import { Check, ShieldCheck, ArrowRight } from "lucide-react";
 import whyImage from "@/assets/why-engineer.jpg";
+import coverageMap from "@/assets/coverage-map.jpg";
+
 import { DIFFERENTIATORS, EUROPE_CITIES, APAC_CITIES, PROCESS_STEPS } from "@/lib/site-data";
 import { Eyebrow, Reveal, SectionHeading } from "./Reveal";
 
@@ -72,21 +74,42 @@ function CityList({ title, cities }: { title: string; cities: string[] }) {
 
 export function Coverage() {
   return (
-    <section id="coverage" className="px-6 py-[clamp(56px,10vw,128px)]">
-      <div className="mx-auto max-w-[1200px]">
+    <section id="coverage" className="relative overflow-hidden px-6 py-[clamp(56px,10vw,128px)]">
+      <img
+        src={coverageMap}
+        alt=""
+        aria-hidden="true"
+        width={1600}
+        height={912}
+        loading="lazy"
+        className="pointer-events-none absolute inset-0 -z-10 h-full w-full object-cover opacity-70"
+      />
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 -z-10"
+        style={{
+          background:
+            "linear-gradient(90deg, var(--background) 8%, color-mix(in oklab, var(--background) 55%, transparent) 60%, var(--background) 100%)",
+        }}
+      />
+      <div className="relative mx-auto max-w-[1200px]">
         <Eyebrow>Coverage</Eyebrow>
         <SectionHeading>Colocation across Europe and APAC.</SectionHeading>
         <p className="mt-4 max-w-[60ch] text-base leading-relaxed text-muted-foreground">
           Eight facilities today, with more on request — and remote-hands coverage tied to every one
           of them.
         </p>
-        <div className="mt-10 grid gap-12 sm:grid-cols-2">
-          <CityList title="Europe" cities={EUROPE_CITIES} />
-          <CityList title="APAC" cities={APAC_CITIES} />
+        <div className="mt-10 grid gap-6 sm:grid-cols-2">
+          <div className="rounded-3xl border border-border bg-surface/70 p-8 backdrop-blur">
+            <CityList title="Europe" cities={EUROPE_CITIES} />
+          </div>
+          <div className="rounded-3xl border border-border bg-surface/70 p-8 backdrop-blur">
+            <CityList title="APAC" cities={APAC_CITIES} />
+          </div>
         </div>
         <a
           href="#contact"
-          className="mt-10 inline-flex min-h-11 items-center gap-2 rounded-xl border border-border bg-surface/40 px-5 py-2.5 text-sm font-semibold text-foreground no-underline transition-colors hover:border-primary/50 hover:text-primary"
+          className="mt-10 inline-flex min-h-11 items-center gap-2 rounded-xl border border-border bg-surface/60 px-5 py-2.5 text-sm font-semibold text-foreground no-underline backdrop-blur transition-colors hover:border-primary/50 hover:text-primary"
         >
           Ask about a specific facility <ArrowRight size={16} />
         </a>
@@ -94,6 +117,7 @@ export function Coverage() {
     </section>
   );
 }
+
 
 export function Process() {
   return (
