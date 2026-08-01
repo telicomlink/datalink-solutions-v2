@@ -1,4 +1,4 @@
-import { useRef, type ComponentPropsWithoutRef, type ReactNode } from "react";
+import { useRef, type ReactNode } from "react";
 import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from "motion/react";
 
 const SPRING = { type: "spring" as const, stiffness: 420, damping: 26, mass: 0.6 };
@@ -8,7 +8,7 @@ export function MotionButton({
   children,
   className = "",
   ...rest
-}: ComponentPropsWithoutRef<"a">) {
+}: { children: ReactNode; className?: string; href: string; onClick?: () => void }) {
   const reduced = useReducedMotion();
   const hover = reduced ? {} : { whileHover: { y: -3, scale: 1.025 }, whileTap: { y: -1, scale: 0.97 } };
   const sheen = reduced ? {} : { whileHover: { x: "460%" } };
@@ -41,7 +41,7 @@ export function MotionSubmit({
   children,
   className = "",
   ...rest
-}: ComponentPropsWithoutRef<"button">) {
+}: { children: ReactNode; className?: string; type?: "button" | "submit" }) {
   const reduced = useReducedMotion();
   const hover = reduced ? {} : { whileHover: { y: -3, scale: 1.025 }, whileTap: { y: -1, scale: 0.97 } };
 
