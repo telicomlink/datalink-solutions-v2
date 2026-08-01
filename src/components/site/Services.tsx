@@ -95,7 +95,7 @@ export function Services() {
               <Reveal key={svc.slug} delay={(i % 3) * 80} className="h-full">
                 <MotionCard className="h-full rounded-2xl">
                 <div className="group flex h-full flex-col overflow-hidden rounded-2xl border border-border bg-surface shadow-[inset_0_1px_0_color-mix(in_oklab,white_6%,transparent)] transition-colors duration-300 hover:border-primary/50 hover:bg-surface-raised">
-                  <div className="relative aspect-16/10 overflow-hidden">
+                  <div className="relative h-44 overflow-hidden">
                     {img && (
                       <img
                         src={img.src}
