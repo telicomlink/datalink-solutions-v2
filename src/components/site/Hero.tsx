@@ -1,6 +1,7 @@
 import { ArrowRight, Activity, Cable } from "lucide-react";
 import heroImage from "@/assets/hero-datacenter.jpg";
 import rackImage from "@/assets/rack-stack.jpg";
+import { MotionButton } from "./Motion";
 import { Eyebrow } from "./Reveal";
 import { EUROPE_CITIES, APAC_CITIES } from "@/lib/site-data";
 
@@ -50,18 +51,18 @@ export function Hero() {
           </p>
 
           <div className="mt-9 flex flex-wrap gap-4">
-            <a
+            <MotionButton
               href="#contact"
               className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-primary px-7 py-3 text-base font-semibold text-primary-foreground no-underline shadow-[0_4px_20px_color-mix(in_oklab,var(--primary)_28%,transparent)] transition-transform duration-200 hover:-translate-y-0.5 hover:bg-accent"
             >
               Talk to an engineer <ArrowRight size={18} />
-            </a>
-            <a
+            </MotionButton>
+            <MotionButton
               href="#services"
               className="inline-flex min-h-12 items-center rounded-xl border border-border bg-surface/50 px-7 py-3 text-base font-semibold text-foreground no-underline backdrop-blur transition-colors duration-200 hover:border-primary/50 hover:text-primary"
             >
               View services
-            </a>
+            </MotionButton>
           </div>
 
           <div className="mt-11 flex flex-wrap gap-x-12 gap-y-8">

@@ -13,6 +13,7 @@ import {
 import fiberImage from "@/assets/fiber-testing.jpg";
 import { SERVICES, CAPABILITIES } from "@/lib/site-data";
 
+import { MotionCard } from "./Motion";
 import { Eyebrow, Reveal, SectionHeading } from "./Reveal";
 
 const ICONS: Record<string, LucideIcon> = {
@@ -42,7 +43,8 @@ export function Services() {
 
             return (
               <Reveal key={svc.slug} delay={(i % 3) * 80} className="h-full">
-                <div className="group flex h-full flex-col rounded-2xl border border-border bg-surface p-8 shadow-[inset_0_1px_0_color-mix(in_oklab,white_6%,transparent)] transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/50 hover:bg-surface-raised">
+                <MotionCard className="h-full rounded-2xl">
+                <div className="group flex h-full flex-col rounded-2xl border border-border bg-surface p-8 shadow-[inset_0_1px_0_color-mix(in_oklab,white_6%,transparent)] transition-colors duration-300 hover:border-primary/50 hover:bg-surface-raised">
                   <div className="flex items-start justify-between">
                     <span className="flex h-12 w-12 items-center justify-center rounded-xl border border-border bg-background text-primary shadow-[0_0_24px_color-mix(in_oklab,var(--primary)_20%,transparent)]">
                       <Icon size={22} />
@@ -54,6 +56,7 @@ export function Services() {
                     {svc.descriptor}
                   </p>
                 </div>
+                </MotionCard>
               </Reveal>
             );
           })}
