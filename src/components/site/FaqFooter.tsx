@@ -9,7 +9,7 @@ export function Faq() {
   const [open, setOpen] = useState<number | null>(0);
 
   return (
-    <section className="px-6 py-[clamp(56px,10vw,128px)]">
+    <section id="faq" className="px-6 py-[clamp(56px,10vw,128px)]">
       <div className="mx-auto max-w-[1200px]">
         <Eyebrow>FAQ</Eyebrow>
         <SectionHeading>Common questions.</SectionHeading>
