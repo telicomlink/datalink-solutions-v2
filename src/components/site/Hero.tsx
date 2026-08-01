@@ -25,8 +25,9 @@ export function Hero() {
         className="absolute inset-0 -z-20"
         style={{
           background:
-            "linear-gradient(180deg, color-mix(in oklab, var(--background) 55%, transparent) 0%, color-mix(in oklab, var(--background) 78%, transparent) 45%, var(--background) 94%)",
+            "linear-gradient(180deg, color-mix(in oklab, var(--background) 35%, transparent) 0%, color-mix(in oklab, var(--background) 62%, transparent) 45%, var(--background) 96%)",
         }}
+
       />
       <div
         aria-hidden="true"
