@@ -1,3 +1,4 @@
+import { MotionButton } from "./Motion";
 import { useState } from "react";
 import { Plus, ArrowRight, Linkedin } from "lucide-react";
 import { FAQS, SERVICES, CONTACT } from "@/lib/site-data";
@@ -62,12 +63,12 @@ export function CtaBand() {
           Tell us the facility, the task, and the timeline — we'll take it from there.
         </p>
         <div className="mt-10 flex justify-center">
-          <a
+          <MotionButton
             href="#contact"
             className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-primary px-7 py-3 text-base font-semibold text-primary-foreground no-underline hover:bg-accent"
           >
             Talk to an engineer <ArrowRight size={18} />
-          </a>
+          </MotionButton>
         </div>
       </div>
     </section>
