@@ -63,12 +63,10 @@ export function CtaBand() {
           Tell us the facility, the task, and the timeline — we'll take it from there.
         </p>
         <div className="mt-10 flex justify-center">
-          <MotionButton
-            href="#contact"
-            className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-primary px-7 py-3 text-base font-semibold text-primary-foreground no-underline hover:bg-accent"
-          >
+          <MotionButton href="#contact">
             Talk to an engineer <ArrowRight size={18} />
           </MotionButton>
+
         </div>
       </div>
     </section>

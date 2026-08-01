@@ -116,12 +116,10 @@ export function Contact() {
                   />
                 </div>
 
-                <MotionSubmit
-                  type="submit"
-                  className="mt-6 inline-flex min-h-12 items-center gap-2 rounded-xl bg-primary px-7 py-3 text-base font-semibold text-primary-foreground transition-transform duration-200 hover:-translate-y-0.5 hover:bg-accent"
-                >
+                <MotionSubmit type="submit" className="mt-6 w-full sm:w-auto">
                   Send message <ArrowRight size={18} />
                 </MotionSubmit>
+
               </form>
             )}
           </div>
@@ -189,7 +187,8 @@ export function Contact() {
 
             <MotionButton
               href={CONTACT.whatsapp}
-              className="flex items-center gap-3 rounded-2xl border border-border bg-surface px-5 py-4 text-sm font-semibold text-foreground no-underline transition-colors hover:border-primary hover:text-primary"
+              variant="surface"
+              className="w-full !justify-start !rounded-2xl !text-sm"
             >
               <MessageCircle size={18} /> Message us on WhatsApp
             </MotionButton>

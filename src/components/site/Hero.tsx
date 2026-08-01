@@ -51,19 +51,14 @@ export function Hero() {
           </p>
 
           <div className="mt-9 flex flex-wrap gap-4">
-            <MotionButton
-              href="#contact"
-              className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-primary px-7 py-3 text-base font-semibold text-primary-foreground no-underline shadow-[0_4px_20px_color-mix(in_oklab,var(--primary)_28%,transparent)] transition-transform duration-200 hover:-translate-y-0.5 hover:bg-accent"
-            >
+            <MotionButton href="#contact">
               Talk to an engineer <ArrowRight size={18} />
             </MotionButton>
-            <MotionButton
-              href="#services"
-              className="inline-flex min-h-12 items-center rounded-xl border border-border bg-surface/50 px-7 py-3 text-base font-semibold text-foreground no-underline backdrop-blur transition-colors duration-200 hover:border-primary/50 hover:text-primary"
-            >
+            <MotionButton href="#services" variant="outline">
               View services
             </MotionButton>
           </div>
+
 
           <div className="mt-11 flex flex-wrap gap-x-12 gap-y-8">
             {STATS.map((stat) => (
