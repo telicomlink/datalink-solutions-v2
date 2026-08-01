@@ -247,7 +247,7 @@ export const FACILITIES = [
 export const WHY_STATS = [
   { value: "24/7", label: "Dispatch, every day of the year" },
   { value: "400G", label: "BERT and optical certification" },
-  { value: "08", label: "Colocation facilities live" },
+  { value: "08", label: "Colocation cities" },
   { value: "02", label: "Regions, one accountable team" },
 ];
 

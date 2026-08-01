@@ -1,70 +1,84 @@
-import { Check, ShieldCheck, ArrowRight } from "lucide-react";
-import { Link } from "@tanstack/react-router";
-import whyImage from "@/assets/why-engineer.jpg";
-import coverageMap from "@/assets/coverage-map.jpg";
+import { Check, ShieldCheck } from "lucide-react";
+import whyImage from "@/assets/why-engineer.webp";
+import coverageMap from "@/assets/coverage-map.webp";
 
 import { DIFFERENTIATORS, EUROPE_CITIES, APAC_CITIES, PROCESS_STEPS } from "@/lib/site-data";
-import { Eyebrow, Reveal, SectionHeading } from "./Reveal";
+import { Section, MonoLabel, SectionHeading, SectionLead } from "./Section";
+import { ButtonLink } from "./Button";
+import { useReveal } from "./Reveal";
 
 export function WhyUs() {
+  const ref = useReveal<HTMLUListElement>();
+
   return (
-    <section id="why" className="bg-surface/70 backdrop-blur-md px-6 py-[clamp(56px,10vw,128px)]">
-      <div className="mx-auto grid max-w-[1200px] items-center gap-12 lg:grid-cols-2">
-        <Reveal>
-          <div className="flex flex-col gap-3">
-            <div className="relative overflow-hidden rounded-3xl border border-border shadow-[0_24px_64px_rgba(0,0,0,.55)]">
-              <img
-                src={whyImage}
-                alt="Engineer patching fibre optic cables into a network switch inside a data center rack"
-                width={1200}
-                height={900}
-                loading="lazy"
-                className="aspect-4/3 w-full object-cover"
-              />
-              <div className="pointer-events-none absolute bottom-4 left-4 flex items-center gap-2 rounded-full border border-border bg-background/75 px-3.5 py-2 backdrop-blur">
-                <ShieldCheck size={16} className="text-primary" />
-                <span className="text-xs font-semibold text-foreground">
-                  Vetted on-site engineers
-                </span>
-              </div>
-            </div>
-            <p className="font-mono text-xs tracking-wide text-subtle">
-              On-site inside a client facility.
-            </p>
+    <Section id="why" variant="surface">
+      <div className="grid items-center gap-12 lg:grid-cols-2">
+        <div>
+          <div className="relative overflow-hidden rounded-[var(--tl-r-lg)] border border-border shadow-[var(--tl-edge),var(--tl-shadow-md)]">
+            <img
+              src={whyImage}
+              alt="Engineer patching fibre optic cables into a network switch inside a data center rack"
+              width={1200}
+              height={900}
+              loading="lazy"
+              decoding="async"
+              className="aspect-[4/3] w-full object-cover"
+            />
+            <div
+              aria-hidden="true"
+              className="absolute inset-0"
+              style={{
+                background:
+                  "linear-gradient(180deg, color-mix(in srgb, var(--tl-bg) 25%, transparent) 0%, transparent 45%, color-mix(in srgb, var(--tl-bg) 60%, transparent) 100%)",
+              }}
+            />
+            <span className="absolute bottom-4 left-4 inline-flex items-center gap-2 rounded-[var(--tl-r-pill)] border border-border bg-[color-mix(in_srgb,var(--tl-surface)_88%,transparent)] px-3 py-2 text-small font-medium text-foreground backdrop-blur-[12px]">
+              <ShieldCheck size={16} aria-hidden="true" className="text-primary" />
+              Vetted on-site engineers
+            </span>
           </div>
-        </Reveal>
+          <p className="mt-3 tl-mono text-muted-foreground">
+            On-site inside a client facility.
+          </p>
+        </div>
 
         <div>
-          <Eyebrow>Why TelicomLink</Eyebrow>
+          <MonoLabel>Why TelicomLink</MonoLabel>
           <SectionHeading>The hands and expertise inside the facility.</SectionHeading>
-          <p className="mt-4 max-w-[60ch] text-base leading-relaxed text-muted-foreground">
-            We don't own the buildings — we operate inside them, on behalf of network operators,
-            hyperscalers, integrators, and enterprises with equipment they don't staff themselves.
-          </p>
-          <ul className="mt-6 flex list-none flex-col gap-3.5 p-0">
+          <SectionLead>
+            We don&apos;t own the buildings — we operate inside them, on behalf of network
+            operators, hyperscalers, integrators, and enterprises with equipment they don&apos;t
+            staff themselves.
+          </SectionLead>
+          <ul ref={ref} className="mt-8 flex list-none flex-col gap-4 p-0">
             {DIFFERENTIATORS.map((point) => (
-              <li key={point} className="flex items-start gap-3 text-sm text-muted-foreground">
-                <Check size={16} className="mt-0.5 shrink-0 text-primary" />
+              <li
+                key={point}
+                data-reveal
+                className="tl-reveal flex items-start gap-3 text-small text-muted-foreground"
+              >
+                <Check size={16} aria-hidden="true" className="mt-1 shrink-0 text-primary" />
                 <span>{point}</span>
               </li>
             ))}
           </ul>
         </div>
       </div>
-    </section>
+    </Section>
   );
 }
 
 function CityList({ title, cities }: { title: string; cities: string[] }) {
   return (
-    <div>
-      <h3 className="font-mono text-xs font-medium uppercase tracking-[0.08em] text-muted-foreground">
-        {title}
-      </h3>
-      <ul className="mt-5 flex list-none flex-col gap-4 p-0">
+    <div className="rounded-[var(--tl-r-lg)] border border-border bg-surface p-8 shadow-[var(--tl-edge),var(--tl-shadow-md)]">
+      <h3 className="tl-mono text-muted-foreground">{title}</h3>
+      <ul className="mt-4 flex list-none flex-col gap-3 p-0">
         {cities.map((city) => (
-          <li key={city} className="flex items-center gap-3 text-base text-foreground">
-            <span aria-hidden="true" className="h-2 w-2 shrink-0 rounded-full bg-primary" />
+          <li key={city} className="flex items-center gap-3 text-body text-foreground">
+            <span
+              aria-hidden="true"
+              className="h-2 w-2 shrink-0 rounded-[var(--tl-r-pill)] bg-primary"
+            />
             {city}
           </li>
         ))}
@@ -75,85 +89,70 @@ function CityList({ title, cities }: { title: string; cities: string[] }) {
 
 export function Coverage() {
   return (
-    <section id="coverage" className="relative overflow-hidden px-6 py-[clamp(56px,10vw,128px)]">
-      <div className="relative mx-auto max-w-[1200px]">
-        <Eyebrow>Coverage</Eyebrow>
-        <SectionHeading>Colocation across Europe and APAC.</SectionHeading>
-        <p className="mt-4 max-w-[60ch] text-base leading-relaxed text-muted-foreground">
-          Eight facilities today, with more on request — and remote-hands coverage tied to every one
-          of them.
-        </p>
+    <Section id="coverage">
+      <MonoLabel>Coverage</MonoLabel>
+      <SectionHeading>Colocation across Europe and APAC.</SectionHeading>
+      <SectionLead>
+        Eight facilities today, with more on request — and remote-hands coverage tied to every one
+        of them.
+      </SectionLead>
 
-        <div className="mt-10 grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.15fr)]">
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-1">
-            <div className="rounded-3xl border border-border bg-surface p-8">
-              <CityList title="Europe" cities={EUROPE_CITIES} />
-            </div>
-            <div className="rounded-3xl border border-border bg-surface p-8">
-              <CityList title="APAC" cities={APAC_CITIES} />
-            </div>
-          </div>
-
-          <Reveal>
-            <div className="relative overflow-hidden rounded-3xl border border-border bg-surface shadow-[0_30px_70px_-25px_rgba(0,0,0,.85)]">
-              <img
-                src={coverageMap}
-                alt="Map showing TelicomLink coverage routes between Europe and South Asia"
-                width={1600}
-                height={912}
-                loading="lazy"
-                className="aspect-16/10 w-full object-cover [filter:brightness(2.6)_saturate(1.3)]"
-              />
-              <div className="pointer-events-none absolute inset-x-5 bottom-5 flex flex-wrap items-center gap-x-6 gap-y-2 rounded-2xl border border-border bg-background/75 px-4 py-3 backdrop-blur">
-                <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-muted-foreground">
-                  Two regions
-                </span>
-                <span className="font-mono text-[11px] text-primary">EU · Paris hub</span>
-                <span className="font-mono text-[11px] text-primary">APAC · Andhra Pradesh hub</span>
-              </div>
-            </div>
-          </Reveal>
+      <div className="mt-12 grid items-start gap-6 lg:grid-cols-[1fr_1fr]">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-1">
+          <CityList title="Europe" cities={EUROPE_CITIES} />
+          <CityList title="APAC" cities={APAC_CITIES} />
         </div>
 
-        <Link
-          to="/contact"
-          className="mt-10 inline-flex min-h-11 items-center gap-2 rounded-xl border border-border bg-surface/60 px-5 py-2.5 text-sm font-semibold text-foreground no-underline transition-colors hover:border-primary/50 hover:text-primary"
-        >
-          Ask about a specific facility <ArrowRight size={16} />
-        </Link>
+        <div className="relative overflow-hidden rounded-[var(--tl-r-lg)] border border-border bg-surface shadow-[var(--tl-edge),var(--tl-shadow-md)]">
+          <img
+            src={coverageMap}
+            alt="Map showing TelicomLink coverage routes between Europe and South Asia"
+            width={1600}
+            height={912}
+            loading="lazy"
+            decoding="async"
+            className="aspect-[16/10] w-full object-cover"
+          />
+          <div className="absolute inset-x-4 bottom-4 flex flex-wrap items-center gap-4 rounded-[var(--tl-r-md)] border border-border bg-[color-mix(in_srgb,var(--tl-surface)_88%,transparent)] px-4 py-3 backdrop-blur-[12px]">
+            <span className="tl-mono text-muted-foreground">Two regions</span>
+            <span className="tl-mono text-[color:var(--tl-accent-text)]">EU · Paris hub</span>
+            <span className="tl-mono text-[color:var(--tl-accent-text)]">
+              APAC · Andhra Pradesh hub
+            </span>
+          </div>
+        </div>
       </div>
-    </section>
-  );
 
+      <div className="mt-12">
+        <ButtonLink to="/contact" variant="outline" arrow>
+          Ask about a specific facility
+        </ButtonLink>
+      </div>
+    </Section>
+  );
 }
 
-
 export function Process() {
+  const ref = useReveal<HTMLOListElement>();
+
   return (
-    <section id="process" className="bg-surface/70 backdrop-blur-md px-6 py-[clamp(56px,10vw,128px)]">
-      <div className="mx-auto max-w-[1200px]">
-        <Eyebrow>How it works</Eyebrow>
-        <SectionHeading>From survey to steady-state operation.</SectionHeading>
-        <ol className="mt-10 grid list-none gap-8 p-0 sm:grid-cols-2 lg:grid-cols-4">
-          {PROCESS_STEPS.map((step, i) => (
-            <li key={step.step} className="relative border-t-2 border-border pt-6">
-              <span
-                aria-hidden="true"
-                className="absolute -top-[5px] left-0 h-[9px] w-[9px] rounded-full bg-primary"
-              >
-                <span className="absolute inset-0 animate-[tl-ping_2s_cubic-bezier(0,0,.2,1)_infinite] rounded-full bg-primary" />
-              </span>
-              <Reveal delay={i * 90}>
-                <span className="block font-mono text-[clamp(2.5rem,4vw,3.75rem)] font-medium leading-none text-subtle">
-                  {step.step}
-                </span>
-                <h3 className="mt-2 font-display text-xl font-semibold">{step.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{step.body}</p>
-              </Reveal>
-            </li>
-          ))}
-        </ol>
-      </div>
-    </section>
+    <Section id="process" variant="surface">
+      <MonoLabel>How it works</MonoLabel>
+      <SectionHeading>From survey to steady-state operation.</SectionHeading>
+      <ol
+        ref={ref}
+        className="mt-12 grid list-none grid-cols-1 gap-8 p-0 sm:grid-cols-2 lg:grid-cols-4"
+      >
+        {PROCESS_STEPS.map((step) => (
+          <li key={step.step} data-reveal className="tl-reveal border-t border-border pt-6">
+            <span className="block tl-figure text-figure text-muted-foreground opacity-40">
+              {step.step}
+            </span>
+            <h3 className="mt-3 text-h3 font-bold text-foreground">{step.title}</h3>
+            <p className="mt-2 text-small text-muted-foreground">{step.body}</p>
+          </li>
+        ))}
+      </ol>
+    </Section>
   );
 }

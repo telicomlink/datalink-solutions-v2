@@ -1,35 +1,63 @@
-import { MotionButton } from "./Motion";
-import { useEffect, useRef, useState } from "react";
-import { Link } from "@tanstack/react-router";
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
-import { ChevronDown, Menu, X } from "lucide-react";
+import { useEffect, useId, useRef, useState } from "react";
+import { Link, useRouterState } from "@tanstack/react-router";
+import { ChevronDown, Menu, X, Home, ArrowRight } from "lucide-react";
 import { SERVICES } from "@/lib/site-data";
+import { serviceIcon } from "@/lib/service-icons";
+import { ButtonLink } from "./Button";
+import { Wordmark } from "./Logo";
 
 const NAV = [
-  { to: "/services", label: "Services", mega: true },
+  { to: "/", label: "Home" },
   { to: "/why-us", label: "Why us" },
   { to: "/coverage", label: "Coverage" },
   { to: "/contact", label: "Contact" },
 ] as const;
 
-export function Wordmark({ className = "" }: { className?: string }) {
+const HOVER_OPEN_DELAY = 100;
+const HOVER_CLOSE_DELAY = 160;
+
+function NavLink({
+  to,
+  children,
+  onMouseEnter,
+  exact = false,
+}: {
+  to: string;
+  children: string;
+  onMouseEnter?: () => void;
+  exact?: boolean;
+}) {
   return (
     <Link
-      to="/"
-      className={`font-display font-bold tracking-[-0.03em] text-foreground no-underline ${className}`}
+      to={to}
+      onMouseEnter={onMouseEnter}
+      activeProps={{ "aria-current": "page" }}
+      activeOptions={exact ? { exact: true } : undefined}
+      className="group relative inline-flex items-center py-2 text-small font-medium text-muted-foreground no-underline transition-colors duration-[var(--tl-dur)] ease-tl hover:text-foreground aria-[current=page]:text-foreground"
     >
-      TELICOM<span className="text-primary">LINK</span>
+      {children}
+      <span
+        aria-hidden="true"
+        className="absolute inset-x-0 bottom-0 h-[2px] origin-left scale-x-0 bg-primary transition-transform duration-[var(--tl-dur-fast)] ease-tl group-hover:scale-x-100 group-focus-visible:scale-x-100 group-aria-[current=page]:scale-x-100"
+      />
     </Link>
   );
 }
 
 export function SiteHeader() {
   const [scrolled, setScrolled] = useState(false);
-  const [open, setOpen] = useState(false);
   const [mega, setMega] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileServices, setMobileServices] = useState(false);
+
+  const megaId = useId();
+  const mobileServicesId = useId();
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const openTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const reduce = useReducedMotion();
+
+  const pathname = useRouterState({ select: (s) => s.location.pathname });
+  const servicesActive = pathname.startsWith("/services");
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -39,203 +67,268 @@ export function SiteHeader() {
   }, []);
 
   useEffect(() => {
-    const onKey = (e: KeyboardEvent) => e.key === "Escape" && setMega(false);
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
+    setMega(false);
+    setMobileOpen(false);
+    setMobileServices(false);
+  }, [pathname]);
 
-  const openMega = () => {
+  useEffect(() => {
+    if (!mega) return;
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== "Escape") return;
+      setMega(false);
+      triggerRef.current?.focus();
+    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
+  }, [mega]);
+
+  useEffect(() => {
+    document.body.style.overflow = mobileOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [mobileOpen]);
+
+  useEffect(
+    () => () => {
+      if (openTimer.current) clearTimeout(openTimer.current);
+      if (closeTimer.current) clearTimeout(closeTimer.current);
+    },
+    [],
+  );
+
+  const clearTimers = () => {
+    if (openTimer.current) clearTimeout(openTimer.current);
     if (closeTimer.current) clearTimeout(closeTimer.current);
-    setMega(true);
   };
-  const closeMega = (delay = 160) => {
-    if (closeTimer.current) clearTimeout(closeTimer.current);
-    closeTimer.current = setTimeout(() => setMega(false), delay);
+  const hoverOpen = () => {
+    clearTimers();
+    openTimer.current = setTimeout(() => setMega(true), HOVER_OPEN_DELAY);
+  };
+  const hoverClose = () => {
+    clearTimers();
+    closeTimer.current = setTimeout(() => setMega(false), HOVER_CLOSE_DELAY);
   };
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 border-b transition-colors duration-300 ${
-        scrolled || mega
-          ? "border-border bg-background/80 backdrop-blur-2xl"
-          : "border-transparent bg-transparent"
-      }`}
-      onMouseLeave={() => closeMega(120)}
-    >
-      <div className="mx-auto flex h-16 max-w-[1200px] items-center justify-between gap-6 px-6">
-        <Wordmark className="text-[21px]" />
+    <>
+      <a
+        href="#main"
+        className="tl-sr-focusable rounded-[var(--tl-r-md)] bg-primary px-4 py-2 text-small font-semibold text-primary-foreground no-underline"
+      >
+        Skip to content
+      </a>
 
-        <nav className="hidden items-center gap-9 md:flex">
-          {NAV.map((item) =>
-            "mega" in item && item.mega ? (
-              <div
-                key={item.to}
-                className="relative"
-                onMouseEnter={openMega}
-                onFocus={openMega}
+      <header
+        className={`fixed inset-x-0 top-0 z-50 transition-colors duration-[var(--tl-dur)] ease-tl ${
+          scrolled || mega
+            ? "border-b border-border bg-[color-mix(in_srgb,var(--tl-surface)_92%,transparent)] shadow-md backdrop-blur-sm"
+            : "border-b border-transparent bg-transparent"
+        }`}
+        onMouseLeave={hoverClose}
+      >
+        <div className="mx-auto flex h-[var(--tl-header-h-mobile)] max-w-[var(--tl-container)] items-center justify-between px-[var(--tl-gutter)] lg:h-[var(--tl-header-h)] lg:gap-6">
+          <Wordmark />
+
+          {/* Desktop nav */}
+          <nav aria-label="Primary" className="hidden items-center gap-8 lg:flex">
+            {/* Home */}
+            <NavLink to="/" exact>Home</NavLink>
+
+            {/* Services disclosure */}
+            <button
+              ref={triggerRef}
+              type="button"
+              aria-expanded={mega}
+              aria-controls={megaId}
+              aria-current={servicesActive ? "page" : undefined}
+              onClick={() => { clearTimers(); setMega((v) => !v); }}
+              onMouseEnter={hoverOpen}
+              className="group relative inline-flex cursor-pointer items-center gap-1 border-0 bg-transparent py-2 text-small font-medium text-muted-foreground transition-colors duration-[var(--tl-dur)] ease-tl hover:text-foreground aria-[current=page]:text-foreground aria-expanded:text-foreground"
+            >
+              Services
+              <ChevronDown
+                size={14}
+                aria-hidden="true"
+                className={`transition-transform duration-[var(--tl-dur)] ease-tl ${mega ? "rotate-180" : ""}`}
+              />
+              <span
+                aria-hidden="true"
+                className="absolute inset-x-0 bottom-0 h-[2px] origin-left scale-x-0 bg-primary transition-transform duration-[var(--tl-dur-fast)] ease-tl group-hover:scale-x-100 group-focus-visible:scale-x-100 group-aria-[current=page]:scale-x-100 group-aria-expanded:scale-x-100"
+              />
+            </button>
+
+            {NAV.filter((n) => n.to !== "/").map((item) => (
+              <NavLink key={item.to} to={item.to} onMouseEnter={hoverClose}>
+                {item.label}
+              </NavLink>
+            ))}
+          </nav>
+
+          {/* Mobile hamburger */}
+          <button
+            type="button"
+            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            aria-expanded={mobileOpen}
+            onClick={() => setMobileOpen((v) => !v)}
+            className="inline-flex h-[var(--tl-control-h-sm)] w-[var(--tl-control-h-sm)] cursor-pointer items-center justify-center rounded-[var(--tl-r-md)] border border-border bg-transparent text-foreground transition-colors duration-[var(--tl-dur)] hover:bg-surface lg:hidden"
+          >
+            {mobileOpen ? <X size={20} aria-hidden="true" /> : <Menu size={20} aria-hidden="true" />}
+          </button>
+        </div>
+
+        {/* Desktop mega-menu */}
+        <div
+          id={megaId}
+          onMouseEnter={clearTimers}
+          onMouseLeave={hoverClose}
+          className={`absolute inset-x-0 top-full border-b border-border bg-surface shadow-lg ${mega ? "hidden lg:block" : "hidden"}`}
+        >
+          <div className="mx-auto max-w-[var(--tl-container)] px-[var(--tl-gutter)] py-8">
+            <div className="mb-4 flex items-center justify-between">
+              <p className="tl-mono text-[color:var(--tl-accent-text)]">All services</p>
+              <Link
+                to="/services/"
+                onClick={() => setMega(false)}
+                className="tl-arrow inline-flex items-center gap-2 tl-mono text-muted-foreground no-underline transition-colors duration-[var(--tl-dur)] hover:text-foreground"
               >
-                <Link
-                  to={item.to}
-                  activeProps={{ className: "!text-primary" }}
-                  aria-expanded={mega}
-                  className="inline-flex items-center gap-1 text-sm font-medium text-muted-foreground no-underline transition-colors hover:text-foreground"
+                View all <ArrowRight size={13} aria-hidden="true" />
+              </Link>
+            </div>
+            <ul className="grid list-none grid-cols-3 gap-x-8 gap-y-1 p-0">
+              {SERVICES.map((svc) => {
+                const Icon = serviceIcon(svc.icon);
+                return (
+                  <li key={svc.slug}>
+                    <Link
+                      to="/services/$slug"
+                      params={{ slug: svc.slug }}
+                      onClick={() => setMega(false)}
+                      className="group flex items-start gap-3 rounded-[var(--tl-r-md)] p-3 no-underline transition-colors duration-[var(--tl-dur)] ease-tl hover:bg-surface-raised"
+                    >
+                      <Icon size={18} aria-hidden="true" className="mt-1 shrink-0 text-primary" />
+                      <span className="block">
+                        <span className="block text-small font-semibold text-foreground">{svc.name}</span>
+                        <span className="mt-1 block text-small text-muted-foreground">{svc.descriptor}</span>
+                      </span>
+                    </Link>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        </div>
+      </header>
+
+      {/* ── Mobile overlay ─────────────────────────────────────────────────── */}
+      {mobileOpen && (
+        <div
+          id="mobile-menu"
+          className="fixed inset-0 z-40 flex flex-col bg-background lg:hidden"
+          style={{ paddingTop: "var(--tl-header-h-mobile)" }}
+        >
+          {/* Scrollable nav area */}
+          <nav
+            aria-label="Mobile"
+            className="flex flex-1 flex-col overflow-y-auto px-[var(--tl-gutter)] py-6"
+          >
+            {/* Home */}
+            <Link
+              to="/"
+              onClick={() => setMobileOpen(false)}
+              activeProps={{ "aria-current": "page" }}
+              activeOptions={{ exact: true }}
+              className="flex min-h-[var(--tl-control-h)] items-center gap-3 rounded-[var(--tl-r-lg)] border border-transparent px-4 text-body font-semibold text-foreground no-underline transition-colors duration-[var(--tl-dur)] hover:bg-surface aria-[current=page]:border-border aria-[current=page]:bg-surface aria-[current=page]:text-[color:var(--tl-accent-text)]"
+            >
+              <Home size={18} aria-hidden="true" className="shrink-0 text-primary" />
+              Home
+            </Link>
+
+            <div className="my-3 h-px bg-border" />
+
+            {/* Services accordion */}
+            <div>
+              <button
+                type="button"
+                aria-expanded={mobileServices}
+                aria-controls={mobileServicesId}
+                onClick={() => setMobileServices((v) => !v)}
+                className={`flex min-h-[var(--tl-control-h)] w-full cursor-pointer items-center justify-between gap-3 rounded-[var(--tl-r-lg)] border px-4 text-body font-semibold transition-colors duration-[var(--tl-dur)] ${
+                  servicesActive
+                    ? "border-border bg-surface text-[color:var(--tl-accent-text)]"
+                    : "border-transparent bg-transparent text-foreground hover:bg-surface"
+                }`}
+              >
+                <span className="flex items-center gap-3">
+                  <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
+                    <ChevronDown size={14} aria-hidden="true" className={`transition-transform duration-[var(--tl-dur)] ${mobileServices ? "rotate-180" : ""}`} />
+                  </span>
+                  Services
+                </span>
+                <span className="tl-mono text-label text-muted-foreground">9</span>
+              </button>
+
+              {mobileServices && (
+                <ul
+                  id={mobileServicesId}
+                  className="mt-2 flex list-none flex-col gap-1 rounded-[var(--tl-r-lg)] border border-border bg-surface p-2"
                 >
-                  {item.label}
-                  <ChevronDown
-                    size={14}
-                    className={`transition-transform duration-300 ${mega ? "rotate-180" : ""}`}
-                  />
-                </Link>
-              </div>
-            ) : (
+                  {SERVICES.map((svc) => {
+                    const Icon = serviceIcon(svc.icon);
+                    return (
+                      <li key={svc.slug}>
+                        <Link
+                          to="/services/$slug"
+                          params={{ slug: svc.slug }}
+                          onClick={() => setMobileOpen(false)}
+                          className="flex min-h-[var(--tl-control-h-sm)] items-center gap-3 rounded-[var(--tl-r-md)] px-3 no-underline transition-colors duration-[var(--tl-dur)] hover:bg-surface-raised"
+                        >
+                          <Icon size={15} aria-hidden="true" className="shrink-0 text-primary" />
+                          <span className="text-small font-medium text-foreground">{svc.name}</span>
+                        </Link>
+                      </li>
+                    );
+                  })}
+                  <li className="mt-1 border-t border-border pt-1">
+                    <Link
+                      to="/services/"
+                      onClick={() => setMobileOpen(false)}
+                      className="tl-arrow flex min-h-[var(--tl-control-h-sm)] items-center gap-2 rounded-[var(--tl-r-md)] px-3 tl-mono text-[color:var(--tl-accent-text)] no-underline transition-colors duration-[var(--tl-dur)] hover:bg-surface-raised"
+                    >
+                      All services <ArrowRight size={13} aria-hidden="true" />
+                    </Link>
+                  </li>
+                </ul>
+              )}
+            </div>
+
+            <div className="my-3 h-px bg-border" />
+
+            {/* Other nav links */}
+            {NAV.filter((n) => n.to !== "/").map((item) => (
               <Link
                 key={item.to}
                 to={item.to}
-                onMouseEnter={() => closeMega(0)}
-                activeProps={{ className: "!text-primary" }}
-                className="text-sm font-medium text-muted-foreground no-underline transition-colors hover:text-foreground"
+                onClick={() => setMobileOpen(false)}
+                activeProps={{ "aria-current": "page" }}
+                className="flex min-h-[var(--tl-control-h)] items-center rounded-[var(--tl-r-lg)] border border-transparent px-4 text-body font-semibold text-foreground no-underline transition-colors duration-[var(--tl-dur)] hover:bg-surface aria-[current=page]:border-border aria-[current=page]:bg-surface aria-[current=page]:text-[color:var(--tl-accent-text)]"
               >
                 {item.label}
               </Link>
-            ),
-          )}
-        </nav>
+            ))}
+          </nav>
 
-        <MotionButton
-          href="/contact"
-          className="hidden !min-h-11 !px-5 !py-2.5 !text-sm md:inline-flex"
-        >
-          Talk to an engineer
-        </MotionButton>
-
-        <button
-          type="button"
-          aria-label={open ? "Close menu" : "Open menu"}
-          onClick={() => setOpen((v) => !v)}
-          className="inline-flex h-11 w-11 items-center justify-center rounded-xl border border-border text-foreground md:hidden"
-        >
-          {open ? <X size={20} /> : <Menu size={20} />}
-        </button>
-      </div>
-
-      {/* Apple-style mega menu */}
-      <AnimatePresence>
-        {mega && (
-          <motion.div
-            key="mega"
-            initial={{ opacity: 0, y: reduce ? 0 : -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: reduce ? 0 : -8 }}
-            transition={{ type: "spring", stiffness: 260, damping: 30, mass: 0.6 }}
-            className="absolute inset-x-0 top-16 hidden overflow-hidden border-b border-border bg-background/90 backdrop-blur-2xl md:block"
-            onMouseEnter={openMega}
-            onMouseLeave={() => closeMega(120)}
-          >
-            <div className="mx-auto grid max-w-[1200px] gap-10 px-6 py-10 lg:grid-cols-[1fr_260px]">
-              <div>
-                <p className="mb-5 font-mono text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
-                  All services
-                </p>
-                <div className="grid gap-x-8 gap-y-1 sm:grid-cols-2 lg:grid-cols-3">
-                  {SERVICES.map((svc, i) => (
-                    <motion.div
-                      key={svc.slug}
-                      initial={{ opacity: 0, y: reduce ? 0 : 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: reduce ? 0 : 0.03 + i * 0.025, duration: 0.28 }}
-                    >
-                      <Link
-                        to="/services"
-                        hash={svc.slug}
-                        onClick={() => setMega(false)}
-                        className="group block rounded-xl px-3 py-2.5 no-underline transition-colors hover:bg-surface"
-                      >
-                        <span className="flex items-baseline gap-2">
-                          <span className="font-mono text-[11px] text-primary/70">{svc.num}</span>
-                          <span className="font-display text-[15px] font-semibold text-foreground transition-colors group-hover:text-primary">
-                            {svc.name}
-                          </span>
-                        </span>
-                        <span className="mt-0.5 block pl-6 text-xs leading-snug text-muted-foreground">
-                          {svc.descriptor}
-                        </span>
-                      </Link>
-                    </motion.div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="rounded-2xl border border-border bg-surface/70 p-6">
-                <p className="font-mono text-[11px] uppercase tracking-[0.22em] text-muted-foreground">
-                  24×7 dispatch
-                </p>
-                <p className="mt-3 font-display text-lg font-semibold text-foreground">
-                  One team, deployment to decommissioning.
-                </p>
-                <p className="mt-2 text-sm text-muted-foreground">
-                  Engineers across Europe and APAC, on site when it matters.
-                </p>
-                <Link
-                  to="/services"
-                  onClick={() => setMega(false)}
-                  className="mt-5 inline-flex text-sm font-semibold text-primary no-underline hover:underline"
-                >
-                  View all services →
-                </Link>
-              </div>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
-
-      {open && (
-        <div className="max-h-[calc(100vh-4rem)] overflow-y-auto border-t border-border bg-background px-6 pb-8 md:hidden">
-          <button
-            type="button"
-            onClick={() => setMobileServices((v) => !v)}
-            className="flex w-full items-center justify-between border-b border-border py-4 font-display text-lg font-semibold text-foreground"
-          >
-            Services
-            <ChevronDown
-              size={18}
-              className={`transition-transform ${mobileServices ? "rotate-180" : ""}`}
-            />
-          </button>
-          {mobileServices && (
-            <div className="border-b border-border py-2">
-              {SERVICES.map((svc) => (
-                <Link
-                  key={svc.slug}
-                  to="/services"
-                  hash={svc.slug}
-                  onClick={() => setOpen(false)}
-                  className="block py-2.5 text-sm text-muted-foreground no-underline"
-                >
-                  <span className="font-mono text-[11px] text-primary/70">{svc.num}</span>{" "}
-                  {svc.name}
-                </Link>
-              ))}
-            </div>
-          )}
-          {NAV.filter((n) => n.to !== "/services").map((item) => (
-            <Link
-              key={item.to}
-              to={item.to}
-              onClick={() => setOpen(false)}
-              className="block border-b border-border py-4 font-display text-lg font-semibold text-foreground no-underline"
+          {/* Pinned CTA */}
+          <div className="border-t border-border bg-surface px-[var(--tl-gutter)] py-4">
+            <ButtonLink
+              to="/contact"
+              className="w-full"
+              onClick={() => setMobileOpen(false)}
             >
-              {item.label}
-            </Link>
-          ))}
-          <Link
-            to="/contact"
-            onClick={() => setOpen(false)}
-            className="mt-6 flex min-h-12 items-center justify-center rounded-xl bg-primary px-6 font-semibold text-primary-foreground no-underline"
-          >
-            Talk to an engineer
-          </Link>
+              Talk to an engineer
+            </ButtonLink>
+          </div>
         </div>
       )}
-    </header>
+    </>
   );
 }

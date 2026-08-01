@@ -1,29 +1,15 @@
+import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { ArrowRight, MapPin, Globe2 } from "lucide-react";
+import { MapPin, Globe2, Phone, Mail, ArrowRight } from "lucide-react";
 import { SiteLayout, PageHero } from "@/components/site/SiteLayout";
 import { Coverage } from "@/components/site/WhyCoverageProcess";
-import { Reveal, Eyebrow, SectionHeading } from "@/components/site/Reveal";
-import { MotionCard, MotionButton } from "@/components/site/Motion";
+import { Section, MonoLabel, SectionHeading, SectionLead } from "@/components/site/Section";
+import { ButtonLink } from "@/components/site/Button";
+import { useReveal } from "@/components/site/Reveal";
 import { FACILITIES, CONTACT } from "@/lib/site-data";
-import coverageHero from "@/assets/hero-coverage.jpg";
+import coverageHero from "@/assets/hero-coverage.webp";
 
-const TITLE = "Coverage — Colocation & Field Engineering in Europe and APAC";
-const DESCRIPTION =
-  "TelicomLink covers Paris, Marseille, Frankfurt, Amsterdam, Mumbai, Bangalore, Visakhapatnam, and Singapore, with engineers based in Paris, France and Andhra Pradesh, India.";
-
-export const Route = createFileRoute("/coverage")({
-  head: () => ({
-    meta: [
-      { title: TITLE },
-      { name: "description", content: DESCRIPTION },
-      { property: "og:title", content: TITLE },
-      { property: "og:description", content: DESCRIPTION },
-      { property: "og:type", content: "website" },
-      { name: "twitter:card", content: "summary_large_image" },
-    ],
-  }),
-  component: CoveragePage,
-});
+export const Route = createFileRoute("/coverage")({ component: CoveragePage });
 
 const BASES = [
   {
@@ -32,6 +18,7 @@ const BASES = [
     phone: CONTACT.phoneEurope,
     href: CONTACT.phoneEuropeHref,
     body: "Dispatch across France, Germany, and the Netherlands from our Paris base — including subsea gateway work in Marseille.",
+    highlight: "Paris hub",
   },
   {
     region: "India & APAC",
@@ -39,8 +26,163 @@ const BASES = [
     phone: CONTACT.phoneApac,
     href: CONTACT.phoneApacHref,
     body: "Operations run from Andhra Pradesh, covering Mumbai, Bangalore, Visakhapatnam, and Singapore.",
+    highlight: "Andhra Pradesh hub",
   },
 ];
+
+/* ── Region switcher ─────────────────────────────────────────────────────── */
+function RegionSwitcher() {
+  const [active, setActive] = useState(0);
+  const region = BASES[active]!;
+  const facilities = FACILITIES.filter((f) => f.region === (active === 0 ? "Europe" : "APAC"));
+
+  return (
+    <Section variant="surface">
+      <MonoLabel>Regions</MonoLabel>
+      <SectionHeading>Two bases, eight facilities.</SectionHeading>
+      <SectionLead>Select a region to see the dispatch base, direct contact, and facility list.</SectionLead>
+
+      {/* Tab row */}
+      <div className="mt-8 flex gap-2">
+        {BASES.map((b, i) => (
+          <button
+            key={b.region}
+            type="button"
+            onClick={() => setActive(i)}
+            className={`rounded-[var(--tl-r-md)] border px-6 py-3 text-body font-semibold transition-colors duration-[var(--tl-dur)] ${
+              active === i
+                ? "border-primary bg-primary text-primary-foreground"
+                : "border-border bg-background text-muted-foreground hover:bg-surface hover:text-foreground"
+            }`}
+          >
+            {b.region}
+          </button>
+        ))}
+      </div>
+
+      {/* Content */}
+      <div className="mt-8 grid grid-cols-1 gap-6 lg:grid-cols-[320px_1fr]">
+        {/* Base card */}
+        <div className="flex flex-col rounded-[var(--tl-r-lg)] border border-border bg-background p-8 shadow-[var(--tl-edge),var(--tl-shadow-md)]">
+          <p className="inline-flex items-center gap-2 tl-mono text-[color:var(--tl-accent-text)]">
+            <Globe2 size={13} aria-hidden="true" /> {region.region}
+          </p>
+          <h2 className="mt-2 text-h3 font-bold text-foreground">{region.base}</h2>
+          <p className="mt-3 flex-1 text-small text-muted-foreground">{region.body}</p>
+
+          <div className="mt-6 flex flex-col gap-3 border-t border-border pt-6">
+            <a href={region.href} className="inline-flex items-center gap-2 text-small font-semibold text-foreground no-underline transition-colors duration-[var(--tl-dur)] hover:text-primary">
+              <Phone size={14} aria-hidden="true" className="text-primary" /> {region.phone}
+            </a>
+            <a href={`mailto:${CONTACT.email}`} className="inline-flex items-center gap-2 text-small text-muted-foreground no-underline transition-colors duration-[var(--tl-dur)] hover:text-foreground">
+              <Mail size={14} aria-hidden="true" /> {CONTACT.email}
+            </a>
+          </div>
+
+          <div className="mt-6">
+            <span className="inline-flex items-center gap-2 rounded-[var(--tl-r-pill)] border border-primary/30 bg-primary/10 px-3 py-2 tl-mono text-[color:var(--tl-accent-text)]">
+              <span className="h-2 w-2 rounded-full bg-primary" aria-hidden="true" />
+              {region.highlight}
+            </span>
+          </div>
+        </div>
+
+        {/* Facility grid */}
+        <ul className="grid list-none grid-cols-1 gap-4 p-0 sm:grid-cols-2">
+          {facilities.map((f) => (
+            <li
+              key={f.city}
+              className="group rounded-[var(--tl-r-lg)] border border-border bg-background p-6 shadow-[var(--tl-edge),var(--tl-shadow-md)] transition-colors duration-[var(--tl-dur)] hover:border-primary/40"
+            >
+              <p className="inline-flex items-center gap-2 tl-mono text-[color:var(--tl-accent-text)]">
+                <MapPin size={12} aria-hidden="true" /> {f.region}
+              </p>
+              <h3 className="mt-2 text-h3 font-bold text-foreground">{f.city}</h3>
+              <p className="text-small text-muted-foreground">{f.country}</p>
+              <p className="mt-3 text-small text-muted-foreground">{f.note}</p>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </Section>
+  );
+}
+
+/* ── All facilities ──────────────────────────────────────────────────────── */
+function AllFacilities() {
+  const ref = useReveal<HTMLUListElement>();
+  const europe = FACILITIES.filter((f) => f.region === "Europe");
+  const apac = FACILITIES.filter((f) => f.region === "APAC");
+
+  return (
+    <Section>
+      <MonoLabel>All facilities</MonoLabel>
+      <SectionHeading>Where you can put a rack today.</SectionHeading>
+      <SectionLead>Eight carrier-neutral facilities across Europe and APAC, with more on request.</SectionLead>
+
+      <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-2">
+        {[{ label: "Europe", items: europe }, { label: "India & APAC", items: apac }].map((group) => (
+          <div key={group.label}>
+            <h3 className="mb-6 tl-mono text-[color:var(--tl-accent-text)]">{group.label}</h3>
+            <ul ref={ref} className="grid list-none grid-cols-1 gap-4 p-0 sm:grid-cols-2">
+              {group.items.map((f) => (
+                <li
+                  key={f.city}
+                  data-reveal
+                  className="tl-reveal rounded-[var(--tl-r-lg)] border border-border bg-surface p-6 shadow-[var(--tl-edge),var(--tl-shadow-md)] transition-colors duration-[var(--tl-dur)] hover:border-primary/40"
+                >
+                  <h4 className="text-body font-bold text-foreground">{f.city}</h4>
+                  <p className="tl-mono text-muted-foreground">{f.country}</p>
+                  <p className="mt-3 text-small text-muted-foreground">{f.note}</p>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-12 rounded-[var(--tl-r-lg)] border border-border bg-surface p-8">
+        <p className="tl-mono text-[color:var(--tl-accent-text)]">Need a different site?</p>
+        <h3 className="mt-2 text-h3 font-bold text-foreground">We mobilise into new facilities on request.</h3>
+        <p className="mt-2 text-small text-muted-foreground">Tell us the address and we&apos;ll confirm coverage and lead time.</p>
+        <div className="mt-6">
+          <ButtonLink to="/contact" variant="outline" arrow>Check coverage for your site</ButtonLink>
+        </div>
+      </div>
+    </Section>
+  );
+}
+
+/* ── Dispatch model ──────────────────────────────────────────────────────── */
+function DispatchModel() {
+  const steps = [
+    { num: "01", title: "You raise a task", body: "Call, email, or WhatsApp — we pick up 24/7 for emergencies." },
+    { num: "02", title: "We confirm scope", body: "Facility, access requirements, kit needed, and lead time — agreed before dispatch." },
+    { num: "03", title: "Engineer dispatched", body: "Our engineer attends the facility, executes the task, and documents everything." },
+    { num: "04", title: "Closeout report", body: "Written notes, photos, and test results delivered on completion." },
+  ];
+
+  const ref = useReveal<HTMLOListElement>();
+
+  return (
+    <Section variant="surface">
+      <MonoLabel>How dispatch works</MonoLabel>
+      <SectionHeading>From your call to closeout report.</SectionHeading>
+      <ol ref={ref} className="mt-12 grid list-none grid-cols-1 gap-6 p-0 sm:grid-cols-2 lg:grid-cols-4">
+        {steps.map((s) => (
+          <li key={s.num} data-reveal className="tl-reveal border-t-2 border-primary pt-6">
+            <span className="tl-figure text-figure text-primary opacity-30">{s.num}</span>
+            <h3 className="mt-3 text-h3 font-bold text-foreground">{s.title}</h3>
+            <p className="mt-2 text-small text-muted-foreground">{s.body}</p>
+          </li>
+        ))}
+      </ol>
+      <div className="mt-12">
+        <ButtonLink to="/contact" arrow>Request a dispatch</ButtonLink>
+      </div>
+    </Section>
+  );
+}
 
 function CoveragePage() {
   return (
@@ -52,62 +194,10 @@ function CoveragePage() {
         image={coverageHero}
         imageAlt="Aerial view of a data center campus at dusk with a city skyline behind it"
       />
-
-      <section className="px-6 pb-[clamp(40px,7vw,80px)]">
-        <div className="mx-auto grid max-w-[1200px] gap-5 lg:grid-cols-2">
-          {BASES.map((b, i) => (
-            <Reveal key={b.region} delay={i * 80}>
-              <MotionCard className="h-full rounded-2xl">
-                <div className="h-full rounded-2xl border border-border bg-surface p-7 transition-colors hover:border-primary/50">
-                  <p className="inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.08em] text-muted-foreground">
-                    <Globe2 size={14} className="text-primary" /> {b.region}
-                  </p>
-                  <h2 className="mt-2 font-display text-2xl font-semibold">{b.base}</h2>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{b.body}</p>
-                  <a
-                    href={b.href}
-                    className="mt-4 inline-block font-mono text-sm text-primary no-underline hover:underline"
-                  >
-                    {b.phone}
-                  </a>
-                </div>
-              </MotionCard>
-            </Reveal>
-          ))}
-        </div>
-      </section>
-
+      <RegionSwitcher />
       <Coverage />
-
-      <section className="bg-surface/70 px-6 py-[clamp(56px,10vw,120px)] backdrop-blur-md">
-        <div className="mx-auto max-w-[1200px]">
-          <Eyebrow>Facility list</Eyebrow>
-          <SectionHeading>Where you can put a rack today.</SectionHeading>
-          <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-            {FACILITIES.map((f, i) => (
-              <Reveal key={f.city} delay={(i % 4) * 60}>
-                <div className="h-full rounded-2xl border border-border bg-background/60 p-6 backdrop-blur transition-colors hover:border-primary/50">
-                  <p className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.08em] text-primary">
-                    <MapPin size={13} /> {f.region}
-                  </p>
-                  <h3 className="mt-2 font-display text-lg font-semibold">{f.city}</h3>
-                  <p className="text-xs text-subtle">{f.country}</p>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{f.note}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-          <p className="mt-8 max-w-[70ch] text-sm text-muted-foreground">
-            Need a site that isn't listed? We regularly mobilise into new facilities on request —
-            tell us the address and we'll confirm coverage and lead time.
-          </p>
-          <div className="mt-10">
-            <MotionButton href="/contact">
-              Check coverage for your site <ArrowRight size={18} />
-            </MotionButton>
-          </div>
-        </div>
-      </section>
+      <DispatchModel />
+      <AllFacilities />
     </SiteLayout>
   );
 }

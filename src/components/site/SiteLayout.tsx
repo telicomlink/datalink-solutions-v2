@@ -1,9 +1,8 @@
 import type { ReactNode } from "react";
-import { PageBackground } from "./PageBackground";
-import { ScrollProgress } from "./ScrollProgress";
 import { SiteHeader } from "./SiteHeader";
 import { SiteFooter, CtaBand } from "./FaqFooter";
-import { Eyebrow } from "./Reveal";
+import { Container, MonoLabel } from "./Section";
+import { useReveal } from "./Reveal";
 
 export function SiteLayout({
   children,
@@ -13,22 +12,21 @@ export function SiteLayout({
   withCta?: boolean;
 }) {
   return (
-    <div id="top" className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
-      <PageBackground />
-      <ScrollProgress />
+    <div id="top" className="min-h-screen overflow-x-hidden bg-background text-foreground">
       <SiteHeader />
-      <main className="relative z-10">
+      <main id="main" tabIndex={-1}>
         {children}
         {withCta && <CtaBand />}
       </main>
-      <div className="relative z-10">
-        <SiteFooter />
-      </div>
+      <SiteFooter />
     </div>
   );
 }
 
-/** Compact hero used at the top of every inner page. */
+/**
+ * Compact hero for inner pages. Owns its own top padding because it has to
+ * clear the fixed header; every other section defers to <Section>.
+ */
 export function PageHero({
   eyebrow,
   title,
@@ -42,36 +40,44 @@ export function PageHero({
   image?: string;
   imageAlt?: string;
 }) {
+  const ref = useReveal<HTMLDivElement>();
+
   return (
-    <section className="relative overflow-hidden px-6 pb-[clamp(32px,6vw,72px)] pt-[clamp(112px,14vw,168px)]">
-      <div className="mx-auto grid max-w-[1200px] items-center gap-10 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
-        <div>
-          <Eyebrow>{eyebrow}</Eyebrow>
-          <h1 className="mt-3 max-w-[18ch] font-display text-[clamp(2.1rem,5vw,3.6rem)] font-bold leading-[1.05] tracking-[-0.03em]">
-            {title}
-          </h1>
-          <p className="mt-5 max-w-[62ch] text-lg leading-relaxed text-muted-foreground">{lead}</p>
-        </div>
-        {image && (
-          <div className="relative overflow-hidden rounded-3xl border border-border shadow-[0_30px_70px_-25px_rgba(0,0,0,.85)]">
-            <img
-              src={image}
-              alt={imageAlt ?? ""}
-              width={1200}
-              height={900}
-              className="aspect-4/3 w-full object-cover"
-            />
-            <div
-              aria-hidden="true"
-              className="absolute inset-0"
-              style={{
-                background:
-                  "linear-gradient(180deg, transparent 40%, color-mix(in oklab, var(--background) 70%, transparent) 100%)",
-              }}
-            />
+    <section className="pb-[var(--tl-section-y)] pt-[calc(var(--tl-header-h)+var(--tl-s-16))]">
+      <Container>
+        <div ref={ref} className="grid items-center gap-12 lg:grid-cols-[55fr_45fr]">
+          <div data-reveal className="tl-reveal">
+            <MonoLabel>{eyebrow}</MonoLabel>
+            <h1 className="max-w-[20ch] text-display font-bold text-balance text-foreground">
+              {title}
+            </h1>
+            <p className="mt-6 max-w-[60ch] text-body-lg text-muted-foreground">{lead}</p>
           </div>
-        )}
-      </div>
+          {image && (
+            <div
+              data-reveal
+              className="tl-reveal relative overflow-hidden rounded-[var(--tl-r-lg)] border border-border shadow-[var(--tl-edge),var(--tl-shadow-md)]"
+            >
+              <img
+                src={image}
+                alt={imageAlt ?? ""}
+                width={1200}
+                height={900}
+                decoding="async"
+                className="aspect-[4/3] w-full object-cover"
+              />
+              <div
+                aria-hidden="true"
+                className="absolute inset-0"
+                style={{
+                  background:
+                    "linear-gradient(180deg, color-mix(in srgb, var(--tl-bg) 25%, transparent) 0%, transparent 45%, color-mix(in srgb, var(--tl-bg) 60%, transparent) 100%)",
+                }}
+              />
+            </div>
+          )}
+        </div>
+      </Container>
     </section>
   );
 }

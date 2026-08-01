@@ -1,0 +1,135 @@
+/**
+ * TelicomLink design tokens — the single source of truth.
+ *
+ * Every colour, space, radius, shadow, font size and duration in the build
+ * resolves to one of these variables. Nothing below this file should contain a
+ * raw hex value, a raw px padding, or a raw font size.
+ */
+
+:root {
+  /* ---------------------------------------------------------------- colour */
+  --tl-bg: #0b0d10; /* page canvas */
+  --tl-surface: #13171c; /* cards, panels */
+  --tl-surface-2: #1a1f26; /* nested / hover surfaces — lightest allowed */
+  --tl-border: #262c34; /* hairlines, dividers, input borders */
+  --tl-text: #edf1f5; /* headings + body */
+  --tl-text-dim: #98a3ae; /* captions, secondary, placeholders */
+  --tl-deep: #08090c; /* darkest tinted band — CTA strip + footer */
+
+  /*
+   * ONE accent hue (oklch hue 27) in four roles. These are lightness variants
+   * of a single red, not separate colours:
+   *   accent      fills, rules, focus rings, borders   — carries accent-ink
+   *   accent-ink  the only text colour allowed on an accent fill  (4.80:1)
+   *   accent-dim  hover fill + border variant                     (6.23:1)
+   *   accent-text small accent text; the base accent only reaches 4.05:1 on
+   *               --tl-bg, so label-size text uses this lift      (4.87:1+)
+   */
+  --tl-accent: #e3121e;
+  --tl-accent-ink: #ffffff;
+  --tl-accent-dim: #b3000d;
+  --tl-accent-text: #f0574e;
+
+  /* Alpha derivations — still one accent, just transparency. */
+  --tl-accent-a35: color-mix(in srgb, var(--tl-accent) 35%, transparent);
+  --tl-accent-a12: color-mix(in srgb, var(--tl-accent) 12%, transparent);
+
+  /* --------------------------------------------------------------- spacing */
+  /* 8px base. These are the only spacing values in the build. */
+  --tl-s-0: 0px; /* inset-0, p-0, top-0 — zero is a real step, not an absence */
+  --tl-s-1: 4px;
+  --tl-s-2: 8px;
+  --tl-s-3: 12px;
+  --tl-s-4: 16px;
+  --tl-s-6: 24px;
+  --tl-s-8: 32px;
+  --tl-s-12: 48px;
+  --tl-s-16: 64px;
+  --tl-s-24: 96px;
+  --tl-s-32: 128px;
+  --tl-s-40: 160px;
+
+  /* ---------------------------------------------------------------- radius */
+  --tl-r-sm: 6px; /* inputs */
+  --tl-r-md: 10px; /* buttons */
+  --tl-r-lg: 16px; /* cards, panels */
+  --tl-r-pill: 999px; /* small chips / tags ONLY */
+
+  /* --------------------------------------------------------------- shadows */
+  --tl-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.45);
+  --tl-shadow-md: 0 8px 24px rgba(0, 0, 0, 0.45);
+  --tl-shadow-lg: 0 16px 40px rgba(0, 0, 0, 0.45);
+  --tl-edge: inset 0 1px 0 rgba(255, 255, 255, 0.06); /* card top edge */
+  /* Glow — hero primary button and button hover ONLY. Nowhere else. */
+  --tl-glow: 0 8px 32px -8px color-mix(in srgb, var(--tl-accent) 65%, transparent);
+
+  /* ------------------------------------------------------------ typography */
+  --tl-font-display: "Inter Tight", system-ui, sans-serif;
+  --tl-font-body: "Inter", system-ui, sans-serif;
+  --tl-font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  --tl-fs-display: clamp(2.75rem, 6vw, 4.5rem);
+  --tl-lh-display: 0.95;
+  --tl-fs-h2: clamp(2rem, 3.5vw, 3rem);
+  --tl-lh-h2: 1.05;
+  --tl-fs-h3: 1.5rem;
+  --tl-lh-h3: 1.25;
+  --tl-fs-body-lg: 1.125rem;
+  --tl-lh-body-lg: 1.6;
+  --tl-fs-body: 1rem;
+  --tl-lh-body: 1.65;
+  --tl-fs-small: 0.875rem;
+  --tl-lh-small: 1.55;
+  --tl-fs-label: 0.75rem;
+  --tl-fs-figure: clamp(1.75rem, 3vw, 2.25rem); /* stat + spec numbers */
+  --tl-lh-figure: 1;
+
+  --tl-tracking-tight: -0.03em; /* headings */
+  --tl-tracking-label: 0.08em; /* mono labels */
+
+  /* -------------------------------------------------------------- controls */
+  --tl-control-h: 48px; /* default button height */
+  --tl-control-h-sm: 44px; /* compact button — touch-target floor */
+  --tl-header-h: 72px;
+  --tl-header-h-mobile: 64px;
+
+  /* ---------------------------------------------------------------- layout */
+  --tl-container: 1200px;
+  --tl-gutter: var(--tl-s-6); /* 24px desktop */
+  --tl-gutter-mobile: 20px; /* the one deliberate off-scale value: mobile gutter */
+
+  /* Section rhythm — owned by <Section>, nothing else sets vertical padding. */
+  --tl-section-y: var(--tl-s-32); /* 128px desktop */
+  --tl-section-y-tablet: 80px;
+  --tl-section-y-mobile: 56px;
+
+  /* ---------------------------------------------------------------- motion */
+  --tl-dur-fast: 150ms;
+  --tl-dur: 200ms;
+  --tl-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+@media (max-width: 1023px) {
+  :root {
+    --tl-section-y: var(--tl-section-y-tablet);
+  }
+}
+
+@media (max-width: 639px) {
+  :root {
+    --tl-section-y: var(--tl-section-y-mobile);
+    --tl-gutter: var(--tl-gutter-mobile);
+  }
+}
+
+/* Kill every animation and transition when the user asks for less motion. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

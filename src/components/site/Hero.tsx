@@ -1,129 +1,262 @@
-import { ArrowRight, Activity, Cable } from "lucide-react";
-import heroImage from "@/assets/hero-datacenter.jpg";
-import rackImage from "@/assets/rack-stack.jpg";
-import { MotionButton } from "./Motion";
-import { Eyebrow } from "./Reveal";
+import { preload } from "react-dom";
+import { useEffect, useRef } from "react";
+import { Activity, Cable, MapPin, Clock } from "lucide-react";
+import heroImage from "@/assets/hero-datacenter.webp";
+import rackImage from "@/assets/rack-stack.webp";
+import gsap from "gsap";
+import { ButtonLink } from "./Button";
+import { Container, MonoLabel } from "./Section";
+import { useReveal } from "./Reveal";
 import { EUROPE_CITIES, APAC_CITIES } from "@/lib/site-data";
 
 const STATS = [
-  { value: "09", label: "Services" },
-  { value: "08", label: "Facilities" },
-  { value: "24/7", label: "Support" },
-  { value: "02", label: "Regions" },
+  { figure: "09", label: "Services" },
+  { figure: "08", label: "Colocation cities" },
+  { figure: "24/7", label: "Support" },
+  { figure: "EU + APAC", label: "Regions" },
 ];
 
+const CHIPS = [
+  { icon: Activity, label: "400G BERT verified" },
+  { icon: Cable, label: "DWDM & patching" },
+];
+
+const TICKER_ITEMS = [
+  { icon: MapPin, text: "Paris, France" },
+  { icon: MapPin, text: "Andhra Pradesh, India" },
+  { icon: Clock, text: "24/7 dispatch" },
+  { icon: Activity, text: "400G BERT" },
+  { icon: MapPin, text: "Frankfurt · Amsterdam" },
+  { icon: MapPin, text: "Mumbai · Singapore" },
+  { icon: Clock, text: "Emergency response" },
+  { icon: Activity, text: "OTDR certified" },
+];
+
+/** Splits text into word spans, animates each word in sequence with GSAP. */
+function WordReveal({ text, className, as: Tag = "p", delay = 0 }: {
+  text: string;
+  className?: string;
+  as?: "h1" | "p" | "span";
+  delay?: number;
+}) {
+  const h1Ref = useRef<HTMLHeadingElement>(null);
+  const pRef = useRef<HTMLParagraphElement>(null);
+  const spanRef = useRef<HTMLSpanElement>(null);
+  const ref = Tag === "h1" ? h1Ref : Tag === "p" ? pRef : spanRef;
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+    const mm = gsap.matchMedia();
+    mm.add("(prefers-reduced-motion: no-preference)", () => {
+      const words = el.querySelectorAll<HTMLSpanElement>(".word");
+      gsap.fromTo(
+        words,
+        { opacity: 0, y: 14 },
+        { opacity: 1, y: 0, duration: 0.45, ease: "power2.out", stagger: 0.055, delay },
+      );
+    });
+    mm.add("(prefers-reduced-motion: reduce)", () => {
+      el.querySelectorAll<HTMLSpanElement>(".word").forEach((w) => {
+        w.style.opacity = "1";
+        w.style.transform = "none";
+      });
+    });
+    return () => mm.revert();
+  }, [delay]);
+
+  const words = text.split(" ");
+  const inner = words.map((word, i) => (
+    <span
+      key={i}
+      className="word inline-block"
+      style={{ opacity: 0, marginRight: i < words.length - 1 ? "0.28em" : undefined }}
+    >
+      {word}
+    </span>
+  ));
+
+  if (Tag === "h1") return <h1 ref={h1Ref} className={className}>{inner}</h1>;
+  if (Tag === "span") return <span ref={spanRef} className={className}>{inner}</span>;
+  return <p ref={pRef} className={className}>{inner}</p>;
+}
+
 export function Hero() {
+  preload(heroImage, { as: "image", fetchPriority: "high" });
+  const revealRef = useReveal<HTMLDivElement>();
+
   return (
-    <section className="relative overflow-hidden px-6 pb-[clamp(16px,3vw,40px)] pt-[clamp(112px,12vw,160px)]">
+    <section className="relative overflow-hidden pb-[var(--tl-section-y)] pt-[calc(var(--tl-header-h)+var(--tl-s-16))]">
+      {/* Background photo */}
       <img
         src={heroImage}
-        alt="Cold aisle of a data center with rows of server racks and green accent lighting"
+        alt=""
+        aria-hidden="true"
         width={1920}
         height={1200}
-        className="absolute inset-0 -z-30 h-full w-full object-cover"
+        fetchPriority="high"
+        decoding="async"
+        className="absolute inset-0 -z-20 h-full w-full object-cover"
       />
+      {/* Layered scrim — heavy left, lighter right, full bottom fade */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-20"
+        className="absolute inset-0 -z-10"
         style={{
           background:
-            "linear-gradient(100deg, color-mix(in oklab, var(--background) 92%, transparent) 0%, color-mix(in oklab, var(--background) 74%, transparent) 48%, color-mix(in oklab, var(--background) 46%, transparent) 100%), linear-gradient(180deg, transparent 55%, var(--background) 100%)",
+            "linear-gradient(105deg, color-mix(in srgb, var(--tl-bg) 97%, transparent) 0%, color-mix(in srgb, var(--tl-bg) 82%, transparent) 45%, color-mix(in srgb, var(--tl-bg) 55%, transparent) 100%), linear-gradient(180deg, transparent 50%, var(--tl-bg) 100%)",
         }}
       />
+      {/* Subtle red glow top-left */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10 animate-[tl-pulse_7s_ease-in-out_infinite]"
+        className="absolute -left-32 -top-32 -z-10 h-[var(--tl-s-40)] w-[var(--tl-s-40)] rounded-full"
         style={{
           background:
-            "radial-gradient(ellipse 70% 55% at 20% 0%, color-mix(in oklab, var(--primary) 16%, transparent) 0%, transparent 62%)",
+            "radial-gradient(circle, color-mix(in srgb, var(--tl-accent) 8%, transparent) 0%, transparent 70%)",
         }}
       />
-      <div aria-hidden="true" className="tl-grid absolute inset-0 -z-10 opacity-60" />
 
-      <div className="relative mx-auto grid max-w-[1200px] items-center gap-14 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.85fr)]">
-        <div>
-          <Eyebrow>Data Center &amp; Network Infrastructure</Eyebrow>
-          <h1 className="mt-5 font-display text-[clamp(2.6rem,5.4vw,4.75rem)] font-extrabold leading-[0.95] tracking-[-0.045em]">
-            Your engineers, <span className="text-primary">inside the data center.</span>
-          </h1>
-          <p className="mt-6 max-w-[52ch] text-lg leading-relaxed text-muted-foreground">
-            Server deployment, DWDM, patching, and testing across Europe and APAC — 24/7.
-          </p>
-
-          <div className="mt-9 flex flex-wrap gap-4">
-            <MotionButton href="/contact">
-              Talk to an engineer <ArrowRight size={18} />
-            </MotionButton>
-            <MotionButton href="/services" variant="outline">
-              View services
-            </MotionButton>
-          </div>
-
-
-          <div className="mt-11 flex flex-wrap gap-x-12 gap-y-8">
-            {STATS.map((stat) => (
-              <div key={stat.label}>
-                <div className="font-mono text-[clamp(1.75rem,3vw,2.5rem)] font-medium leading-none text-primary">
-                  {stat.value}
-                </div>
-                <div className="mt-1.5 font-mono text-[11px] uppercase tracking-[0.08em] text-muted-foreground">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div className="relative">
-          <div className="relative overflow-hidden rounded-[28px] border border-border/80 shadow-[0_40px_90px_-30px_rgba(0,0,0,.9)]">
-            <img
-              src={rackImage}
-              alt="Technician sliding a server into a rack"
-              width={1200}
-              height={912}
-              className="aspect-4/5 w-full object-cover sm:aspect-4/3 lg:aspect-4/5"
-            />
-            <div
-              aria-hidden="true"
-              className="absolute inset-0"
-              style={{
-                background:
-                  "linear-gradient(180deg, transparent 40%, color-mix(in oklab, var(--background) 80%, transparent) 100%)",
-              }}
-            />
-            <div className="absolute inset-x-4 bottom-4 flex items-center justify-between gap-3 rounded-2xl border border-border bg-background/70 px-4 py-3 backdrop-blur">
-              <div className="flex items-center gap-2.5">
-                <span className="relative flex h-2 w-2">
-                  <span className="absolute inset-0 animate-[tl-ping_2s_cubic-bezier(0,0,.2,1)_infinite] rounded-full bg-primary" />
-                  <span className="h-2 w-2 rounded-full bg-primary" />
-                </span>
-                <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-muted-foreground">
-                  Engineers on site
-                </span>
-              </div>
-              <span className="font-mono text-[11px] text-primary">LIVE</span>
+      <Container>
+        <div ref={revealRef} className="grid items-center gap-12 lg:grid-cols-[55fr_45fr]">
+          {/* Left column */}
+          <div data-reveal className="tl-reveal">
+            {/* Live status pill */}
+            <div className="mb-6 inline-flex items-center gap-2 rounded-[var(--tl-r-pill)] border border-border bg-[color-mix(in_srgb,var(--tl-surface)_80%,transparent)] px-3 py-2 backdrop-blur-[12px]">
+              <span className="relative flex h-2 w-2">
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+              </span>
+              <span className="tl-mono text-[color:var(--tl-accent-text)]">Engineers on site — EU &amp; APAC</span>
             </div>
+
+            <MonoLabel>Data center infrastructure</MonoLabel>
+
+            <h1 className="mt-4 max-w-[18ch] text-display font-bold text-foreground">
+              <WordReveal
+                text="Your engineers,"
+                delay={0.15}
+                className="block"
+              />
+              <WordReveal
+                text="inside the data center."
+                delay={0.45}
+                className="block text-primary"
+              />
+            </h1>
+
+            <WordReveal
+              as="p"
+              text="Server deployment, DWDM, patching, and testing across Europe and APAC — 24/7."
+              delay={0.55}
+              className="mt-6 max-w-[52ch] text-body-lg text-muted-foreground"
+            />
+
+            <div className="mt-8 flex flex-wrap gap-4">
+              <ButtonLink to="/contact" glow arrow>
+                Talk to an engineer
+              </ButtonLink>
+              <ButtonLink to="/services/" variant="outline" arrow>
+                View services
+              </ButtonLink>
+            </div>
+
+            {/* Trust line */}
+            <p className="mt-8 text-small text-muted-foreground">
+              Trusted by network operators, hyperscalers, and system integrators across Europe and APAC.
+            </p>
           </div>
 
-          <div className="absolute -left-3 top-6 hidden items-center gap-2 rounded-xl border border-border bg-background/85 px-3.5 py-2.5 shadow-[0_16px_40px_rgba(0,0,0,.6)] backdrop-blur sm:flex">
-            <Activity size={15} className="text-primary" />
-            <span className="text-xs font-semibold">400G BERT verified</span>
+          {/* Right column — photo card */}
+          <div data-reveal className="tl-reveal relative">
+            <div className="relative overflow-hidden rounded-[var(--tl-r-lg)] border border-border shadow-[var(--tl-edge),var(--tl-shadow-lg)]">
+              <img
+                src={rackImage}
+                alt="Technician sliding a server into a rack"
+                width={1200}
+                height={912}
+                decoding="async"
+                className="aspect-[4/3] w-full object-cover lg:aspect-[4/5]"
+              />
+              <div
+                aria-hidden="true"
+                className="absolute inset-0"
+                style={{
+                  background:
+                    "linear-gradient(180deg, color-mix(in srgb, var(--tl-bg) 25%, transparent) 0%, transparent 35%, color-mix(in srgb, var(--tl-bg) 60%, transparent) 100%)",
+                }}
+              />
+              {/* Accent border glow */}
+              <div
+                aria-hidden="true"
+                className="pointer-events-none absolute inset-0 rounded-[var(--tl-r-lg)]"
+                style={{
+                  boxShadow: "inset 0 0 0 1px color-mix(in srgb, var(--tl-accent) 20%, transparent)",
+                }}
+              />
+            </div>
+
+            {/* Chips */}
+            <ul className="absolute inset-x-4 bottom-4 m-0 flex list-none flex-wrap gap-2 p-0">
+              {CHIPS.map((chip) => (
+                <li key={chip.label}>
+                  <span className="inline-flex items-center gap-2 rounded-[var(--tl-r-pill)] border border-border bg-[color-mix(in_srgb,var(--tl-surface)_88%,transparent)] px-3 py-2 text-small font-medium text-foreground backdrop-blur-[12px]">
+                    <chip.icon size={14} aria-hidden="true" className="shrink-0 text-primary" />
+                    {chip.label}
+                  </span>
+                </li>
+              ))}
+            </ul>
           </div>
-          <div className="absolute -right-2 bottom-24 hidden items-center gap-2 rounded-xl border border-border bg-background/85 px-3.5 py-2.5 shadow-[0_16px_40px_rgba(0,0,0,.6)] backdrop-blur sm:flex">
-            <Cable size={15} className="text-primary" />
-            <span className="text-xs font-semibold">DWDM &amp; patching</span>
-          </div>
+        </div>
+
+        {/* Stat strip */}
+        <dl className="mt-16 grid grid-cols-1 divide-y divide-border border-y border-border md:grid-cols-4 md:divide-x md:divide-y-0">
+          {STATS.map((stat) => (
+            <div key={stat.label} className="py-6 md:px-6 md:first:pl-0">
+              <dd className="tl-figure text-figure text-primary">{stat.figure}</dd>
+              <dt className="mt-2 tl-mono text-muted-foreground">{stat.label}</dt>
+            </div>
+          ))}
+        </dl>
+      </Container>
+
+      {/* Scrolling ticker */}
+      <div className="mt-12 overflow-hidden border-y border-border bg-[color-mix(in_srgb,var(--tl-surface)_60%,transparent)] py-3 backdrop-blur-sm">
+        <div
+          className="flex gap-8 whitespace-nowrap"
+          style={{ animation: "ticker 28s linear infinite" }}
+        >
+          {[...TICKER_ITEMS, ...TICKER_ITEMS].map((item, i) => (
+            <span key={i} className="inline-flex shrink-0 items-center gap-2 tl-mono text-muted-foreground">
+              <item.icon size={12} aria-hidden="true" className="text-primary" />
+              {item.text}
+              <span aria-hidden="true" className="ml-4 text-border">·</span>
+            </span>
+          ))}
         </div>
       </div>
 
-      <div className="relative mx-auto mt-12 max-w-[1200px] border-y border-border py-5">
-        <div className="mb-3 font-mono text-xs uppercase tracking-[0.08em] text-muted-foreground">
-          Colocation across Europe &amp; APAC
+      {/* City strip */}
+      <Container>
+        <div className="mt-8">
+          <p className="tl-mono text-muted-foreground">Colocation across Europe &amp; APAC</p>
+          <p className="mt-2 text-body text-foreground">
+            {[...EUROPE_CITIES, ...APAC_CITIES].join(" · ")} · and more on request
+          </p>
         </div>
-        <div className="font-mono text-sm leading-relaxed text-foreground">
-          {[...EUROPE_CITIES, ...APAC_CITIES].join(" · ")} · and more on request
-        </div>
-      </div>
+      </Container>
+
+      <style>{`
+        @keyframes ticker {
+          from { transform: translateX(0); }
+          to { transform: translateX(-50%); }
+        }
+        @keyframes ping-dot {
+          0%, 100% { opacity: 0.75; transform: scale(1); }
+          50% { opacity: 1; transform: scale(2); }
+        }
+      `}</style>
     </section>
   );
 }

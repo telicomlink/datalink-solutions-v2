@@ -1,234 +1,232 @@
-@import "tailwindcss" source(none);
-@source "../src";
-@import "tw-animate-css";
-
-@custom-variant dark (&:is(.dark *));
+@import "tailwindcss";
 
 /*
- * Design system definition.
+ * Tailwind theme -> design tokens.
  *
- * The @theme inline block maps CSS custom properties to Tailwind utility
- * classes (e.g. --color-primary -> bg-primary, text-primary).
+ * Nothing here holds a literal value. Every utility class in the build
+ * resolves through this file into src/styles/tokens.css.
  *
- * The :root and .dark blocks define the actual color values using oklch.
- * All colors MUST use oklch format.
- *
- * To add a new semantic color:
- * 1. Add the variable to :root (light value) and .dark (dark value)
- * 2. Register it in @theme inline as --color-<name>: var(--<name>)
+ * `@theme inline` emits `var(--tl-*)` straight into the generated utilities,
+ * so tokens.css stays the only place a value is written down.
  */
+@theme inline {
+  /* ------------------------------------------------------------ typefaces */
+  --font-sans: var(--tl-font-body);
+  --font-display: var(--tl-font-display);
+  --font-mono: var(--tl-font-mono);
+
+  /* --------------------------------------------------------------- colour */
+  --color-background: var(--tl-bg);
+  --color-foreground: var(--tl-text);
+  --color-surface: var(--tl-surface);
+  --color-surface-raised: var(--tl-surface-2);
+  --color-deep: var(--tl-deep);
+  --color-border: var(--tl-border);
+  --color-input: var(--tl-border);
+  --color-muted: var(--tl-surface-2);
+  --color-muted-foreground: var(--tl-text-dim);
+  --color-subtle: var(--tl-text-dim);
+  --color-card: var(--tl-surface);
+  --color-card-foreground: var(--tl-text);
+  --color-popover: var(--tl-surface);
+  --color-popover-foreground: var(--tl-text);
+  --color-primary: var(--tl-accent);
+  --color-primary-foreground: var(--tl-accent-ink);
+  --color-primary-dim: var(--tl-accent-dim);
+  --color-accent-text: var(--tl-accent-text);
+  --color-ring: var(--tl-accent);
+
+  /* ---------------------------------------------------------------- radii */
+  --radius-sm: var(--tl-r-sm);
+  --radius-md: var(--tl-r-md);
+  --radius-lg: var(--tl-r-lg);
+  --radius-full: var(--tl-r-pill);
+
+  /* --------------------------------------------------------------- shadow */
+  --shadow-sm: var(--tl-shadow-sm);
+  --shadow-md: var(--tl-shadow-md);
+  --shadow-lg: var(--tl-shadow-lg);
+  --shadow-edge: var(--tl-edge);
+  --shadow-glow: var(--tl-glow);
+
+  /* ----------------------------------------------------------- type scale */
+  --text-display: var(--tl-fs-display);
+  --text-display--line-height: var(--tl-lh-display);
+  --text-h2: var(--tl-fs-h2);
+  --text-h2--line-height: var(--tl-lh-h2);
+  --text-h3: var(--tl-fs-h3);
+  --text-h3--line-height: var(--tl-lh-h3);
+  --text-body-lg: var(--tl-fs-body-lg);
+  --text-body-lg--line-height: var(--tl-lh-body-lg);
+  --text-body: var(--tl-fs-body);
+  --text-body--line-height: var(--tl-lh-body);
+  --text-small: var(--tl-fs-small);
+  --text-small--line-height: var(--tl-lh-small);
+  --text-label: var(--tl-fs-label);
+  --text-figure: var(--tl-fs-figure);
+  --text-figure--line-height: var(--tl-lh-figure);
+
+  /* --------------------------------------------------------------- easing */
+  --ease-tl: var(--tl-ease);
+}
+
+/*
+ * Spacing is locked to the 8px scale. `--spacing: initial` removes Tailwind's
+ * dynamic scale, so off-scale utilities (p-5, gap-3.5, mt-9 …) simply do not
+ * exist and cannot creep back in.
+ * Allowed: 4 8 12 16 24 32 48 64 96 128 160.
+ */
+@theme {
+  --spacing: initial;
+}
 
 @theme inline {
-  --font-sans: "Inter", system-ui, sans-serif;
-  --font-display: "Inter Tight", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, monospace;
-  --color-surface: var(--surface);
-  --color-surface-raised: var(--surface-raised);
-  --color-subtle: var(--subtle);
-  --color-deep: var(--deep);
-  --color-on-primary-deep: var(--on-primary-deep);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
-  --radius-lg: var(--radius);
-  --radius-xl: calc(var(--radius) + 4px);
-  --radius-2xl: calc(var(--radius) + 8px);
-  --radius-3xl: calc(var(--radius) + 12px);
-  --radius-4xl: calc(var(--radius) + 16px);
-
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-card: var(--card);
-  --color-card-foreground: var(--card-foreground);
-  --color-popover: var(--popover);
-  --color-popover-foreground: var(--popover-foreground);
-  --color-primary: var(--primary);
-  --color-primary-foreground: var(--primary-foreground);
-  --color-secondary: var(--secondary);
-  --color-secondary-foreground: var(--secondary-foreground);
-  --color-muted: var(--muted);
-  --color-muted-foreground: var(--muted-foreground);
-  --color-accent: var(--accent);
-  --color-accent-foreground: var(--accent-foreground);
-  --color-destructive: var(--destructive);
-  --color-destructive-foreground: var(--destructive-foreground);
-  --color-border: var(--border);
-  --color-input: var(--input);
-  --color-ring: var(--ring);
-  --color-ring-offset-background: var(--background);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
-}
-
-:root {
-  --radius: 0.75rem;
-  --background: oklch(0.168 0.007 258.4);
-  --foreground: oklch(0.956 0.007 247.9);
-  --surface: oklch(0.203 0.012 254.1);
-  --surface-raised: oklch(0.237 0.015 256.8);
-  --subtle: oklch(0.506 0.023 253);
-  --deep: oklch(0.256 0.047 162.3);
-  --on-primary-deep: oklch(0.246 0.054 153.6);
-  --card: oklch(0.203 0.012 254.1);
-  --card-foreground: oklch(0.956 0.007 247.9);
-  --popover: oklch(0.203 0.012 254.1);
-  --popover-foreground: oklch(0.956 0.007 247.9);
-  --primary: oklch(0.78 0.202 149.1);
-  --primary-foreground: oklch(0.246 0.054 153.6);
-  --secondary: oklch(0.237 0.015 256.8);
-  --secondary-foreground: oklch(0.956 0.007 247.9);
-  --muted: oklch(0.237 0.015 256.8);
-  --muted-foreground: oklch(0.71 0.02 248.1);
-  --accent: oklch(0.643 0.159 150.6);
-  --accent-foreground: oklch(0.956 0.007 247.9);
-  --destructive: oklch(0.637 0.208 25.3);
-  --destructive-foreground: oklch(0.956 0.007 247.9);
-  --border: oklch(0.278 0.016 252.4);
-  --input: oklch(0.278 0.016 252.4);
-  --ring: oklch(0.78 0.202 149.1);
-  --chart-1: oklch(0.78 0.202 149.1);
-  --chart-2: oklch(0.643 0.159 150.6);
-  --chart-3: oklch(0.71 0.02 248.1);
-  --chart-4: oklch(0.506 0.023 253);
-  --chart-5: oklch(0.278 0.016 252.4);
-  --sidebar: oklch(0.203 0.012 254.1);
-  --sidebar-foreground: oklch(0.956 0.007 247.9);
-  --sidebar-primary: oklch(0.78 0.202 149.1);
-  --sidebar-primary-foreground: oklch(0.246 0.054 153.6);
-  --sidebar-accent: oklch(0.237 0.015 256.8);
-  --sidebar-accent-foreground: oklch(0.956 0.007 247.9);
-  --sidebar-border: oklch(0.278 0.016 252.4);
-  --sidebar-ring: oklch(0.78 0.202 149.1);
-}
-
-
-.dark {
-  --background: oklch(0.129 0.042 264.695);
-  --foreground: oklch(0.984 0.003 247.858);
-  --card: oklch(0.208 0.042 265.755);
-  --card-foreground: oklch(0.984 0.003 247.858);
-  --popover: oklch(0.208 0.042 265.755);
-  --popover-foreground: oklch(0.984 0.003 247.858);
-  --primary: oklch(0.929 0.013 255.508);
-  --primary-foreground: oklch(0.208 0.042 265.755);
-  --secondary: oklch(0.279 0.041 260.031);
-  --secondary-foreground: oklch(0.984 0.003 247.858);
-  --muted: oklch(0.279 0.041 260.031);
-  --muted-foreground: oklch(0.704 0.04 256.788);
-  --accent: oklch(0.279 0.041 260.031);
-  --accent-foreground: oklch(0.984 0.003 247.858);
-  --destructive: oklch(0.704 0.191 22.216);
-  --destructive-foreground: oklch(0.984 0.003 247.858);
-  --border: oklch(1 0 0 / 10%);
-  --input: oklch(1 0 0 / 15%);
-  --ring: oklch(0.551 0.027 264.364);
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.208 0.042 265.755);
-  --sidebar-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-accent: oklch(0.279 0.041 260.031);
-  --sidebar-accent-foreground: oklch(0.984 0.003 247.858);
-  --sidebar-border: oklch(1 0 0 / 10%);
-  --sidebar-ring: oklch(0.551 0.027 264.364);
+  /* Zero must be declared explicitly. With `--spacing: initial` Tailwind can no
+     longer compute `calc(var(--spacing) * 0)`, so `inset-0`, `top-0` and `p-0`
+     are silently NOT generated — which turns a `position: fixed` header into a
+     shrink-to-fit box. scripts/check-design-rules.mjs guards against this. */
+  --spacing-0: var(--tl-s-0);
+  --spacing-1: var(--tl-s-1);
+  --spacing-2: var(--tl-s-2);
+  --spacing-3: var(--tl-s-3);
+  --spacing-4: var(--tl-s-4);
+  --spacing-6: var(--tl-s-6);
+  --spacing-8: var(--tl-s-8);
+  --spacing-12: var(--tl-s-12);
+  --spacing-16: var(--tl-s-16);
+  --spacing-24: var(--tl-s-24);
+  --spacing-32: var(--tl-s-32);
+  --spacing-40: var(--tl-s-40);
 }
 
 @layer base {
   * {
-    border-color: var(--color-border);
+    border-color: var(--tl-border);
+    min-width: 0;
   }
 
-  body {
-    background-color: var(--color-background);
-    color: var(--color-foreground);
-  }
-}
-
-@layer base {
   html {
     scroll-behavior: smooth;
+    /* Sticky header must not cover in-page anchor targets. */
+    scroll-padding-top: var(--tl-header-h);
   }
+
   body {
-    font-family: var(--font-sans);
+    background-color: var(--tl-bg);
+    color: var(--tl-text);
+    font-family: var(--tl-font-body);
+    font-size: var(--tl-fs-body);
+    line-height: var(--tl-lh-body);
+    font-weight: 400;
     -webkit-font-smoothing: antialiased;
-    line-height: 1.5;
+    text-rendering: optimizeLegibility;
   }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--tl-font-display);
+    letter-spacing: var(--tl-tracking-tight);
+    font-weight: 700;
+  }
+
   ::selection {
-    background: var(--primary);
-    color: var(--primary-foreground);
+    background: var(--tl-accent);
+    color: var(--tl-accent-ink);
+  }
+
+  /* One focus treatment for every interactive element in the build. */
+  :focus-visible {
+    outline: 2px solid var(--tl-accent);
+    outline-offset: 2px;
+    border-radius: var(--tl-r-sm);
   }
 }
 
-@keyframes tl-drift {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 32px 32px;
-  }
-}
+/* ------------------------------------------------------------- utilities */
 
-@keyframes tl-pulse {
-  0%,
-  100% {
-    opacity: 0.7;
-  }
-  50% {
-    opacity: 1;
-  }
-}
-
-@keyframes tl-ping {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  75%,
-  100% {
-    transform: scale(2.2);
-    opacity: 0;
-  }
-}
-
-@utility tl-grid {
-  background-image: radial-gradient(circle, color-mix(in oklab, var(--primary) 14%, transparent) 1px, transparent 1px);
-  background-size: 32px 32px;
-  animation: tl-drift 16s linear infinite;
-  mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, black 30%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, black 30%, transparent 100%);
-}
-
-@utility tl-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.5rem;
-  font-family: var(--font-mono);
-  font-size: 12px;
+/** Mono label / eyebrow text. Never used for paragraph copy. */
+@utility tl-mono {
+  font-family: var(--tl-font-mono);
+  font-size: var(--tl-fs-label);
   font-weight: 500;
-  letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--primary);
+  letter-spacing: var(--tl-tracking-label);
+}
+
+/** Tabular figures for stats and spec numbers. */
+@utility tl-figure {
+  font-family: var(--tl-font-mono);
+  font-weight: 500;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--tl-tracking-label);
+}
+
+/** Card surface: border, inset top edge, tinted shadow. */
+@utility tl-card {
+  background-color: var(--tl-surface);
+  border: 1px solid var(--tl-border);
+  border-radius: var(--tl-r-lg);
+  box-shadow: var(--tl-edge), var(--tl-shadow-md);
+}
+
+/** Screen-reader-only, revealed on focus (skip link). */
+@utility tl-sr-focusable {
+  position: absolute;
+  left: var(--tl-s-4);
+  top: var(--tl-s-4);
+  z-index: 100;
+  transform: translateY(-200%);
+  transition: transform var(--tl-dur) var(--tl-ease);
+
+  &:focus-visible {
+    transform: translateY(0);
+  }
+}
+
+/**
+ * The site's one signature interaction: a trailing arrow that slides 4px.
+ * Applied to ghost links, card "OPEN" links, hero secondary, footer links.
+ */
+@utility tl-arrow {
+  & svg,
+  & .tl-arrow-glyph {
+    transition: transform var(--tl-dur) var(--tl-ease);
+  }
+
+  &:hover svg,
+  &:hover .tl-arrow-glyph,
+  &:focus-visible svg,
+  &:focus-visible .tl-arrow-glyph {
+    transform: translateX(var(--tl-s-1));
+  }
+}
+
+/**
+ * Stretched link: the whole card becomes one tab stop and one hit area.
+ * Put this on the <a>, `position: relative` on the card.
+ */
+@utility tl-stretch {
+  &::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    border-radius: inherit;
+  }
+}
+
+/* GSAP reveal start state. Cleared by ScrollTrigger, or immediately when the
+   user prefers reduced motion. */
+@utility tl-reveal {
+  opacity: 0;
+  transform: translateY(12px);
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
+  .tl-reveal {
+    opacity: 1;
+    transform: none;
   }
 }

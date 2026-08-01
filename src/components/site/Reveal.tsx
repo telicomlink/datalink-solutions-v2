@@ -1,68 +1,94 @@
-import { useEffect, useRef, useState, type ReactNode } from "react";
+import { useEffect, useRef, type ElementType, type ReactNode } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 
-export function Reveal({
-  children,
-  delay = 0,
-  className,
-}: {
-  children: ReactNode;
-  delay?: number;
-  className?: string;
-}) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [shown, setShown] = useState(false);
+gsap.registerPlugin(ScrollTrigger);
+
+/**
+ * The ONLY motion pattern in the build.
+ *
+ * opacity 0 / translateY 12px -> 1 / 0, 500ms, soft ease, 60ms stagger within
+ * a group, fired once when the group hits 80% of the viewport.
+ *
+ * No parallax, no counters, no scale-ins, no scroll-jacking. Everything is
+ * inside gsap.matchMedia, so `prefers-reduced-motion: reduce` gets no
+ * animation at all — the cleanup pass clears the start state instantly.
+ */
+const DURATION = 0.5;
+const STAGGER = 0.06;
+const DISTANCE = 12;
+const START = "top 80%";
+
+export function useReveal<T extends HTMLElement>(enabled = true) {
+  const ref = useRef<T>(null);
 
   useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            setShown(true);
-            observer.unobserve(entry.target);
-          }
-        });
+    const root = ref.current;
+    if (!root || !enabled) return;
+
+    const mm = gsap.matchMedia();
+
+    mm.add(
+      {
+        motion: "(prefers-reduced-motion: no-preference)",
+        reduced: "(prefers-reduced-motion: reduce)",
       },
-      { threshold: 0.15, rootMargin: "0px 0px -60px 0px" },
+      (context) => {
+        const targets = root.querySelectorAll<HTMLElement>("[data-reveal]");
+        const items = targets.length ? Array.from(targets) : [root];
+
+        if (context.conditions?.["reduced"]) {
+          // No motion at all — just make sure nothing is left invisible.
+          gsap.set(items, { clearProps: "opacity,transform" });
+          items.forEach((el) => el.classList.remove("tl-reveal"));
+          return;
+        }
+
+        items.forEach((el) => el.classList.remove("tl-reveal"));
+
+        const tween = gsap.fromTo(
+          items,
+          { opacity: 0, y: DISTANCE },
+          {
+            opacity: 1,
+            y: 0,
+            duration: DURATION,
+            ease: "power2.out",
+            stagger: STAGGER,
+            scrollTrigger: { trigger: root, start: START, once: true },
+          },
+        );
+
+        return () => {
+          tween.scrollTrigger?.kill();
+          tween.kill();
+        };
+      },
     );
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
 
-  return (
-    <div
-      ref={ref}
-      className={className}
-      style={{
-        opacity: shown ? 1 : 0,
-        transform: shown ? "translateY(0) scale(1)" : "translateY(28px) scale(0.985)",
-        filter: shown ? "blur(0px)" : "blur(6px)",
-        transition:
-          "opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1), filter .9s cubic-bezier(.16,1,.3,1)",
-        transitionDelay: shown ? `${delay}ms` : "0ms",
-        willChange: "opacity, transform",
-      }}
-    >
-      {children}
-    </div>
+    return () => mm.revert();
+  }, [enabled]);
 
-  );
+  return ref;
 }
 
-export function Eyebrow({ children }: { children: ReactNode }) {
+/**
+ * Wraps a group of elements. Direct children marked `data-reveal` animate in
+ * sequence; with no marked children the wrapper itself animates as one unit.
+ */
+export function Reveal({
+  children,
+  as: Tag = "div",
+  className = "",
+}: {
+  children: ReactNode;
+  as?: ElementType;
+  className?: string;
+}) {
+  const ref = useReveal<HTMLDivElement>();
   return (
-    <span className="tl-eyebrow">
-      <span className="inline-block h-px w-6 bg-current" />
+    <Tag ref={ref} className={className}>
       {children}
-    </span>
-  );
-}
-
-export function SectionHeading({ children }: { children: ReactNode }) {
-  return (
-    <h2 className="mt-4 max-w-2xl font-display text-[clamp(1.75rem,3vw,2.75rem)] font-bold leading-[1.15] tracking-[-0.028em]">
-      {children}
-    </h2>
+    </Tag>
   );
 }
