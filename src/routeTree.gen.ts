@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CoverageRouteImport } from './routes/coverage'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as WhyUsRouteImport } from './routes/why-us'
@@ -17,6 +18,11 @@ import { Route as WhyUsRouteImport } from './routes/why-us'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CoverageRoute = CoverageRouteImport.update({
@@ -37,12 +43,14 @@ const WhyUsRoute = WhyUsRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/contact': typeof ContactRoute
   '/coverage': typeof CoverageRoute
   '/services': typeof ServicesRoute
   '/why-us': typeof WhyUsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/contact': typeof ContactRoute
   '/coverage': typeof CoverageRoute
   '/services': typeof ServicesRoute
   '/why-us': typeof WhyUsRoute
@@ -50,20 +58,22 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/contact': typeof ContactRoute
   '/coverage': typeof CoverageRoute
   '/services': typeof ServicesRoute
   '/why-us': typeof WhyUsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/coverage' | '/services' | '/why-us'
+  fullPaths: '/' | '/contact' | '/coverage' | '/services' | '/why-us'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/coverage' | '/services' | '/why-us'
-  id: '__root__' | '/' | '/coverage' | '/services' | '/why-us'
+  to: '/' | '/contact' | '/coverage' | '/services' | '/why-us'
+  id: '__root__' | '/' | '/contact' | '/coverage' | '/services' | '/why-us'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  ContactRoute: typeof ContactRoute
   CoverageRoute: typeof CoverageRoute
   ServicesRoute: typeof ServicesRoute
   WhyUsRoute: typeof WhyUsRoute
@@ -76,6 +86,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/coverage': {
@@ -104,6 +121,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  ContactRoute: ContactRoute,
   CoverageRoute: CoverageRoute,
   ServicesRoute: ServicesRoute,
   WhyUsRoute: WhyUsRoute,
