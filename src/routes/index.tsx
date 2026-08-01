@@ -1,24 +1,74 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { SiteHeader } from "@/components/site/SiteHeader";
+import { Hero } from "@/components/site/Hero";
+import { Services, Capabilities } from "@/components/site/Services";
+import { WhyUs, Coverage, Process } from "@/components/site/WhyCoverageProcess";
+import { Faq, CtaBand, SiteFooter } from "@/components/site/FaqFooter";
+import { Contact } from "@/components/site/Contact";
 
-// No head() here: the home route inherits title/description/og/twitter from
-// __root.tsx, and ships no og:image so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
+const TITLE = "TelicomLink — Data Center Remote Hands, Rack & Stack, Testing";
+const DESCRIPTION =
+  "24/7 data center services across Europe and APAC: smart & remote hands, rack & stack, migrations, colocation, secure data destruction, and OTDR/400G testing.";
+
 export const Route = createFileRoute("/")({
+  head: () => ({
+    meta: [
+      { title: TITLE },
+      { name: "description", content: DESCRIPTION },
+      { property: "og:title", content: TITLE },
+      { property: "og:description", content: DESCRIPTION },
+      { property: "og:type", content: "website" },
+      { name: "twitter:card", content: "summary_large_image" },
+    ],
+  }),
   component: Index,
 });
 
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
+const JSON_LD = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  name: "TelicomLink",
+  description:
+    "Data center as a service: deployment, DWDM, patching, testing, remote hands, and colocation across Europe and APAC.",
+  email: "info@telicomlink.com",
+  url: "https://telicomlink.com",
+  sameAs: ["https://www.linkedin.com/company/telicomlink/"],
+  areaServed: ["Europe", "Asia Pacific"],
+  contactPoint: [
+    {
+      "@type": "ContactPoint",
+      contactType: "customer support",
+      telephone: "+33646018040",
+      areaServed: "EU",
+      availableLanguage: ["English", "French"],
+    },
+    {
+      "@type": "ContactPoint",
+      contactType: "customer support",
+      telephone: "+919014127090",
+      areaServed: "IN",
+      availableLanguage: ["English"],
+    },
+  ],
+};
+
 function Index() {
   return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
+    <div id="top" className="min-h-screen overflow-x-hidden bg-background text-foreground">
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />
+      <SiteHeader />
+      <main>
+        <Hero />
+        <Services />
+        <WhyUs />
+        <Capabilities />
+        <Coverage />
+        <Process />
+        <Faq />
+        <Contact />
+        <CtaBand />
+      </main>
+      <SiteFooter />
     </div>
   );
 }
