@@ -10,7 +10,7 @@ export function PageBackground() {
   const imageRef = useRef<HTMLDivElement>(null);
   const glowRef = useRef<HTMLDivElement>(null);
   const gridRef = useRef<HTMLDivElement>(null);
-  const barRef = useRef<HTMLDivElement>(null);
+  
 
   useEffect(() => {
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
@@ -38,9 +38,6 @@ export function PageBackground() {
       }
       if (gridRef.current) {
         gridRef.current.style.transform = `translate3d(0, ${(-p * 240).toFixed(2)}px, 0)`;
-      }
-      if (barRef.current) {
-        barRef.current.style.transform = `scaleX(${p.toFixed(4)})`;
       }
 
       frame = requestAnimationFrame(tick);
