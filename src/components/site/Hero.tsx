@@ -51,7 +51,7 @@ export function Hero() {
           </p>
 
           <div className="mt-9 flex flex-wrap gap-4">
-            <MotionButton href="#contact">
+            <MotionButton href="/contact">
               Talk to an engineer <ArrowRight size={18} />
             </MotionButton>
             <MotionButton href="#services" variant="outline">
