@@ -64,7 +64,7 @@ export function CtaBand() {
         <div className="mt-10 flex justify-center">
           <a
             href="#contact"
-            className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-primary px-7 py-3 text-base font-semibold text-primary-foreground no-underline transition-transform duration-200 hover:-translate-y-0.5 hover:bg-accent"
+            className="inline-flex min-h-12 items-center gap-2 rounded-xl bg-primary px-7 py-3 text-base font-semibold text-primary-foreground no-underline hover:bg-accent"
           >
             Talk to an engineer <ArrowRight size={18} />
           </a>

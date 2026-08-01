@@ -147,7 +147,7 @@ export function Contact() {
                     <Mail size={14} /> {CONTACT.email}
                   </a>
                 </div>
-              </div>
+              </div></MotionCard>
             </Reveal>
 
             <Reveal delay={80}>
@@ -170,7 +170,7 @@ export function Contact() {
                     <Mail size={14} /> {CONTACT.email}
                   </a>
                 </div>
-              </div>
+              </div></MotionCard>
             </Reveal>
 
             <Reveal delay={160}>
@@ -187,14 +187,12 @@ export function Contact() {
               </div>
             </Reveal>
 
-            <a
+            <MotionButton
               href={CONTACT.whatsapp}
-              target="_blank"
-              rel="noopener noreferrer"
               className="flex items-center gap-3 rounded-2xl border border-border bg-surface px-5 py-4 text-sm font-semibold text-foreground no-underline transition-colors hover:border-primary hover:text-primary"
             >
               <MessageCircle size={18} /> Message us on WhatsApp
-            </a>
+            </MotionButton>
           </div>
         </div>
       </div>
