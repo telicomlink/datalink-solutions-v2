@@ -7,7 +7,7 @@ import { Eyebrow, Reveal, SectionHeading } from "./Reveal";
 
 export function WhyUs() {
   return (
-    <section id="why" className="bg-surface px-6 py-[clamp(56px,10vw,128px)]">
+    <section id="why" className="bg-surface/70 backdrop-blur-md px-6 py-[clamp(56px,10vw,128px)]">
       <div className="mx-auto grid max-w-[1200px] items-center gap-12 lg:grid-cols-2">
         <Reveal>
           <div className="flex flex-col gap-3">
@@ -129,7 +129,7 @@ export function Coverage() {
 
 export function Process() {
   return (
-    <section className="bg-surface px-6 py-[clamp(56px,10vw,128px)]">
+    <section className="bg-surface/70 backdrop-blur-md px-6 py-[clamp(56px,10vw,128px)]">
       <div className="mx-auto max-w-[1200px]">
         <Eyebrow>How it works</Eyebrow>
         <SectionHeading>From survey to steady-state operation.</SectionHeading>
