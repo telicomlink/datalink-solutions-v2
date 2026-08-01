@@ -70,7 +70,7 @@ export function PageBackground() {
             backgroundSize: "cover",
             backgroundPosition: "center",
             transform: "scale(1.16)",
-            opacity: 0.5,
+            opacity: 0.62,
           }}
         />
         {/* drifting green glow */}
@@ -100,7 +100,7 @@ export function PageBackground() {
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(180deg, color-mix(in oklab, var(--background) 72%, transparent), color-mix(in oklab, var(--background) 88%, transparent) 45%, color-mix(in oklab, var(--background) 94%, transparent))",
+              "linear-gradient(180deg, color-mix(in oklab, var(--background) 62%, transparent), color-mix(in oklab, var(--background) 78%, transparent) 45%, color-mix(in oklab, var(--background) 86%, transparent))",
           }}
         />
       </div>
