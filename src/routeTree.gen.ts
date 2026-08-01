@@ -10,12 +10,18 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as CoverageRouteImport } from './routes/coverage'
 import { Route as ServicesRouteImport } from './routes/services'
 import { Route as WhyUsRouteImport } from './routes/why-us'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CoverageRoute = CoverageRouteImport.update({
+  id: '/coverage',
+  path: '/coverage',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ServicesRoute = ServicesRouteImport.update({
@@ -31,30 +37,34 @@ const WhyUsRoute = WhyUsRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/coverage': typeof CoverageRoute
   '/services': typeof ServicesRoute
   '/why-us': typeof WhyUsRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/coverage': typeof CoverageRoute
   '/services': typeof ServicesRoute
   '/why-us': typeof WhyUsRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/coverage': typeof CoverageRoute
   '/services': typeof ServicesRoute
   '/why-us': typeof WhyUsRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/' | '/services' | '/why-us'
+  fullPaths: '/' | '/coverage' | '/services' | '/why-us'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/services' | '/why-us'
-  id: '__root__' | '/' | '/services' | '/why-us'
+  to: '/' | '/coverage' | '/services' | '/why-us'
+  id: '__root__' | '/' | '/coverage' | '/services' | '/why-us'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  CoverageRoute: typeof CoverageRoute
   ServicesRoute: typeof ServicesRoute
   WhyUsRoute: typeof WhyUsRoute
 }
@@ -66,6 +76,13 @@ declare module '@tanstack/react-router' {
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/coverage': {
+      id: '/coverage'
+      path: '/coverage'
+      fullPath: '/coverage'
+      preLoaderRoute: typeof CoverageRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/services': {
@@ -87,6 +104,7 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  CoverageRoute: CoverageRoute,
   ServicesRoute: ServicesRoute,
   WhyUsRoute: WhyUsRoute,
 }
