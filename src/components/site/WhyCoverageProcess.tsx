@@ -82,14 +82,14 @@ export function Coverage() {
         width={1600}
         height={912}
         loading="lazy"
-        className="pointer-events-none absolute inset-0 -z-10 h-full w-full object-cover opacity-70"
+        className="pointer-events-none absolute inset-0 -z-10 h-full w-full object-cover opacity-100 [filter:brightness(2.2)_saturate(1.2)]"
       />
       <div
         aria-hidden="true"
         className="absolute inset-0 -z-10"
         style={{
           background:
-            "linear-gradient(90deg, var(--background) 8%, color-mix(in oklab, var(--background) 55%, transparent) 60%, var(--background) 100%)",
+            "radial-gradient(ellipse 60% 80% at 20% 50%, var(--background) 30%, transparent 80%), linear-gradient(180deg, var(--background) 0%, transparent 25%, transparent 75%, var(--background) 100%)",
         }}
       />
       <div className="relative mx-auto max-w-[1200px]">
