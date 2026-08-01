@@ -54,7 +54,7 @@ export function Hero() {
             <MotionButton href="/contact">
               Talk to an engineer <ArrowRight size={18} />
             </MotionButton>
-            <MotionButton href="#services" variant="outline">
+            <MotionButton href="/services" variant="outline">
               View services
             </MotionButton>
           </div>

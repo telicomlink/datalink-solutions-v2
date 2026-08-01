@@ -1,4 +1,5 @@
 import { Check, ShieldCheck, ArrowRight } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 import whyImage from "@/assets/why-engineer.jpg";
 import coverageMap from "@/assets/coverage-map.jpg";
 
@@ -114,12 +115,12 @@ export function Coverage() {
           </Reveal>
         </div>
 
-        <a
-          href="#contact"
+        <Link
+          to="/contact"
           className="mt-10 inline-flex min-h-11 items-center gap-2 rounded-xl border border-border bg-surface/60 px-5 py-2.5 text-sm font-semibold text-foreground no-underline transition-colors hover:border-primary/50 hover:text-primary"
         >
           Ask about a specific facility <ArrowRight size={16} />
-        </a>
+        </Link>
       </div>
     </section>
   );
