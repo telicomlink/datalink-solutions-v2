@@ -54,10 +54,11 @@ const JSON_LD = {
 
 function Index() {
   return (
-    <div id="top" className="min-h-screen overflow-x-hidden bg-background text-foreground">
+    <div id="top" className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />
+      <PageBackground />
       <SiteHeader />
-      <main>
+      <main className="relative z-10">
         <Hero />
         <Services />
         <WhyUs />
@@ -68,7 +69,10 @@ function Index() {
         <Contact />
         <CtaBand />
       </main>
-      <SiteFooter />
+      <div className="relative z-10">
+        <SiteFooter />
+      </div>
+
     </div>
   );
 }
