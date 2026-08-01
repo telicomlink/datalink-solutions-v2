@@ -187,8 +187,10 @@ export function Contact() {
 
             <MotionButton
               href={CONTACT.whatsapp}
-              className="flex items-center gap-3 rounded-2xl border border-border bg-surface px-5 py-4 text-sm font-semibold text-foreground no-underline transition-colors hover:border-primary hover:text-primary"
+              variant="surface"
+              className="w-full !justify-start !rounded-2xl !text-sm"
             >
+
               <MessageCircle size={18} /> Message us on WhatsApp
             </MotionButton>
           </div>
