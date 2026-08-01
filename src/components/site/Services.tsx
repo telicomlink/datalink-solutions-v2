@@ -36,7 +36,8 @@ export function Services() {
 
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
           {SERVICES.map((svc, i) => {
-            const Icon = ICONS[svc.icon];
+            const Icon = ICONS[svc.icon] ?? Server;
+
             return (
               <Reveal key={svc.slug} delay={(i % 3) * 80} className="h-full">
                 <div className="group flex h-full flex-col rounded-2xl border border-border bg-surface p-8 shadow-[inset_0_1px_0_color-mix(in_oklab,white_6%,transparent)] transition-all duration-300 hover:-translate-y-1.5 hover:border-primary/50 hover:bg-surface-raised">
