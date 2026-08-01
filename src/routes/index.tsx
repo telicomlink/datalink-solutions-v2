@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { SiteHeader } from "@/components/site/SiteHeader";
+import { PageBackground } from "@/components/site/PageBackground";
 import { Hero } from "@/components/site/Hero";
 import { Services, Capabilities } from "@/components/site/Services";
 import { WhyUs, Coverage, Process } from "@/components/site/WhyCoverageProcess";
@@ -54,10 +55,11 @@ const JSON_LD = {
 
 function Index() {
   return (
-    <div id="top" className="min-h-screen overflow-x-hidden bg-background text-foreground">
+    <div id="top" className="relative min-h-screen overflow-x-hidden bg-background text-foreground">
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />
+      <PageBackground />
       <SiteHeader />
-      <main>
+      <main className="relative z-10">
         <Hero />
         <Services />
         <WhyUs />
@@ -68,7 +70,10 @@ function Index() {
         <Contact />
         <CtaBand />
       </main>
-      <SiteFooter />
+      <div className="relative z-10">
+        <SiteFooter />
+      </div>
+
     </div>
   );
 }

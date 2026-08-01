@@ -65,7 +65,7 @@ export function Services() {
 
 export function Capabilities() {
   return (
-    <section className="border-y border-border bg-surface px-6 py-[clamp(48px,8vw,96px)]">
+    <section className="border-y border-border bg-surface/70 backdrop-blur-md px-6 py-[clamp(48px,8vw,96px)]">
       <div className="mx-auto grid max-w-[1200px] items-center gap-12 lg:grid-cols-[minmax(0,0.9fr)_minmax(0,1.1fr)]">
         <Reveal>
           <div className="relative overflow-hidden rounded-3xl border border-border shadow-[0_30px_70px_-25px_rgba(0,0,0,.85)]">
