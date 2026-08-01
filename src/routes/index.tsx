@@ -2,9 +2,7 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { Hero } from "@/components/site/Hero";
-import { Services, Capabilities } from "@/components/site/Services";
-import { WhyUs, Coverage, Process } from "@/components/site/WhyCoverageProcess";
-import { Faq } from "@/components/site/FaqFooter";
+import { Services } from "@/components/site/Services";
 import { Reveal } from "@/components/site/Reveal";
 
 const TITLE = "TelicomLink — Data Center Remote Hands, Rack & Stack, Testing";
@@ -54,10 +52,10 @@ const JSON_LD = {
 };
 
 const PAGES = [
-  { to: "/services", label: "Services", body: "Nine services, from survey and rack & stack to 400G testing and decommissioning." },
-  { to: "/why-us", label: "Why us", body: "How we work, who we work with, our four-step process, and the questions we get asked." },
-  { to: "/coverage", label: "Coverage", body: "Eight facilities across Europe and APAC, plus dispatch into your own sites." },
-  { to: "/contact", label: "Contact", body: "24/7 numbers for Europe and APAC, business hours, and a scoping form." },
+  { to: "/services", label: "Services", body: "All nine services in detail — what each one includes, the kit we bring, and the response time attached to it." },
+  { to: "/why-us", label: "Why us", body: "The numbers behind the team, the industries we serve, our four-step runbook, and straight answers to the usual questions." },
+  { to: "/coverage", label: "Coverage", body: "Our Paris and Andhra Pradesh bases, eight facility hubs, and how dispatch into a site we don't own works." },
+  { to: "/contact", label: "Contact", body: "Direct 24/7 numbers for Europe and APAC, coverage of business hours, and a form that reaches an engineer." },
 ];
 
 function Index() {
@@ -65,7 +63,12 @@ function Index() {
     <SiteLayout>
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(JSON_LD) }} />
       <Hero />
-      <Services />
+      <Services
+        limit={6}
+        eyebrow="Capabilities at a glance"
+        heading="One team inside the facility — deploy, test, operate, retire."
+        intro="A snapshot of what we handle day to day. The full nine services, with inclusions and response times, live on the services page."
+      />
 
       <section className="px-6 pb-[clamp(48px,8vw,96px)]">
         <div className="mx-auto grid max-w-[1200px] gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -90,11 +93,6 @@ function Index() {
         </div>
       </section>
 
-      <WhyUs />
-      <Capabilities />
-      <Coverage />
-      <Process />
-      <Faq />
     </SiteLayout>
   );
 }

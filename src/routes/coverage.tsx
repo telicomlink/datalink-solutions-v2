@@ -5,7 +5,7 @@ import { Coverage } from "@/components/site/WhyCoverageProcess";
 import { Reveal, Eyebrow, SectionHeading } from "@/components/site/Reveal";
 import { MotionCard, MotionButton } from "@/components/site/Motion";
 import { FACILITIES, CONTACT } from "@/lib/site-data";
-import coverageMap from "@/assets/coverage-map.jpg";
+import coverageHero from "@/assets/hero-coverage.jpg";
 
 const TITLE = "Coverage — Colocation & Field Engineering in Europe and APAC";
 const DESCRIPTION =
@@ -49,8 +49,8 @@ function CoveragePage() {
         eyebrow="Coverage"
         title="Two regions, eight facilities, one accountable team."
         lead="Colocation space and field engineering across Europe and APAC — and dispatch into client-selected facilities we don't own, which is where most of our work happens."
-        image={coverageMap}
-        imageAlt="Network coverage visualisation across Europe and Asia Pacific"
+        image={coverageHero}
+        imageAlt="Aerial view of a data center campus at dusk with a city skyline behind it"
       />
 
       <section className="px-6 pb-[clamp(40px,7vw,80px)]">
