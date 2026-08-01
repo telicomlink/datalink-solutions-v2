@@ -1,5 +1,9 @@
 import { useRef, type ReactNode } from "react";
 import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from "motion/react";
+import { Link } from "@tanstack/react-router";
+
+const MotionRouterLink = motion.create(Link);
+
 
 const SPRING = { type: "spring" as const, stiffness: 420, damping: 26, mass: 0.6 };
 const MAGNET = { stiffness: 300, damping: 20, mass: 0.5 };
