@@ -116,12 +116,10 @@ export function Contact() {
                   />
                 </div>
 
-                <MotionSubmit
-                  type="submit"
-                  className="mt-6 inline-flex min-h-12 items-center gap-2 rounded-xl bg-primary px-7 py-3 text-base font-semibold text-primary-foreground transition-transform duration-200 hover:-translate-y-0.5 hover:bg-accent"
-                >
+                <MotionSubmit type="submit" className="mt-6 w-full sm:w-auto">
                   Send message <ArrowRight size={18} />
                 </MotionSubmit>
+
               </form>
             )}
           </div>
