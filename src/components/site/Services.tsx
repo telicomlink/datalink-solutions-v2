@@ -77,17 +77,31 @@ export const SERVICE_IMAGES: Record<string, { src: string; alt: string }> = {
 };
 
 
-export function Services() {
+export function Services({
+  limit,
+  eyebrow = "What we do",
+  heading = "Nine services, one team, from deployment to decommissioning.",
+  intro,
+}: {
+  limit?: number;
+  eyebrow?: string;
+  heading?: string;
+  intro?: string;
+} = {}) {
+  const list = limit ? SERVICES.slice(0, limit) : SERVICES;
   return (
     <section id="services" className="relative overflow-hidden px-6 py-[clamp(56px,10vw,128px)]">
       <div className="relative mx-auto max-w-[1200px]">
-        <Eyebrow>What we do</Eyebrow>
-        <SectionHeading>
-          Nine services, one team, from deployment to decommissioning.
-        </SectionHeading>
+        <Eyebrow>{eyebrow}</Eyebrow>
+        <SectionHeading>{heading}</SectionHeading>
+        {intro && (
+          <p className="mt-4 max-w-[64ch] text-base leading-relaxed text-muted-foreground">
+            {intro}
+          </p>
+        )}
 
         <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
-          {SERVICES.map((svc, i) => {
+          {list.map((svc, i) => {
             const Icon = ICONS[svc.icon] ?? Server;
             const img = SERVICE_IMAGES[svc.slug];
 
