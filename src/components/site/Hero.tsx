@@ -1,9 +1,8 @@
 import { preload } from "react-dom";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { Activity, Cable, MapPin, Clock } from "lucide-react";
 import heroImage from "@/assets/hero-datacenter.webp";
 import rackImage from "@/assets/rack-stack.webp";
-import heroVideo from "@/assets/hero-loop.mp4";
 import gsap from "gsap";
 import { ButtonLink } from "./Button";
 import { Container, MonoLabel } from "./Section";
@@ -85,46 +84,27 @@ function WordReveal({ text, className, as: Tag = "p", delay = 0 }: {
 export function Hero() {
   preload(heroImage, { as: "image", fetchPriority: "high" });
   const revealRef = useReveal<HTMLDivElement>();
-  // Lazy-initialized so it's correct on first paint — this app is client-only, no SSR to mismatch.
-  const [reduceMotion] = useState(
-    () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches,
-  );
 
   return (
-    <section className="relative overflow-hidden pb-[var(--tl-section-y)] pt-[calc(var(--tl-header-h)+var(--tl-s-16))]">
-      {/* Background — looping video, falls back to the static photo for reduced-motion users */}
-      {reduceMotion ? (
-        <img
-          src={heroImage}
-          alt=""
-          aria-hidden="true"
-          width={1920}
-          height={1200}
-          fetchPriority="high"
-          decoding="async"
-          className="absolute inset-0 -z-20 h-full w-full object-cover"
-        />
-      ) : (
-        <video
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          poster={heroImage}
-          aria-hidden="true"
-          className="absolute inset-0 -z-20 h-full w-full object-cover"
-        >
-          <source src={heroVideo} type="video/mp4" />
-        </video>
-      )}
-      {/* Layered scrim — heavy left, lighter right, full bottom fade */}
+    <section className="relative overflow-hidden pb-[var(--tl-section-y)] pt-[calc(var(--tl-header-h)+var(--tl-s-16))]" style={{ isolation: "isolate" }}>
+      {/* Background video */}
+      <video
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        aria-hidden="true"
+        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: -2 }}
+      >
+        <source src="/hero-bg.mp4" type="video/mp4" />
+      </video>
+      {/* Scrim */}
       <div
         aria-hidden="true"
-        className="absolute inset-0 -z-10"
         style={{
-          background:
-            "linear-gradient(105deg, color-mix(in srgb, var(--tl-bg) 97%, transparent) 0%, color-mix(in srgb, var(--tl-bg) 82%, transparent) 45%, color-mix(in srgb, var(--tl-bg) 55%, transparent) 100%), linear-gradient(180deg, transparent 50%, var(--tl-bg) 100%)",
+          position: "absolute", inset: 0, zIndex: -1,
+          background: "linear-gradient(105deg, rgba(0,0,0,0.72) 0%, rgba(0,0,0,0.42) 50%, rgba(0,0,0,0.22) 100%), linear-gradient(180deg, transparent 40%, rgba(0,0,0,0.88) 100%)",
         }}
       />
       {/* Subtle red glow top-left */}
