@@ -7,10 +7,31 @@ import { Section, MonoLabel, SectionHeading, SectionLead, Container } from "@/co
 import { ButtonLink } from "@/components/site/Button";
 import { useReveal } from "@/components/site/Reveal";
 import { serviceIcon } from "@/lib/service-icons";
-import { SERVICES, SERVICE_DETAILS } from "@/lib/site-data";
+import { SERVICES, SERVICE_DETAILS, PROJECT_STATS } from "@/lib/site-data";
 import servicesHero from "@/assets/hero-services.webp";
 
 export const Route = createFileRoute("/services/")({ component: ServicesPage });
+
+/* ── Delivery stats ───────────────────────────────────────────────────────── */
+function DeliveryStats() {
+  const ref = useReveal<HTMLDListElement>();
+  return (
+    <Section>
+      <MonoLabel>Delivered so far</MonoLabel>
+      <dl
+        ref={ref}
+        className="mt-8 grid grid-cols-1 divide-y divide-border border-y border-border sm:grid-cols-2 md:grid-cols-4 md:divide-x md:divide-y-0"
+      >
+        {PROJECT_STATS.map((stat) => (
+          <div key={stat.label} data-reveal className="tl-reveal py-6 md:px-6 md:first:pl-0 md:last:pr-0">
+            <dd className="tl-figure text-figure text-primary">{stat.value}</dd>
+            <dt className="mt-2 tl-mono text-muted-foreground">{stat.label}</dt>
+          </div>
+        ))}
+      </dl>
+    </Section>
+  );
+}
 
 /* ── Service grid with "show all" toggle ─────────────────────────────────── */
 function ServiceGrid() {
@@ -181,6 +202,7 @@ function ServicesPage() {
         image={servicesHero}
         imageAlt="Technician terminating fibre patch cords in a dense cable management panel"
       />
+      <DeliveryStats />
       <ServiceGrid />
       <ServiceNav />
       <Details />

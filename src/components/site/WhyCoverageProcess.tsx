@@ -93,8 +93,8 @@ export function Coverage() {
       <MonoLabel>Coverage</MonoLabel>
       <SectionHeading>Colocation across Europe and APAC.</SectionHeading>
       <SectionLead>
-        Eight facilities today, with more on request — and remote-hands coverage tied to every one
-        of them.
+        Ten-plus countries of dispatch coverage today, with more on request — and remote-hands
+        coverage tied to every facility.
       </SectionLead>
 
       <div className="mt-12 grid items-start gap-6 lg:grid-cols-[1fr_1fr]">

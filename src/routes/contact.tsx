@@ -65,7 +65,7 @@ function ContactHero() {
               </span>
               <div>
                 <p className="tl-mono text-muted-foreground">Email</p>
-                <p className="text-body font-semibold text-foreground">{CONTACT.email}</p>
+                <p className="text-body font-semibold text-foreground">{CONTACT.emailDisplay}</p>
               </div>
             </a>
             <a href={CONTACT.linkedin} target="_blank" rel="noopener noreferrer" className="flex items-center gap-4 rounded-[var(--tl-r-lg)] border border-border bg-background p-6 no-underline shadow-[var(--tl-edge),var(--tl-shadow-md)] transition-colors duration-[var(--tl-dur)] hover:border-primary/40">

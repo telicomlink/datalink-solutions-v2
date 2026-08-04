@@ -245,7 +245,7 @@ function IndustriesSection() {
 const PAGE_LINKS = [
   { to: "/services/", label: "Services", num: "01", body: "All nine services with inclusions, kit, and response times." },
   { to: "/why-us", label: "Why us", num: "02", body: "Numbers, industries, four-step runbook, and straight answers." },
-  { to: "/coverage", label: "Coverage", num: "03", body: "Paris and Andhra Pradesh bases, eight facility hubs." },
+  { to: "/coverage", label: "Coverage", num: "03", body: "Paris and Andhra Pradesh bases, nine facility hubs." },
   { to: "/contact", label: "Contact", num: "04", body: "Direct 24/7 numbers and a form that reaches an engineer." },
 ] as const;
 

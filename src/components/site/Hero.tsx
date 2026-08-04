@@ -1,8 +1,9 @@
 import { preload } from "react-dom";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Activity, Cable, MapPin, Clock } from "lucide-react";
 import heroImage from "@/assets/hero-datacenter.webp";
 import rackImage from "@/assets/rack-stack.webp";
+import heroVideo from "@/assets/hero-loop.mp4";
 import gsap from "gsap";
 import { ButtonLink } from "./Button";
 import { Container, MonoLabel } from "./Section";
@@ -10,10 +11,10 @@ import { useReveal } from "./Reveal";
 import { EUROPE_CITIES, APAC_CITIES } from "@/lib/site-data";
 
 const STATS = [
-  { figure: "09", label: "Services" },
-  { figure: "08", label: "Colocation cities" },
-  { figure: "24/7", label: "Support" },
-  { figure: "EU + APAC", label: "Regions" },
+  { figure: "10+", label: "Services" },
+  { figure: "10+", label: "Countries" },
+  { figure: "24/7", label: "NOC support" },
+  { figure: "02", label: "Regions — USA launching soon" },
 ];
 
 const CHIPS = [
@@ -84,20 +85,39 @@ function WordReveal({ text, className, as: Tag = "p", delay = 0 }: {
 export function Hero() {
   preload(heroImage, { as: "image", fetchPriority: "high" });
   const revealRef = useReveal<HTMLDivElement>();
+  // Lazy-initialized so it's correct on first paint — this app is client-only, no SSR to mismatch.
+  const [reduceMotion] = useState(
+    () => typeof window !== "undefined" && window.matchMedia("(prefers-reduced-motion: reduce)").matches,
+  );
 
   return (
     <section className="relative overflow-hidden pb-[var(--tl-section-y)] pt-[calc(var(--tl-header-h)+var(--tl-s-16))]">
-      {/* Background photo */}
-      <img
-        src={heroImage}
-        alt=""
-        aria-hidden="true"
-        width={1920}
-        height={1200}
-        fetchPriority="high"
-        decoding="async"
-        className="absolute inset-0 -z-20 h-full w-full object-cover"
-      />
+      {/* Background — looping video, falls back to the static photo for reduced-motion users */}
+      {reduceMotion ? (
+        <img
+          src={heroImage}
+          alt=""
+          aria-hidden="true"
+          width={1920}
+          height={1200}
+          fetchPriority="high"
+          decoding="async"
+          className="absolute inset-0 -z-20 h-full w-full object-cover"
+        />
+      ) : (
+        <video
+          autoPlay
+          muted
+          loop
+          playsInline
+          preload="auto"
+          poster={heroImage}
+          aria-hidden="true"
+          className="absolute inset-0 -z-20 h-full w-full object-cover"
+        >
+          <source src={heroVideo} type="video/mp4" />
+        </video>
+      )}
       {/* Layered scrim — heavy left, lighter right, full bottom fade */}
       <div
         aria-hidden="true"
@@ -116,7 +136,6 @@ export function Hero() {
             "radial-gradient(circle, color-mix(in srgb, var(--tl-accent) 8%, transparent) 0%, transparent 70%)",
         }}
       />
-
       <Container>
         <div ref={revealRef} className="grid items-center gap-12 lg:grid-cols-[55fr_45fr]">
           {/* Left column */}
@@ -147,7 +166,7 @@ export function Hero() {
 
             <WordReveal
               as="p"
-              text="Server deployment, DWDM, patching, and testing across Europe and APAC — 24/7."
+              text="24/7 data center engineering across Europe and APAC — server deployment, DWDM, patching, and testing."
               delay={0.55}
               className="mt-6 max-w-[52ch] text-body-lg text-muted-foreground"
             />

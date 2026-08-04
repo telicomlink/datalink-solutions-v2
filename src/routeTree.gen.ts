@@ -10,8 +10,12 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as BlogRouteImport } from './routes/blog'
+import { Route as CareersRouteImport } from './routes/careers'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as CoverageRouteImport } from './routes/coverage'
+import { Route as PrivacyPolicyRouteImport } from './routes/privacy-policy'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as WhyUsRouteImport } from './routes/why-us'
 import { Route as ServicesIndexRouteImport } from './routes/services/index'
 import { Route as ServicesSlugRouteImport } from './routes/services/$slug'
@@ -19,6 +23,16 @@ import { Route as ServicesSlugRouteImport } from './routes/services/$slug'
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CareersRoute = CareersRouteImport.update({
+  id: '/careers',
+  path: '/careers',
   getParentRoute: () => rootRouteImport,
 } as any)
 const ContactRoute = ContactRouteImport.update({
@@ -29,6 +43,16 @@ const ContactRoute = ContactRouteImport.update({
 const CoverageRoute = CoverageRouteImport.update({
   id: '/coverage',
   path: '/coverage',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PrivacyPolicyRoute = PrivacyPolicyRouteImport.update({
+  id: '/privacy-policy',
+  path: '/privacy-policy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
 const WhyUsRoute = WhyUsRouteImport.update({
@@ -49,16 +73,24 @@ const ServicesSlugRoute = ServicesSlugRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/blog': typeof BlogRoute
+  '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/coverage': typeof CoverageRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/terms': typeof TermsRoute
   '/why-us': typeof WhyUsRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/services/': typeof ServicesIndexRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/blog': typeof BlogRoute
+  '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/coverage': typeof CoverageRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/terms': typeof TermsRoute
   '/why-us': typeof WhyUsRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/services': typeof ServicesIndexRoute
@@ -66,8 +98,12 @@ export interface FileRoutesByTo {
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/blog': typeof BlogRoute
+  '/careers': typeof CareersRoute
   '/contact': typeof ContactRoute
   '/coverage': typeof CoverageRoute
+  '/privacy-policy': typeof PrivacyPolicyRoute
+  '/terms': typeof TermsRoute
   '/why-us': typeof WhyUsRoute
   '/services/$slug': typeof ServicesSlugRoute
   '/services/': typeof ServicesIndexRoute
@@ -76,19 +112,36 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/blog'
+    | '/careers'
     | '/contact'
     | '/coverage'
+    | '/privacy-policy'
+    | '/terms'
     | '/why-us'
     | '/services/$slug'
     | '/services/'
   fileRoutesByTo: FileRoutesByTo
   to:
-    '/' | '/contact' | '/coverage' | '/why-us' | '/services/$slug' | '/services'
+    | '/'
+    | '/blog'
+    | '/careers'
+    | '/contact'
+    | '/coverage'
+    | '/privacy-policy'
+    | '/terms'
+    | '/why-us'
+    | '/services/$slug'
+    | '/services'
   id:
     | '__root__'
     | '/'
+    | '/blog'
+    | '/careers'
     | '/contact'
     | '/coverage'
+    | '/privacy-policy'
+    | '/terms'
     | '/why-us'
     | '/services/$slug'
     | '/services/'
@@ -96,8 +149,12 @@ export interface FileRouteTypes {
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  BlogRoute: typeof BlogRoute
+  CareersRoute: typeof CareersRoute
   ContactRoute: typeof ContactRoute
   CoverageRoute: typeof CoverageRoute
+  PrivacyPolicyRoute: typeof PrivacyPolicyRoute
+  TermsRoute: typeof TermsRoute
   WhyUsRoute: typeof WhyUsRoute
   ServicesSlugRoute: typeof ServicesSlugRoute
   ServicesIndexRoute: typeof ServicesIndexRoute
@@ -112,6 +169,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/careers': {
+      id: '/careers'
+      path: '/careers'
+      fullPath: '/careers'
+      preLoaderRoute: typeof CareersRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/contact': {
       id: '/contact'
       path: '/contact'
@@ -124,6 +195,20 @@ declare module '@tanstack/react-router' {
       path: '/coverage'
       fullPath: '/coverage'
       preLoaderRoute: typeof CoverageRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/privacy-policy': {
+      id: '/privacy-policy'
+      path: '/privacy-policy'
+      fullPath: '/privacy-policy'
+      preLoaderRoute: typeof PrivacyPolicyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/why-us': {
@@ -152,8 +237,12 @@ declare module '@tanstack/react-router' {
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  BlogRoute: BlogRoute,
+  CareersRoute: CareersRoute,
   ContactRoute: ContactRoute,
   CoverageRoute: CoverageRoute,
+  PrivacyPolicyRoute: PrivacyPolicyRoute,
+  TermsRoute: TermsRoute,
   WhyUsRoute: WhyUsRoute,
   ServicesSlugRoute: ServicesSlugRoute,
   ServicesIndexRoute: ServicesIndexRoute,

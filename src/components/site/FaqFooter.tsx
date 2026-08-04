@@ -105,7 +105,14 @@ const COMPANY_LINKS = [
   { to: "/services", label: "Services" },
   { to: "/why-us", label: "Why us" },
   { to: "/coverage", label: "Coverage" },
+  { to: "/careers", label: "Careers" },
+  { to: "/blog", label: "Blog" },
   { to: "/contact", label: "Contact" },
+];
+
+const LEGAL_LINKS = [
+  { to: "/privacy-policy", label: "Privacy Policy" },
+  { to: "/terms", label: "Terms of Service" },
 ];
 
 export function SiteFooter() {
@@ -184,7 +191,7 @@ export function SiteFooter() {
                   href={`mailto:${CONTACT.email}`}
                   className="inline-flex min-h-[var(--tl-control-h-sm)] items-center text-small text-muted-foreground no-underline transition-colors duration-[var(--tl-dur)] ease-tl hover:text-foreground"
                 >
-                  {CONTACT.email}
+                  {CONTACT.emailDisplay}
                 </a>
               </li>
             </ul>
@@ -211,10 +218,24 @@ export function SiteFooter() {
           </dl>
         </div>
 
-        <div className="border-t border-border py-6">
+        <div className="flex flex-col gap-4 border-t border-border py-6 sm:flex-row sm:items-center sm:justify-between">
           <p className="text-small text-muted-foreground">
             © {new Date().getFullYear()} TelicomLink. All rights reserved.
           </p>
+          <nav aria-label="Legal">
+            <ul className="flex list-none flex-wrap gap-x-6 gap-y-2 p-0">
+              {LEGAL_LINKS.map((link) => (
+                <li key={link.to}>
+                  <Link
+                    to={link.to}
+                    className="text-small text-muted-foreground no-underline transition-colors duration-[var(--tl-dur)] ease-tl hover:text-foreground"
+                  >
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </nav>
         </div>
       </Container>
     </footer>

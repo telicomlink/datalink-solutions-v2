@@ -1,5 +1,8 @@
 export const CONTACT = {
   email: "info@telicomlink.com",
+  // Same address, written to be harder for scrapers to harvest — the mailto
+  // href below still works, this is only the text shown on the page.
+  emailDisplay: "info [at] telicomlink [dot] com",
   phoneEurope: "+33 6 46 01 80 40",
   phoneEuropeHref: "tel:+33646018040",
   phoneApac: "+91 90141 27090",
@@ -55,24 +58,24 @@ export const SERVICES = [
   },
   {
     num: "07",
-    slug: "spare-parts-management",
-    name: "Spare Parts Management",
-    descriptor: "On-site spares pools, inventory control, and lifecycle tracking",
-    icon: "package",
-  },
-  {
-    num: "08",
     slug: "testing-certification",
     name: "Testing & Certification",
     descriptor: "OTDR, BERT at 10G/100G/400G, and full network validation",
     icon: "activity",
   },
   {
-    num: "09",
+    num: "08",
     slug: "data-center-commissioning",
     name: "Data Center Commissioning",
     descriptor: "New-build and expansion commissioning, from power-on to handover",
     icon: "rocket",
+  },
+  {
+    num: "09",
+    slug: "spare-parts-management",
+    name: "Spare Parts Management & Logistics",
+    descriptor: "On-site spares pools, inventory control, and lifecycle tracking",
+    icon: "package",
   },
 ] as const;
 
@@ -84,7 +87,7 @@ export const DIFFERENTIATORS = [
 ];
 
 export const EUROPE_CITIES = ["Paris", "Marseille", "Frankfurt", "Amsterdam"];
-export const APAC_CITIES = ["Mumbai", "Bangalore", "Visakhapatnam", "Singapore"];
+export const APAC_CITIES = ["Mumbai", "Bangalore", "Visakhapatnam", "Singapore", "Jakarta"];
 
 export const PROCESS_STEPS = [
   { step: "01", title: "Assess", body: "Site survey, asset audit, and scope confirmed before anything moves." },
@@ -107,7 +110,7 @@ export const FAQS = [
   },
   {
     q: "Which regions do you operate in?",
-    a: "Europe and APAC, with colocation across eight facilities — Paris, Marseille, Frankfurt, Amsterdam, Mumbai, Bangalore, Visakhapatnam, and Singapore — and more on request.",
+    a: "Europe and APAC, with colocation across nine facilities — Paris, Marseille, Frankfurt, Amsterdam, Mumbai, Bangalore, Visakhapatnam, Singapore, and Jakarta — plus dispatch coverage across 10+ countries, and more on request.",
   },
   {
     q: "Do we need a contract, or can we book a single task?",
@@ -134,58 +137,78 @@ export const SERVICE_DETAILS: Record<
 > = {
   "smart-remote-hands": {
     intro:
-      "Vetted engineers on the floor 24/7 — reboots, cable swaps, optic replacements, console access, and escorted vendor visits, dispatched the moment you raise a ticket.",
+      "On-site technical team, available when you cannot be there. Trained data center engineers for planned work, urgent incidents, and day-to-day operational support — working under your remote guidance or an agreed runbook, with clear updates and evidence from site.",
     bullets: [
-      "Reboots, power-cycles, and console/KVM access",
-      "Optics, DAC, and patch-cord swaps with photo evidence",
-      "Escorting third-party vendors and delivery acceptance",
-      "Ticket-driven dispatch with written closeout notes",
+      "Server reboot, power-cycle, and console access",
+      "Visual inspection of LEDs, alarms, cables, and equipment status",
+      "Rack & stack, device replacement, and spare-part installation",
+      "Fibre and copper patching, cross-connect support, and labelling",
+      "SFP/QSFP optic replacement and link troubleshooting",
+      "Remote console setup and assistance with vendor engineers",
+      "Asset verification, serial-number capture, and inventory updates",
+      "Photo/video reporting before and after work",
+      "Escort support for customers, carriers, and third-party vendors",
+      "Emergency incident response and first-line troubleshooting",
     ],
     sla: "24/7 dispatch · emergency and scheduled",
   },
   "rack-and-stack": {
     intro:
-      "From pallet to production: unboxing, rail install, racking, power, structured cabling, labelling, and first power-on — documented rack elevations included.",
+      "From pallet to production: unboxing, rail installation, rack mounting, dual-power connection, structured cabling, labelling, and first power-on. Every deployment is completed with documented rack elevations and installation evidence.",
     bullets: [
-      "De-palletising, asset tagging, and serial capture",
-      "Rail and cabinet install to your elevation drawings",
-      "A/B power, copper and fibre cabling, dressed and labelled",
-      "Power-on, BIOS/firmware checks, and handover pack",
+      "Server, switch, router, storage, and appliance installation",
+      "Rails, cable management, PDUs, and dual-power connections",
+      "Copper, fibre, DAC, and AOC cabling",
+      "Device labelling, serial-number capture, and asset records",
+      "Rack elevation diagrams and before/after photographs",
+      "Basic power-on checks and remote handover support",
     ],
     sla: "Per-rack or per-project scope",
   },
   "site-survey-audit": {
     intro:
-      "Know exactly what is in the room before you commit. Full asset, power, cooling, and cabling audits with photographic records and a clean inventory export.",
+      "Know the site before you deploy, migrate, or expand. Detailed on-site surveys and infrastructure audits to give you a clear, accurate view of your data center environment before work begins or after project handovers.",
     bullets: [
-      "Rack-by-rack asset and serial inventory",
-      "Power draw, circuit, and capacity assessment",
-      "Cabling and patching trace with as-built documentation",
-      "Gap report with prioritised remediation actions",
+      "Rack space, available RU, and rack condition assessment",
+      "Power capacity, PDU types, sockets, and A/B feed verification",
+      "Fibre, copper, patch-panel, and cross-connect review",
+      "Equipment, serial-number, and asset inventory verification",
+      "Cabling condition, labelling, and documentation audit",
+      "Cooling, airflow, and physical-access observations",
+      "Photographs, rack elevations, and a detailed survey report",
+      "Risk identification and recommendations before deployment or migration",
+      "Ekahau wireless site survey, where required",
     ],
-    sla: "Report delivered within 5 working days",
+    sla: "Audit report delivered within 5 working days",
   },
   "migrations-decommissioning": {
     intro:
-      "Move or exit a facility without the drama. Sequenced runbooks, labelled cabling, chain-of-custody transport, and verified cutovers with rollback plans.",
+      "Move, refresh, or retire infrastructure with control at every stage. A clear runbook, on-site engineering, and full documentation — helping minimise risk and service disruption.",
     bullets: [
-      "Migration runbook with cutover windows and rollback",
-      "Packing, transport, and chain-of-custody tracking",
-      "Re-rack, re-cable, and post-move validation testing",
-      "Decommissioning, room hand-back, and asset disposal",
+      "Pre-migration site survey, asset audit, and migration plan",
+      "Safe shutdown, de-racking, packing, and transport handover",
+      "Rack relocation, re-cabling, patching, and power reconnection",
+      "Coordinated cutovers with your remote engineers, carriers, and facility teams",
+      "Post-migration power-on checks and connectivity validation",
+      "Secure removal of retired equipment, cables, and accessories",
+      "Certified SSD and HDD destruction or disposal through approved partners",
+      "Before-and-after photos, rack elevations, and completion documentation",
     ],
     sla: "Planned windows, including weekends and nights",
   },
   colocation: {
     intro:
-      "Rack, half-rack, and cage space in carrier-neutral facilities across Europe and APAC — with our own engineers already on site.",
+      "Flexible colocation space, compute, storage, and connectivity across key data center markets — carrier-neutral facilities across Europe and APAC, with our own engineers already on site.",
     bullets: [
-      "Paris, Marseille, Frankfurt, Amsterdam, Mumbai, Bangalore, Visakhapatnam, Singapore",
-      "Redundant A/B power and resilient cooling",
-      "Carrier-neutral cross-connects and IP transit options",
-      "Remote hands bundled with the space, not billed as a stranger",
+      "Rack, quarter-rack, half-rack, and dedicated-cabinet options, subject to availability",
+      "A/B power, monitored environments, and 24/7 remote-hands support",
+      "10G, 25G, 40G, and 100G uplinks designed to customer specifications",
+      "Internet transit, cross-connects, fibre patching, and carrier coordination",
+      "Storage: NVMe, SSD, HDD, and RAID configurations",
+      "GPU capacity: multiple GPU options for AI, rendering, analytics, and high-performance workloads",
+      "Paris, Marseille, Frankfurt, Amsterdam, Mumbai, Bangalore, Visakhapatnam, Singapore, Jakarta",
     ],
-    sla: "Space in 8+ facilities, more on request",
+    sla: "Space in 9+ facilities, more on request",
   },
   "secure-data-destruction": {
     intro:
@@ -198,57 +221,99 @@ export const SERVICE_DETAILS: Record<
     ],
     sla: "On-site witnessed destruction available",
   },
-  "spare-parts-management": {
-    intro:
-      "Keep critical spares next to the rack. We store, track, and rotate your on-site spares pool so failures are minutes to fix, not days.",
-    bullets: [
-      "On-site or near-site spares stocking",
-      "Inventory system with consumption and reorder alerts",
-      "RMA handling with your vendors",
-      "Lifecycle tracking and end-of-life planning",
-    ],
-    sla: "Same-day part swap where stock is on site",
-  },
   "testing-certification": {
     intro:
-      "Specialist optical and packet test capability most remote-hands vendors don't carry: OTDR traces, insertion loss, and BERT up to 400G with signed reports.",
+      "Proof, not assumptions. TelicomLink validates fibre, network, and data center infrastructure with specialist test equipment and clear, shareable reports — identifying faults early and confirming performance before service.",
     bullets: [
-      "OTDR single-mode and multi-mode traces at 1310/1550 nm",
-      "Insertion loss, ORL, and end-face inspection",
-      "BERT validation at 10G, 100G, and 400G",
+      "OTDR testing for fibre length, loss events, breaks, bends, and connector quality",
+      "Ethernet bit-error-rate testing (BERT) at 10G, 100G, and up to 400G",
+      "RFC 2544 throughput, latency, frame-loss, and back-to-back testing, where required",
+      "Copper cabling continuity and basic network connectivity checks",
       "DWDM turn-up, channel provisioning, and link certification",
+      "Ekahau wireless survey and testing, where required",
     ],
     sla: "Signed test reports with every job",
   },
   "data-center-commissioning": {
     intro:
-      "New-build and expansion commissioning — from power-on and level testing through integrated systems checks to a documented handover.",
+      "Configuration, validation, and end-to-end readiness before live traffic moves. Our commissioning engineers take over after physical deployment to configure, validate, and hand over the complete environment.",
     bullets: [
-      "Pre-functional checks and equipment verification",
-      "Functional and integrated systems testing",
-      "Network fabric build, test, and certification",
-      "As-built documentation and formal handover pack",
+      "Configure servers, operating systems, management interfaces, and remote access",
+      "Configure switches, core routers, PDUs, console servers, and network equipment",
+      "Apply approved IP addressing, VLANs, port configuration, routing, and access-control policies",
+      "Verify A/B power, PDU status, device alarms, and redundant connections",
+      "Validate copper, fibre, optics, patching, and port status",
+      "Test end-to-end connectivity from the client environment to the deployed infrastructure",
+      "Support traffic migration, change windows, and live-service activation",
+      "Identify issues, perform first-line troubleshooting, and track corrective actions",
     ],
     sla: "Phased Lv1–Lv5 commissioning support",
   },
+  "spare-parts-management": {
+    intro:
+      "The right parts, ready when your data center needs them. Secure storage, inventory, and inbound/outbound logistics for critical spares — keeping essential materials close to the point of need.",
+    bullets: [
+      "Secure storage for customer-owned equipment, tools, and spare parts",
+      "Receipt of inbound deliveries, quantity checks, condition checks, and photo evidence",
+      "Serial-number capture, asset registration, and inventory tracking",
+      "Pick, pack, and dispatch support for site deployments and replacements",
+      "Same-day or scheduled delivery coordination, where available",
+      "Return-material handling and RMA preparation with your vendors",
+      "Ready stock of common consumables — patch cords, optics, DAC/AOC cables, rails, and cage nuts",
+    ],
+    sla: "Same-day part swap where stock is on site",
+  },
 };
 
-export const FACILITIES = [
-  { city: "Paris", country: "France", region: "Europe", note: "Primary European hub and dispatch base" },
-  { city: "Marseille", country: "France", region: "Europe", note: "Subsea cable landing gateway to EMEA" },
-  { city: "Frankfurt", country: "Germany", region: "Europe", note: "DE-CIX interconnection density" },
-  { city: "Amsterdam", country: "Netherlands", region: "Europe", note: "AMS-IX peering and cloud on-ramps" },
-  { city: "Mumbai", country: "India", region: "APAC", note: "India's largest interconnection market" },
-  { city: "Bangalore", country: "India", region: "APAC", note: "Enterprise and IT services corridor" },
-  { city: "Visakhapatnam", country: "India", region: "APAC", note: "APAC operations base, Andhra Pradesh" },
-  { city: "Singapore", country: "Singapore", region: "APAC", note: "South-East Asia gateway" },
-] as const;
+/**
+ * status drives the badge colour: "available" (green) / "full" (amber) /
+ * "sold-out" (muted, "new space coming soon"). `live` adds the blinking
+ * dot + `sla` badge — reserved for Paris & Marseille per client request.
+ */
+export type FacilityStatus = "available" | "full" | "sold-out";
+
+export type Facility = {
+  city: string;
+  country: string;
+  region: "Europe" | "APAC";
+  note: string;
+  status: FacilityStatus;
+  statusNote?: string;
+  live?: boolean;
+  sla?: string;
+};
+
+export const FACILITIES: Facility[] = [
+  { city: "Paris", country: "France", region: "Europe", note: "Primary European hub and dispatch base", status: "available", live: true, sla: "2H SLA to site" },
+  { city: "Marseille", country: "France", region: "Europe", note: "Subsea cable landing gateway to EMEA", status: "available", live: true, sla: "2H SLA to site" },
+  { city: "Frankfurt", country: "Germany", region: "Europe", note: "DE-CIX interconnection density", status: "available", live: true },
+  { city: "Amsterdam", country: "Netherlands", region: "Europe", note: "AMS-IX peering and cloud on-ramps", status: "available", live: true },
+  { city: "Spain", country: "Spain", region: "Europe", note: "New coverage — dispatch on request", status: "sold-out", statusNote: "New space coming soon" },
+  { city: "Italy", country: "Italy", region: "Europe", note: "New coverage — dispatch on request", status: "sold-out", statusNote: "New space coming soon" },
+  { city: "Finland", country: "Finland", region: "Europe", note: "New coverage — dispatch on request", status: "sold-out", statusNote: "New space coming soon" },
+  { city: "Norway", country: "Norway", region: "Europe", note: "New coverage — dispatch on request", status: "sold-out", statusNote: "New space coming soon" },
+  { city: "Sweden", country: "Sweden", region: "Europe", note: "New coverage — dispatch on request", status: "sold-out", statusNote: "New space coming soon" },
+  { city: "Luxembourg", country: "Luxembourg", region: "Europe", note: "New coverage — dispatch on request", status: "sold-out", statusNote: "New space coming soon" },
+  { city: "Mumbai", country: "India", region: "APAC", note: "India's largest interconnection market", status: "full" },
+  { city: "Bangalore", country: "India", region: "APAC", note: "Enterprise and IT services corridor", status: "available" },
+  { city: "Visakhapatnam", country: "India", region: "APAC", note: "First data center service provider for Visakhapatnam — supporting the next generation of digital infrastructure in Andhra Pradesh and across APAC", status: "available", statusNote: "Construction in progress — high demand" },
+  { city: "Singapore", country: "Singapore", region: "APAC", note: "South-East Asia gateway", status: "full" },
+  { city: "Jakarta", country: "Indonesia", region: "APAC", note: "Fast-growing Southeast Asian digital infrastructure market", status: "available" },
+];
 
 export const WHY_STATS = [
   { value: "24/7", label: "Dispatch, every day of the year" },
   { value: "400G", label: "BERT and optical certification" },
-  { value: "08", label: "Colocation cities" },
+  { value: "09", label: "Colocation cities" },
   { value: "02", label: "Regions, one accountable team" },
+];
+
+/** Client-supplied delivery numbers — shown on the services page. */
+export const PROJECT_STATS = [
+  { value: "250+", label: "Projects handed over" },
+  { value: "65,000+", label: "GPUs installed" },
+  { value: "20,000+", label: "Miles of fibre deployed" },
+  { value: "100+", label: "Field engineers" },
 ];
 
 export const INDUSTRIES = [

@@ -1,23 +1,23 @@
 import { useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
-import { MapPin, Globe2, Phone, Mail, ArrowRight } from "lucide-react";
+import { MapPin, Globe2, Phone, Mail, ArrowRight, Clock } from "lucide-react";
 import { SiteLayout, PageHero } from "@/components/site/SiteLayout";
 import { Coverage } from "@/components/site/WhyCoverageProcess";
 import { Section, MonoLabel, SectionHeading, SectionLead } from "@/components/site/Section";
 import { ButtonLink } from "@/components/site/Button";
 import { useReveal } from "@/components/site/Reveal";
-import { FACILITIES, CONTACT } from "@/lib/site-data";
+import { FACILITIES, CONTACT, type Facility } from "@/lib/site-data";
 import coverageHero from "@/assets/hero-coverage.webp";
 
 export const Route = createFileRoute("/coverage")({ component: CoveragePage });
 
 const BASES = [
   {
-    region: "Europe",
+    region: "Europe Operations",
     base: CONTACT.europeBase,
     phone: CONTACT.phoneEurope,
     href: CONTACT.phoneEuropeHref,
-    body: "Dispatch across France, Germany, and the Netherlands from our Paris base — including subsea gateway work in Marseille.",
+    body: "Dispatch to any country in Europe from our Paris base — including subsea gateway work in Marseille.",
     highlight: "Paris hub",
   },
   {
@@ -25,10 +25,53 @@ const BASES = [
     base: CONTACT.apacBase,
     phone: CONTACT.phoneApac,
     href: CONTACT.phoneApacHref,
-    body: "Operations run from Andhra Pradesh, covering Mumbai, Bangalore, Visakhapatnam, and Singapore.",
+    body: "Operations run from Andhra Pradesh, covering Mumbai, Bangalore, Visakhapatnam, Singapore, and Jakarta.",
     highlight: "Andhra Pradesh hub",
   },
 ];
+
+/* ── Facility status badge ───────────────────────────────────────────────── */
+const STATUS_LABEL: Record<Facility["status"], string> = {
+  available: "Available",
+  full: "Full",
+  "sold-out": "Sold out",
+};
+
+function StatusBadge({ facility }: { facility: Facility }) {
+  const isAvailable = facility.status === "available";
+  return (
+    <div className="mt-3 flex flex-wrap items-center gap-2">
+      <span
+        className={`inline-flex items-center gap-2 rounded-[var(--tl-r-pill)] border px-3 py-2 tl-mono ${
+          isAvailable
+            ? "border-primary/30 bg-primary/10 text-[color:var(--tl-accent-text)]"
+            : facility.status === "full"
+              ? "border-border bg-surface text-muted-foreground"
+              : "border-border bg-surface text-muted-foreground opacity-70"
+        }`}
+      >
+        {isAvailable && (
+          <span className="relative flex h-2 w-2">
+            {facility.live && (
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
+            )}
+            <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+          </span>
+        )}
+        {STATUS_LABEL[facility.status]}
+      </span>
+      {facility.sla && (
+        <span className="inline-flex items-center gap-2 rounded-[var(--tl-r-pill)] border border-border bg-surface px-3 py-2 tl-mono text-muted-foreground">
+          <Clock size={11} aria-hidden="true" className="text-primary" />
+          {facility.sla}
+        </span>
+      )}
+      {facility.statusNote && (
+        <span className="tl-mono text-label text-muted-foreground">{facility.statusNote}</span>
+      )}
+    </div>
+  );
+}
 
 /* ── Region switcher ─────────────────────────────────────────────────────── */
 function RegionSwitcher() {
@@ -39,7 +82,7 @@ function RegionSwitcher() {
   return (
     <Section variant="surface">
       <MonoLabel>Regions</MonoLabel>
-      <SectionHeading>Two bases, eight facilities.</SectionHeading>
+      <SectionHeading>Book your engineer in less than 1 min.</SectionHeading>
       <SectionLead>Select a region to see the dispatch base, direct contact, and facility list.</SectionLead>
 
       {/* Tab row */}
@@ -75,7 +118,7 @@ function RegionSwitcher() {
               <Phone size={14} aria-hidden="true" className="text-primary" /> {region.phone}
             </a>
             <a href={`mailto:${CONTACT.email}`} className="inline-flex items-center gap-2 text-small text-muted-foreground no-underline transition-colors duration-[var(--tl-dur)] hover:text-foreground">
-              <Mail size={14} aria-hidden="true" /> {CONTACT.email}
+              <Mail size={14} aria-hidden="true" /> {CONTACT.emailDisplay}
             </a>
           </div>
 
@@ -100,6 +143,7 @@ function RegionSwitcher() {
               <h3 className="mt-2 text-h3 font-bold text-foreground">{f.city}</h3>
               <p className="text-small text-muted-foreground">{f.country}</p>
               <p className="mt-3 text-small text-muted-foreground">{f.note}</p>
+              <StatusBadge facility={f} />
             </li>
           ))}
         </ul>
@@ -118,10 +162,10 @@ function AllFacilities() {
     <Section>
       <MonoLabel>All facilities</MonoLabel>
       <SectionHeading>Where you can put a rack today.</SectionHeading>
-      <SectionLead>Eight carrier-neutral facilities across Europe and APAC, with more on request.</SectionLead>
+      <SectionLead>Carrier-neutral facilities and dispatch coverage across Europe and APAC, with more on request.</SectionLead>
 
       <div className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-2">
-        {[{ label: "Europe", items: europe }, { label: "India & APAC", items: apac }].map((group) => (
+        {[{ label: "Europe Operations", items: europe }, { label: "India & APAC", items: apac }].map((group) => (
           <div key={group.label}>
             <h3 className="mb-6 tl-mono text-[color:var(--tl-accent-text)]">{group.label}</h3>
             <ul ref={ref} className="grid list-none grid-cols-1 gap-4 p-0 sm:grid-cols-2">
@@ -134,6 +178,7 @@ function AllFacilities() {
                   <h4 className="text-body font-bold text-foreground">{f.city}</h4>
                   <p className="tl-mono text-muted-foreground">{f.country}</p>
                   <p className="mt-3 text-small text-muted-foreground">{f.note}</p>
+                  <StatusBadge facility={f} />
                 </li>
               ))}
             </ul>
@@ -189,7 +234,7 @@ function CoveragePage() {
     <SiteLayout>
       <PageHero
         eyebrow="Coverage"
-        title="Two regions, eight facilities, one accountable team."
+        title="Two regions, ten-plus countries, one accountable team."
         lead="Colocation space and field engineering across Europe and APAC — and dispatch into client-selected facilities we don't own, which is where most of our work happens."
         image={coverageHero}
         imageAlt="Aerial view of a data center campus at dusk with a city skyline behind it"

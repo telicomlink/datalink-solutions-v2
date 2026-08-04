@@ -38,7 +38,7 @@ function ContactCard({
           href={`mailto:${CONTACT.email}`}
           className="inline-flex min-h-[var(--tl-control-h-sm)] items-center gap-2 text-small text-muted-foreground no-underline transition-colors duration-[var(--tl-dur)] ease-tl hover:text-foreground"
         >
-          <Mail size={14} aria-hidden="true" /> {CONTACT.email}
+          <Mail size={14} aria-hidden="true" /> {CONTACT.emailDisplay}
         </a>
       </div>
     </div>
