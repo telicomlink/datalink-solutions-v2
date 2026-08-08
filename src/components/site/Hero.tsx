@@ -115,7 +115,7 @@ export function Hero() {
         }}
       />
       <Container>
-        <div ref={revealRef} className="grid items-center gap-12 lg:grid-cols-[55fr_45fr]">
+        <div ref={revealRef} className="grid items-center gap-12 lg:grid-cols-[60fr_40fr]">
           {/* Left column */}
           <div data-reveal className="tl-reveal">
             {/* Live status pill */}
@@ -129,17 +129,9 @@ export function Hero() {
 
             <MonoLabel>Data center infrastructure</MonoLabel>
 
-            <h1 className="mt-4 max-w-[18ch] text-display font-bold text-foreground">
-              <WordReveal
-                text="Our engineers."
-                delay={0.15}
-                className="block"
-              />
-              <WordReveal
-                text="Inside your Data Center."
-                delay={0.45}
-                className="block text-primary"
-              />
+            <h1 className="mt-4 text-display font-bold text-foreground">
+              <span className="block">Our engineers.</span>
+              <span className="block text-primary">Inside the Data Center.</span>
             </h1>
 
             <p className="mt-6 max-w-[52ch] text-body-lg text-muted-foreground">
