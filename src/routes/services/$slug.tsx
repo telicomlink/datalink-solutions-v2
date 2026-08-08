@@ -1,12 +1,12 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { Check, ArrowLeft, ArrowRight, Clock } from "lucide-react";
+import { Check, ArrowLeft, ArrowRight, Clock, MapPin, Phone } from "lucide-react";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { Section, MonoLabel, SectionHeading, SectionLead, Container } from "@/components/site/Section";
 import { ButtonLink, ButtonAnchor } from "@/components/site/Button";
 import { useReveal } from "@/components/site/Reveal";
 import { serviceIcon } from "@/lib/service-icons";
 import { SERVICE_IMAGES } from "@/components/site/Services";
-import { SERVICES, SERVICE_DETAILS, CONTACT } from "@/lib/site-data";
+import { SERVICES, SERVICE_DETAILS, CONTACT, FACILITIES } from "@/lib/site-data";
 
 export const Route = createFileRoute("/services/$slug")({
   loader: ({ params }) => {
@@ -130,6 +130,101 @@ function ServicePage() {
         </Section>
       )}
 
+      {/* Colocation facilities grid */}
+      {svc.slug === "colocation" && (
+        <Section>
+          <MonoLabel>Our facilities</MonoLabel>
+          <SectionHeading>Where you can put a rack today.</SectionHeading>
+          <SectionLead>Carrier-neutral facilities across Europe and APAC — with our engineers already on site.</SectionLead>
+
+          <div className="mt-12 flex flex-col gap-16">
+            {(["Europe", "APAC"] as const).map((region) => {
+              const items = FACILITIES.filter((f) => f.region === region);
+              const available = items.filter((f) => f.status === "available");
+              const coming = items.filter((f) => f.status !== "available");
+              return (
+                <div key={region}>
+                  {/* Region header */}
+                  <div className="mb-6 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="h-5 w-0.5 bg-primary rounded-full" />
+                      <h3 className="text-h3 font-bold text-foreground">
+                        {region === "Europe" ? "Europe Operations" : "India & APAC"}
+                      </h3>
+                    </div>
+                    <span className="inline-flex items-center gap-2 rounded-full border border-[color:var(--tl-live-a30)] bg-[color:var(--tl-live-a12)] px-3 py-1 tl-mono text-xs text-[color:var(--tl-live)]">
+                      <span className="relative flex h-1.5 w-1.5">
+                        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[color:var(--tl-live)] opacity-75" />
+                        <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[color:var(--tl-live)]" />
+                      </span>
+                      {available.length} live
+                    </span>
+                  </div>
+
+                  {/* Active sites — row list */}
+                  <div className="flex flex-col divide-y divide-border rounded-xl border border-border overflow-hidden">
+                    {available.map((f, i) => (
+                      <div key={f.city} className="flex items-center justify-between gap-6 px-6 py-4 bg-background hover:bg-surface transition-colors duration-200">
+                        <div className="flex items-center gap-4 min-w-0">
+                          <span className="tl-mono text-xs text-muted-foreground/50 w-5 shrink-0">{String(i + 1).padStart(2, "0")}</span>
+                          <div className="min-w-0">
+                            <p className="font-semibold text-foreground">{f.city}</p>
+                            <p className="tl-mono text-[11px] uppercase tracking-wider text-muted-foreground">{f.country}</p>
+                          </div>
+                        </div>
+                        <p className="hidden sm:block flex-1 text-sm text-muted-foreground px-4 truncate">{f.note}</p>
+                        <div className="flex items-center gap-3 shrink-0">
+                          {f.sla && (
+                            <span className="hidden md:inline-flex items-center gap-1.5 tl-mono text-[11px] text-primary">
+                              <Clock size={11} className="text-primary" />
+                              {f.sla}
+                            </span>
+                          )}
+                          <span className="inline-flex items-center gap-1.5 rounded-full border border-[color:var(--tl-live-a30)] bg-[color:var(--tl-live-a12)] px-2.5 py-1 tl-mono text-[10px] text-[color:var(--tl-live)]">
+                            {f.live && (
+                              <span className="relative flex h-1.5 w-1.5">
+                                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[color:var(--tl-live)] opacity-75" />
+                                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[color:var(--tl-live)]" />
+                              </span>
+                            )}
+                            Live
+                          </span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  {/* Expanding soon */}
+                  {coming.length > 0 && (
+                    <div className="mt-4 flex flex-wrap items-center gap-2">
+                      <span className="tl-mono text-[10px] uppercase tracking-widest text-muted-foreground/50">Expanding soon</span>
+                      <span className="text-border">—</span>
+                      {coming.map((f) => (
+                        <span key={f.city} className="tl-mono text-[11px] text-muted-foreground/50">{f.city}</span>
+                      )).reduce((acc: React.ReactNode[], el, i) => i === 0 ? [el] : [...acc, <span key={`dot-${i}`} className="text-border/50">·</span>, el], [])}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
+          {/* CTA */}
+          <div className="relative mt-14 overflow-hidden rounded-2xl border border-primary/20 bg-surface p-8 md:p-10">
+            <div aria-hidden="true" className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full"
+              style={{ background: "radial-gradient(circle, rgba(220,38,38,0.06) 0%, transparent 70%)" }} />
+            <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
+              <div>
+                <p className="tl-mono text-xs uppercase tracking-widest text-[color:var(--tl-accent-text)]">Need a different site?</p>
+                <h3 className="mt-2 text-h3 font-bold text-foreground">We mobilise into new facilities on request.</h3>
+                <p className="mt-2 max-w-[48ch] text-sm text-muted-foreground">Tell us the address — we'll confirm coverage and lead time, usually within the hour.</p>
+              </div>
+              <ButtonLink to="/contact" arrow className="shrink-0">Check coverage</ButtonLink>
+            </div>
+          </div>
+        </Section>
+      )}
+
       {/* SLA + contact strip */}
       <Section>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
@@ -140,21 +235,15 @@ function ServicePage() {
           <div className="rounded-[var(--tl-r-lg)] border border-border bg-surface p-6">
             <p className="tl-mono text-[color:var(--tl-accent-text)]">Europe</p>
             <p className="mt-2 text-body font-semibold text-foreground">{CONTACT.europeBase}</p>
-            <a
-              href={CONTACT.phoneEuropeHref}
-              className="mt-1 block text-small text-muted-foreground no-underline hover:text-foreground"
-            >
-              {CONTACT.phoneEurope}
+            <a href={CONTACT.phoneEuropeHref} className="mt-3 inline-flex items-center gap-2 rounded-[var(--tl-r-pill)] bg-primary px-4 py-2 tl-mono text-white no-underline transition-opacity hover:opacity-90">
+              <Phone size={13} aria-hidden="true" /> Call EU
             </a>
           </div>
           <div className="rounded-[var(--tl-r-lg)] border border-border bg-surface p-6">
             <p className="tl-mono text-[color:var(--tl-accent-text)]">India &amp; APAC</p>
             <p className="mt-2 text-body font-semibold text-foreground">{CONTACT.apacBase}</p>
-            <a
-              href={CONTACT.phoneApacHref}
-              className="mt-1 block text-small text-muted-foreground no-underline hover:text-foreground"
-            >
-              {CONTACT.phoneApac}
+            <a href={CONTACT.phoneApacHref} className="mt-3 inline-flex items-center gap-2 rounded-[var(--tl-r-pill)] bg-primary px-4 py-2 tl-mono text-white no-underline transition-opacity hover:opacity-90">
+              <Phone size={13} aria-hidden="true" /> Call APAC
             </a>
           </div>
         </div>

@@ -138,7 +138,8 @@ export function Process() {
   return (
     <Section id="process" variant="surface">
       <MonoLabel>How it works</MonoLabel>
-      <SectionHeading>From survey to steady-state operation.</SectionHeading>
+      <SectionHeading>From site survey to steady-state operation.</SectionHeading>
+      <SectionLead>Four stages. One accountable team from assessment to operation.</SectionLead>
       <ol
         ref={ref}
         className="mt-12 grid list-none grid-cols-1 gap-8 p-0 sm:grid-cols-2 lg:grid-cols-4"

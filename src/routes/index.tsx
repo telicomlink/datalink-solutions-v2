@@ -115,8 +115,8 @@ function ProcessSection() {
   return (
     <Section>
       <MonoLabel>How it works</MonoLabel>
-      <SectionHeading>From survey to steady-state operation.</SectionHeading>
-      <SectionLead>Four steps, one team, no handoffs between vendors.</SectionLead>
+      <SectionHeading>From site survey to steady-state operation.</SectionHeading>
+      <SectionLead>Four stages. One accountable team from assessment to operation.</SectionLead>
 
       <div className="mt-12 grid grid-cols-1 gap-8 lg:grid-cols-[1fr_1.4fr]">
         {/* Step selector */}
@@ -194,10 +194,10 @@ function MidCta() {
               Talk to an engineer
             </ButtonLink>
             <a
-              href={`tel:${CONTACT.phoneEuropeHref.replace("tel:", "")}`}
+              href={CONTACT.phoneEuropeHref}
               className="inline-flex min-h-[var(--tl-control-h)] items-center justify-center gap-2 rounded-[var(--tl-r-md)] border border-border bg-transparent px-[28px] text-body font-semibold text-foreground no-underline transition-colors duration-[var(--tl-dur)] hover:border-primary hover:text-[color:var(--tl-accent-text)]"
             >
-              {CONTACT.phoneEurope}
+              Call EU now
             </a>
           </div>
         </div>

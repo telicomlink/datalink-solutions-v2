@@ -34,6 +34,16 @@
   --tl-accent-a35: color-mix(in srgb, var(--tl-accent) 35%, transparent);
   --tl-accent-a12: color-mix(in srgb, var(--tl-accent) 12%, transparent);
 
+  /*
+   * Status green — "live" / "available" signal ONLY (pulsing dots, coverage
+   * map pins, availability badges). This is a semantic status colour, not a
+   * second brand accent: every CTA, link, and headline still uses the red
+   * --tl-accent above.
+   */
+  --tl-live: #35d96a;
+  --tl-live-a30: color-mix(in srgb, var(--tl-live) 30%, transparent);
+  --tl-live-a12: color-mix(in srgb, var(--tl-live) 12%, transparent);
+
   /* --------------------------------------------------------------- spacing */
   /* 8px base. These are the only spacing values in the build. */
   --tl-s-0: 0px; /* inset-0, p-0, top-0 — zero is a real step, not an absence */

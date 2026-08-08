@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Check, ArrowRight, ChevronDown } from "lucide-react";
+import { Check, ArrowRight, ChevronDown, MapPin, Clock } from "lucide-react";
 import { SiteLayout, PageHero } from "@/components/site/SiteLayout";
 import { Capabilities, SERVICE_IMAGES } from "@/components/site/Services";
 import { Section, MonoLabel, SectionHeading, SectionLead, Container } from "@/components/site/Section";
 import { ButtonLink } from "@/components/site/Button";
 import { useReveal } from "@/components/site/Reveal";
 import { serviceIcon } from "@/lib/service-icons";
-import { SERVICES, SERVICE_DETAILS, PROJECT_STATS } from "@/lib/site-data";
+import { SERVICES, SERVICE_DETAILS, PROJECT_STATS, FACILITIES, type Facility } from "@/lib/site-data";
 import servicesHero from "@/assets/hero-services.webp";
 
 export const Route = createFileRoute("/services/")({ component: ServicesPage });
@@ -192,6 +192,86 @@ function Details() {
   );
 }
 
+/* ── Colocation Facilities ────────────────────────────────────────────────── */
+const STATUS_STYLE: Record<Facility["status"], string> = {
+  available: "border-[color:var(--tl-live-a30)] bg-[color:var(--tl-live-a12)] text-[color:var(--tl-live)]",
+  full:      "border-border bg-surface text-muted-foreground",
+  "sold-out": "border-border bg-surface text-muted-foreground opacity-60",
+};
+const STATUS_LABEL: Record<Facility["status"], string> = {
+  available: "Available",
+  full: "Full",
+  "sold-out": "Coming soon",
+};
+
+function ColoFacilities() {
+  const ref = useReveal<HTMLDivElement>();
+  const europe = FACILITIES.filter((f) => f.region === "Europe");
+  const apac   = FACILITIES.filter((f) => f.region === "APAC");
+
+  return (
+    <Section variant="surface" id="colocation-facilities">
+      <MonoLabel>Colocation</MonoLabel>
+      <SectionHeading>Where you can put a rack today.</SectionHeading>
+      <SectionLead>Carrier-neutral facilities across Europe and APAC — with our engineers already on site.</SectionLead>
+
+      <div ref={ref} className="mt-12 grid grid-cols-1 gap-12 lg:grid-cols-2">
+        {[
+          { label: "Europe Operations", items: europe },
+          { label: "India & APAC",      items: apac   },
+        ].map((group) => (
+          <div key={group.label}>
+            <h3 className="mb-6 tl-mono text-[color:var(--tl-accent-text)]">{group.label}</h3>
+            <ul className="grid list-none grid-cols-1 gap-4 p-0 sm:grid-cols-2">
+              {group.items.map((f) => (
+                <li
+                  key={f.city}
+                  data-reveal
+                  className="tl-reveal flex flex-col rounded-[var(--tl-r-lg)] border border-border bg-background p-5 shadow-[var(--tl-edge),var(--tl-shadow-md)] transition-colors duration-[var(--tl-dur)] hover:border-primary/40"
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div>
+                      <p className="flex items-center gap-1.5 text-body font-bold text-foreground">
+                        <MapPin size={13} className="shrink-0 text-primary" aria-hidden="true" />
+                        {f.city}
+                      </p>
+                      <p className="tl-mono text-muted-foreground">{f.country}</p>
+                    </div>
+                    <span className={`inline-flex shrink-0 items-center gap-1.5 rounded-[var(--tl-r-pill)] border px-2.5 py-1 tl-mono text-label ${STATUS_STYLE[f.status]}`}>
+                      {f.status === "available" && f.live && (
+                        <span className="relative flex h-1.5 w-1.5">
+                          <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[color:var(--tl-live)] opacity-75" />
+                          <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[color:var(--tl-live)]" />
+                        </span>
+                      )}
+                      {STATUS_LABEL[f.status]}
+                    </span>
+                  </div>
+                  <p className="mt-3 text-small text-muted-foreground">{f.note}</p>
+                  {f.sla && (
+                    <p className="mt-3 inline-flex items-center gap-1.5 tl-mono text-label text-muted-foreground">
+                      <Clock size={11} className="text-primary" aria-hidden="true" /> {f.sla}
+                    </p>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+
+      <div className="mt-10 rounded-[var(--tl-r-lg)] border border-border bg-background p-8">
+        <p className="tl-mono text-[color:var(--tl-accent-text)]">Need a different site?</p>
+        <h3 className="mt-2 text-h3 font-bold text-foreground">We mobilise into new facilities on request.</h3>
+        <p className="mt-2 text-small text-muted-foreground">Tell us the address and we'll confirm coverage and lead time.</p>
+        <div className="mt-6">
+          <ButtonLink to="/contact" variant="outline" arrow>Check coverage for your site</ButtonLink>
+        </div>
+      </div>
+    </Section>
+  );
+}
+
 function ServicesPage() {
   return (
     <SiteLayout>
@@ -206,6 +286,7 @@ function ServicesPage() {
       <ServiceGrid />
       <ServiceNav />
       <Details />
+      <ColoFacilities />
       <Capabilities variant="surface" />
     </SiteLayout>
   );

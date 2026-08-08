@@ -1,6 +1,6 @@
 import { preload } from "react-dom";
 import { useEffect, useRef } from "react";
-import { Activity, Cable, MapPin, Clock } from "lucide-react";
+import { Activity, MapPin, Clock } from "lucide-react";
 import heroImage from "@/assets/hero-datacenter.webp";
 import rackImage from "@/assets/rack-stack.webp";
 import gsap from "gsap";
@@ -14,11 +14,6 @@ const STATS = [
   { figure: "10+", label: "Countries" },
   { figure: "24/7", label: "NOC support" },
   { figure: "02", label: "Regions — USA launching soon" },
-];
-
-const CHIPS = [
-  { icon: Activity, label: "400G BERT verified" },
-  { icon: Cable, label: "DWDM & patching" },
 ];
 
 const TICKER_ITEMS = [
@@ -95,7 +90,10 @@ export function Hero() {
         playsInline
         preload="auto"
         aria-hidden="true"
-        style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: -2 }}
+        style={{
+          position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: -2,
+          filter: "blur(6px)", transform: "scale(1.08)",
+        }}
       >
         <source src="/hero-bg.mp4" type="video/mp4" />
       </video>
@@ -123,33 +121,30 @@ export function Hero() {
             {/* Live status pill */}
             <div className="mb-6 inline-flex items-center gap-2 rounded-[var(--tl-r-pill)] border border-border bg-[color-mix(in_srgb,var(--tl-surface)_80%,transparent)] px-3 py-2 backdrop-blur-[12px]">
               <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[color:var(--tl-live)] opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-[color:var(--tl-live)]" />
               </span>
-              <span className="tl-mono text-[color:var(--tl-accent-text)]">Engineers on site — EU &amp; APAC</span>
+              <span className="tl-mono text-[color:var(--tl-live)]">Engineers on site — EU &amp; APAC</span>
             </div>
 
             <MonoLabel>Data center infrastructure</MonoLabel>
 
             <h1 className="mt-4 max-w-[18ch] text-display font-bold text-foreground">
               <WordReveal
-                text="Your engineers,"
+                text="Our engineers."
                 delay={0.15}
                 className="block"
               />
               <WordReveal
-                text="inside the data center."
+                text="Inside your Data Center."
                 delay={0.45}
                 className="block text-primary"
               />
             </h1>
 
-            <WordReveal
-              as="p"
-              text="24/7 data center engineering across Europe and APAC — server deployment, DWDM, patching, and testing."
-              delay={0.55}
-              className="mt-6 max-w-[52ch] text-body-lg text-muted-foreground"
-            />
+            <p className="mt-6 max-w-[52ch] text-body-lg text-muted-foreground">
+              24/7 Data Center Engineering across Europe and APAC — Server Deployment, DWDM, Patching, and Testing.
+            </p>
 
             <div className="mt-8 flex flex-wrap gap-4">
               <ButtonLink to="/contact" glow arrow>
@@ -194,18 +189,6 @@ export function Hero() {
                 }}
               />
             </div>
-
-            {/* Chips */}
-            <ul className="absolute inset-x-4 bottom-4 m-0 flex list-none flex-wrap gap-2 p-0">
-              {CHIPS.map((chip) => (
-                <li key={chip.label}>
-                  <span className="inline-flex items-center gap-2 rounded-[var(--tl-r-pill)] border border-border bg-[color-mix(in_srgb,var(--tl-surface)_88%,transparent)] px-3 py-2 text-small font-medium text-foreground backdrop-blur-[12px]">
-                    <chip.icon size={14} aria-hidden="true" className="shrink-0 text-primary" />
-                    {chip.label}
-                  </span>
-                </li>
-              ))}
-            </ul>
           </div>
         </div>
 

@@ -25,10 +25,10 @@ function ContactHero() {
           <div>
             <div className="mb-6 inline-flex items-center gap-2 rounded-[var(--tl-r-pill)] border border-border bg-background px-3 py-2">
               <span className="relative flex h-2 w-2">
-                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-primary opacity-75" />
-                <span className="relative inline-flex h-2 w-2 rounded-full bg-primary" />
+                <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[color:var(--tl-live)] opacity-75" />
+                <span className="relative inline-flex h-2 w-2 rounded-full bg-[color:var(--tl-live)]" />
               </span>
-              <span className="tl-mono text-[color:var(--tl-accent-text)]">Available now — EU &amp; APAC</span>
+              <span className="tl-mono text-[color:var(--tl-live)]">Available now — EU &amp; APAC</span>
             </div>
             <MonoLabel>Contact</MonoLabel>
             <h1 className="mt-4 max-w-[20ch] text-display font-bold text-balance text-foreground">
@@ -41,24 +41,28 @@ function ContactHero() {
 
           {/* Quick contact cards */}
           <div className="flex flex-col gap-4 lg:min-w-[280px]">
-            <a href={CONTACT.phoneEuropeHref} className="flex items-center gap-4 rounded-[var(--tl-r-lg)] border border-border bg-background p-6 no-underline shadow-[var(--tl-edge),var(--tl-shadow-md)] transition-colors duration-[var(--tl-dur)] hover:border-primary/40">
+            <div className="flex items-center gap-4 rounded-[var(--tl-r-lg)] border border-border bg-background p-6 shadow-[var(--tl-edge),var(--tl-shadow-md)]">
               <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-[var(--tl-r-sm)] border border-border bg-surface text-primary">
                 <Phone size={16} aria-hidden="true" />
               </span>
-              <div>
+              <div className="flex flex-1 items-center justify-between gap-4">
                 <p className="tl-mono text-muted-foreground">France &amp; Europe</p>
-                <p className="text-body font-semibold text-foreground">{CONTACT.phoneEurope}</p>
+                <a href={CONTACT.phoneEuropeHref} className="inline-flex items-center gap-2 rounded-[var(--tl-r-pill)] bg-primary px-4 py-2 tl-mono text-white no-underline transition-opacity hover:opacity-90">
+                  <Phone size={13} aria-hidden="true" /> Call EU
+                </a>
               </div>
-            </a>
-            <a href={CONTACT.phoneApacHref} className="flex items-center gap-4 rounded-[var(--tl-r-lg)] border border-border bg-background p-6 no-underline shadow-[var(--tl-edge),var(--tl-shadow-md)] transition-colors duration-[var(--tl-dur)] hover:border-primary/40">
+            </div>
+            <div className="flex items-center gap-4 rounded-[var(--tl-r-lg)] border border-border bg-background p-6 shadow-[var(--tl-edge),var(--tl-shadow-md)]">
               <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-[var(--tl-r-sm)] border border-border bg-surface text-primary">
                 <Phone size={16} aria-hidden="true" />
               </span>
-              <div>
+              <div className="flex flex-1 items-center justify-between gap-4">
                 <p className="tl-mono text-muted-foreground">India &amp; APAC</p>
-                <p className="text-body font-semibold text-foreground">{CONTACT.phoneApac}</p>
+                <a href={CONTACT.phoneApacHref} className="inline-flex items-center gap-2 rounded-[var(--tl-r-pill)] bg-primary px-4 py-2 tl-mono text-white no-underline transition-opacity hover:opacity-90">
+                  <Phone size={13} aria-hidden="true" /> Call APAC
+                </a>
               </div>
-            </a>
+            </div>
             <a href={`mailto:${CONTACT.email}`} className="flex items-center gap-4 rounded-[var(--tl-r-lg)] border border-border bg-background p-6 no-underline shadow-[var(--tl-edge),var(--tl-shadow-md)] transition-colors duration-[var(--tl-dur)] hover:border-primary/40">
               <span className="inline-flex h-8 w-8 shrink-0 items-center justify-center rounded-[var(--tl-r-sm)] border border-border bg-surface text-primary">
                 <Mail size={16} aria-hidden="true" />
@@ -135,8 +139,8 @@ function BusinessHours() {
           <div key={b.label} className="rounded-[var(--tl-r-lg)] border border-border bg-background p-6">
             <p className="tl-mono text-muted-foreground">{b.label}</p>
             <p className="mt-1 text-body font-semibold text-foreground">{b.value}</p>
-            <a href={b.href} className="mt-2 inline-flex items-center gap-2 text-small text-muted-foreground no-underline transition-colors duration-[var(--tl-dur)] hover:text-foreground">
-              <Phone size={12} aria-hidden="true" className="text-primary" /> {b.phone}
+            <a href={b.href} className="mt-3 inline-flex items-center gap-2 rounded-[var(--tl-r-pill)] border border-primary/40 px-4 py-2 tl-mono text-primary no-underline transition-colors hover:bg-primary/10">
+              <Phone size={12} aria-hidden="true" /> Call now
             </a>
           </div>
         ))}

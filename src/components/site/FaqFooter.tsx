@@ -171,9 +171,9 @@ export function SiteFooter() {
                 <p className="mt-1 text-small text-muted-foreground">{CONTACT.europeBase}</p>
                 <a
                   href={CONTACT.phoneEuropeHref}
-                  className="inline-flex min-h-[var(--tl-control-h-sm)] items-center text-small text-muted-foreground no-underline transition-colors duration-[var(--tl-dur)] ease-tl hover:text-foreground"
+                  className="mt-1 inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1 text-small text-muted-foreground no-underline transition-colors hover:border-primary/40 hover:text-foreground"
                 >
-                  {CONTACT.phoneEurope}
+                  Call EU
                 </a>
               </li>
               <li>
@@ -181,9 +181,9 @@ export function SiteFooter() {
                 <p className="mt-1 text-small text-muted-foreground">{CONTACT.apacBase}</p>
                 <a
                   href={CONTACT.phoneApacHref}
-                  className="inline-flex min-h-[var(--tl-control-h-sm)] items-center text-small text-muted-foreground no-underline transition-colors duration-[var(--tl-dur)] ease-tl hover:text-foreground"
+                  className="mt-1 inline-flex items-center gap-1.5 rounded-full border border-border px-3 py-1 text-small text-muted-foreground no-underline transition-colors hover:border-primary/40 hover:text-foreground"
                 >
-                  {CONTACT.phoneApac}
+                  Call APAC
                 </a>
               </li>
               <li>

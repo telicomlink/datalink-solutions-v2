@@ -12,7 +12,6 @@ const labelClass = "block tl-mono text-muted-foreground";
 function ContactCard({
   title,
   place,
-  phone,
   phoneHref,
 }: {
   title: string;
@@ -27,12 +26,12 @@ function ContactCard({
     >
       <h3 className="tl-mono text-muted-foreground">{title}</h3>
       <p className="mt-2 font-display text-h3 font-bold text-foreground">{place}</p>
-      <div className="mt-4 flex flex-col">
+      <div className="mt-4 flex flex-col gap-3">
         <a
           href={phoneHref}
-          className="inline-flex min-h-[var(--tl-control-h-sm)] items-center gap-2 text-small text-foreground no-underline transition-colors duration-[var(--tl-dur)] ease-tl hover:text-muted-foreground"
+          className="inline-flex items-center gap-2 rounded-[var(--tl-r-pill)] bg-primary px-4 py-2 tl-mono text-white no-underline transition-opacity hover:opacity-90"
         >
-          <Phone size={14} aria-hidden="true" /> {phone}
+          <Phone size={14} aria-hidden="true" /> Call now
         </a>
         <a
           href={`mailto:${CONTACT.email}`}

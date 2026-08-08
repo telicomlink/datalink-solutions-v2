@@ -90,10 +90,10 @@ export const EUROPE_CITIES = ["Paris", "Marseille", "Frankfurt", "Amsterdam"];
 export const APAC_CITIES = ["Mumbai", "Bangalore", "Visakhapatnam", "Singapore", "Jakarta"];
 
 export const PROCESS_STEPS = [
-  { step: "01", title: "Assess", body: "Site survey, asset audit, and scope confirmed before anything moves." },
-  { step: "02", title: "Design", body: "A sequenced plan — deployment, migration, or commissioning runbook." },
-  { step: "03", title: "Deploy", body: "Executed on-site by our engineers, verified as it happens." },
-  { step: "04", title: "Operate", body: "Ongoing smart hands, spares, and testing keep it running." },
+  { step: "01", title: "Assess", body: "Review the site, infrastructure, access requirements, risks, and scope of work." },
+  { step: "02", title: "Design", body: "Prepare the technical plan, rack elevations, cabling, equipment list, and deployment runbook." },
+  { step: "03", title: "Deploy", body: "Install, configure, patching, testing, documenting, and commission the infrastructure." },
+  { step: "04", title: "Operate", body: "Provide remote hands, maintenance, monitoring support, spare-parts coordination, and 24/7 incident response." },
 ];
 
 export const CAPABILITIES = [
@@ -281,24 +281,27 @@ export type Facility = {
   statusNote?: string;
   live?: boolean;
   sla?: string;
+  /** [longitude, latitude] — drives the pin on the coverage map. */
+  coords: [number, number];
 };
 
 export const FACILITIES: Facility[] = [
-  { city: "Paris", country: "France", region: "Europe", note: "Primary European hub and dispatch base", status: "available", live: true, sla: "2H SLA to site" },
-  { city: "Marseille", country: "France", region: "Europe", note: "Subsea cable landing gateway to EMEA", status: "available", live: true, sla: "2H SLA to site" },
-  { city: "Frankfurt", country: "Germany", region: "Europe", note: "DE-CIX interconnection density", status: "available", live: true },
-  { city: "Amsterdam", country: "Netherlands", region: "Europe", note: "AMS-IX peering and cloud on-ramps", status: "available", live: true },
-  { city: "Spain", country: "Spain", region: "Europe", note: "New coverage — dispatch on request", status: "sold-out", statusNote: "New space coming soon" },
-  { city: "Italy", country: "Italy", region: "Europe", note: "New coverage — dispatch on request", status: "sold-out", statusNote: "New space coming soon" },
-  { city: "Finland", country: "Finland", region: "Europe", note: "New coverage — dispatch on request", status: "sold-out", statusNote: "New space coming soon" },
-  { city: "Norway", country: "Norway", region: "Europe", note: "New coverage — dispatch on request", status: "sold-out", statusNote: "New space coming soon" },
-  { city: "Sweden", country: "Sweden", region: "Europe", note: "New coverage — dispatch on request", status: "sold-out", statusNote: "New space coming soon" },
-  { city: "Luxembourg", country: "Luxembourg", region: "Europe", note: "New coverage — dispatch on request", status: "sold-out", statusNote: "New space coming soon" },
-  { city: "Mumbai", country: "India", region: "APAC", note: "India's largest interconnection market", status: "full" },
-  { city: "Bangalore", country: "India", region: "APAC", note: "Enterprise and IT services corridor", status: "available" },
-  { city: "Visakhapatnam", country: "India", region: "APAC", note: "First data center service provider for Visakhapatnam — supporting the next generation of digital infrastructure in Andhra Pradesh and across APAC", status: "available", statusNote: "Construction in progress — high demand" },
-  { city: "Singapore", country: "Singapore", region: "APAC", note: "South-East Asia gateway", status: "full" },
-  { city: "Jakarta", country: "Indonesia", region: "APAC", note: "Fast-growing Southeast Asian digital infrastructure market", status: "available" },
+  { city: "Paris", country: "France", region: "Europe", note: "Primary European hub and dispatch base", status: "available", live: true, sla: "2H SLA to site", coords: [2.3522, 48.8566] },
+  { city: "Marseille", country: "France", region: "Europe", note: "Subsea cable landing gateway to EMEA", status: "available", live: true, sla: "2H SLA to site", coords: [5.3698, 43.2965] },
+  { city: "Frankfurt", country: "Germany", region: "Europe", note: "DE-CIX interconnection density", status: "available", live: true, coords: [8.6821, 50.1109] },
+  { city: "Amsterdam", country: "Netherlands", region: "Europe", note: "AMS-IX peering and cloud on-ramps", status: "available", live: true, coords: [4.9041, 52.3676] },
+  { city: "Belgium", country: "Belgium", region: "Europe", note: "New coverage — dispatch on request", status: "sold-out", statusNote: "New space coming soon", coords: [4.3517, 50.8503] },
+  { city: "Spain", country: "Spain", region: "Europe", note: "New coverage — dispatch on request", status: "sold-out", statusNote: "New space coming soon", coords: [-3.7038, 40.4168] },
+  { city: "Italy", country: "Italy", region: "Europe", note: "New coverage — dispatch on request", status: "sold-out", statusNote: "New space coming soon", coords: [12.4964, 41.9028] },
+  { city: "Finland", country: "Finland", region: "Europe", note: "New coverage — dispatch on request", status: "sold-out", statusNote: "New space coming soon", coords: [24.9384, 60.1699] },
+  { city: "Norway", country: "Norway", region: "Europe", note: "New coverage — dispatch on request", status: "sold-out", statusNote: "New space coming soon", coords: [10.7522, 59.9139] },
+  { city: "Sweden", country: "Sweden", region: "Europe", note: "New coverage — dispatch on request", status: "sold-out", statusNote: "New space coming soon", coords: [18.0686, 59.3293] },
+  { city: "Luxembourg", country: "Luxembourg", region: "Europe", note: "New coverage — dispatch on request", status: "sold-out", statusNote: "New space coming soon", coords: [6.1319, 49.6116] },
+  { city: "Mumbai", country: "India", region: "APAC", note: "India's largest interconnection market", status: "full", coords: [72.8777, 19.076] },
+  { city: "Bangalore", country: "India", region: "APAC", note: "Enterprise and IT services corridor", status: "available", coords: [77.5946, 12.9716] },
+  { city: "Visakhapatnam", country: "India", region: "APAC", note: "First data center service provider for Visakhapatnam — supporting the next generation of digital infrastructure in Andhra Pradesh and across APAC", status: "available", statusNote: "Construction in progress — high demand", coords: [83.2185, 17.6868] },
+  { city: "Singapore", country: "Singapore", region: "APAC", note: "South-East Asia gateway", status: "full", coords: [103.8198, 1.3521] },
+  { city: "Jakarta", country: "Indonesia", region: "APAC", note: "Fast-growing Southeast Asian digital infrastructure market", status: "available", coords: [106.8456, -6.2088] },
 ];
 
 export const WHY_STATS = [
