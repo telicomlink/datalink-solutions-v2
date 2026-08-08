@@ -210,8 +210,8 @@ function ServicePage() {
           </div>
 
           {/* CTA */}
-          <div className="relative mt-14 overflow-hidden rounded-2xl border border-primary/20 bg-surface p-8 md:p-10">
-            <div aria-hidden="true" className="pointer-events-none absolute -right-24 -top-24 h-72 w-72 rounded-full"
+          <div className="relative [margin-top:3.5rem] overflow-hidden rounded-2xl border border-primary/20 bg-surface p-8 md:p-10">
+            <div aria-hidden="true" className="pointer-events-none absolute -right-24 -top-24 [height:18rem] [width:18rem] rounded-full"
               style={{ background: "radial-gradient(circle, rgba(220,38,38,0.06) 0%, transparent 70%)" }} />
             <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
               <div>

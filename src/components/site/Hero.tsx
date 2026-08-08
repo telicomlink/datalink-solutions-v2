@@ -129,7 +129,7 @@ export function Hero() {
 
             <MonoLabel>Data center infrastructure</MonoLabel>
 
-            <h1 className="mt-4 text-display font-bold text-foreground">
+            <h1 className="mt-4 text-[clamp(2.5rem,5vw,4rem)] font-bold leading-tight text-foreground">
               <span className="block">Our engineers.</span>
               <span className="block text-primary">Inside the Data Center.</span>
             </h1>

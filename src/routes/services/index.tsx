@@ -227,21 +227,21 @@ function ColoFacilities() {
                 <li
                   key={f.city}
                   data-reveal
-                  className="tl-reveal flex flex-col rounded-[var(--tl-r-lg)] border border-border bg-background p-5 shadow-[var(--tl-edge),var(--tl-shadow-md)] transition-colors duration-[var(--tl-dur)] hover:border-primary/40"
+                  className="tl-reveal flex flex-col rounded-[var(--tl-r-lg)] border border-border bg-background [padding:1.25rem] shadow-[var(--tl-edge),var(--tl-shadow-md)] transition-colors duration-[var(--tl-dur)] hover:border-primary/40"
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div>
-                      <p className="flex items-center gap-1.5 text-body font-bold text-foreground">
+                      <p className="flex items-center [gap:0.375rem] text-body font-bold text-foreground">
                         <MapPin size={13} className="shrink-0 text-primary" aria-hidden="true" />
                         {f.city}
                       </p>
                       <p className="tl-mono text-muted-foreground">{f.country}</p>
                     </div>
-                    <span className={`inline-flex shrink-0 items-center gap-1.5 rounded-[var(--tl-r-pill)] border px-2.5 py-1 tl-mono text-label ${STATUS_STYLE[f.status]}`}>
+                    <span className={`inline-flex shrink-0 items-center [gap:0.375rem] rounded-[var(--tl-r-pill)] border [padding:0.25rem_0.625rem] tl-mono text-label ${STATUS_STYLE[f.status]}`}>
                       {f.status === "available" && f.live && (
-                        <span className="relative flex h-1.5 w-1.5">
+                        <span className="relative flex [height:0.375rem] [width:0.375rem]">
                           <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[color:var(--tl-live)] opacity-75" />
-                          <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[color:var(--tl-live)]" />
+                          <span className="relative inline-flex [height:0.375rem] [width:0.375rem] rounded-full bg-[color:var(--tl-live)]" />
                         </span>
                       )}
                       {STATUS_LABEL[f.status]}
@@ -249,7 +249,7 @@ function ColoFacilities() {
                   </div>
                   <p className="mt-3 text-small text-muted-foreground">{f.note}</p>
                   {f.sla && (
-                    <p className="mt-3 inline-flex items-center gap-1.5 tl-mono text-label text-muted-foreground">
+                    <p className="mt-3 inline-flex items-center [gap:0.375rem] tl-mono text-label text-muted-foreground">
                       <Clock size={11} className="text-primary" aria-hidden="true" /> {f.sla}
                     </p>
                   )}
@@ -260,7 +260,7 @@ function ColoFacilities() {
         ))}
       </div>
 
-      <div className="mt-10 rounded-[var(--tl-r-lg)] border border-border bg-background p-8">
+      <div className="[margin-top:2.5rem] rounded-[var(--tl-r-lg)] border border-border bg-background p-8">
         <p className="tl-mono text-[color:var(--tl-accent-text)]">Need a different site?</p>
         <h3 className="mt-2 text-h3 font-bold text-foreground">We mobilise into new facilities on request.</h3>
         <p className="mt-2 text-small text-muted-foreground">Tell us the address and we'll confirm coverage and lead time.</p>
