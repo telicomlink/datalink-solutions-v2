@@ -147,15 +147,15 @@ function ServicePage() {
                   {/* Region header */}
                   <div className="mb-6 flex items-center justify-between">
                     <div className="flex items-center gap-3">
-                      <div className="h-5 w-0.5 bg-primary rounded-full" />
+                      <div className="bg-primary rounded-full" style={{ height: "20px", width: "2px" }} />
                       <h3 className="text-h3 font-bold text-foreground">
                         {region === "Europe" ? "Europe Operations" : "India & APAC"}
                       </h3>
                     </div>
                     <span className="inline-flex items-center gap-2 rounded-full border border-[color:var(--tl-live-a30)] bg-[color:var(--tl-live-a12)] px-3 py-1 tl-mono text-xs text-[color:var(--tl-live)]">
-                      <span className="relative flex h-1.5 w-1.5">
+                      <span className="relative flex" style={{ height: "6px", width: "6px" }}>
                         <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[color:var(--tl-live)] opacity-75" />
-                        <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[color:var(--tl-live)]" />
+                        <span className="relative inline-flex rounded-full bg-[color:var(--tl-live)]" style={{ height: "6px", width: "6px" }} />
                       </span>
                       {available.length} live
                     </span>
@@ -166,25 +166,25 @@ function ServicePage() {
                     {available.map((f, i) => (
                       <div key={f.city} className="flex items-center justify-between gap-6 px-6 py-4 bg-background hover:bg-surface transition-colors duration-200">
                         <div className="flex items-center gap-4 min-w-0">
-                          <span className="tl-mono text-xs text-muted-foreground/50 w-5 shrink-0">{String(i + 1).padStart(2, "0")}</span>
+                          <span className="tl-mono text-xs text-muted-foreground/50" style={{ width: "20px" }}>{String(i + 1).padStart(2, "0")}</span>
                           <div className="min-w-0">
                             <p className="font-semibold text-foreground">{f.city}</p>
-                            <p className="tl-mono text-[11px] uppercase tracking-wider text-muted-foreground">{f.country}</p>
+                            <p className="tl-mono text-label uppercase tracking-wider text-muted-foreground">{f.country}</p>
                           </div>
                         </div>
                         <p className="hidden sm:block flex-1 text-sm text-muted-foreground px-4 truncate">{f.note}</p>
                         <div className="flex items-center gap-3 shrink-0">
                           {f.sla && (
-                            <span className="hidden md:inline-flex items-center gap-1.5 tl-mono text-[11px] text-primary">
+                            <span className="hidden md:inline-flex items-center tl-mono text-label text-primary" style={{ gap: "6px" }}>
                               <Clock size={11} className="text-primary" />
                               {f.sla}
                             </span>
                           )}
-                          <span className="inline-flex items-center gap-1.5 rounded-full border border-[color:var(--tl-live-a30)] bg-[color:var(--tl-live-a12)] px-2.5 py-1 tl-mono text-[10px] text-[color:var(--tl-live)]">
+                          <span className="inline-flex items-center rounded-full border border-[color:var(--tl-live-a30)] bg-[color:var(--tl-live-a12)] tl-mono text-label text-[color:var(--tl-live)]" style={{ gap: "6px", padding: "4px 10px" }}>
                             {f.live && (
-                              <span className="relative flex h-1.5 w-1.5">
+                              <span className="relative flex" style={{ height: "6px", width: "6px" }}>
                                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[color:var(--tl-live)] opacity-75" />
-                                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-[color:var(--tl-live)]" />
+                                <span className="relative inline-flex rounded-full bg-[color:var(--tl-live)]" style={{ height: "6px", width: "6px" }} />
                               </span>
                             )}
                             Live
@@ -197,10 +197,10 @@ function ServicePage() {
                   {/* Expanding soon */}
                   {coming.length > 0 && (
                     <div className="mt-4 flex flex-wrap items-center gap-2">
-                      <span className="tl-mono text-[10px] uppercase tracking-widest text-muted-foreground/50">Expanding soon</span>
+                      <span className="tl-mono text-label text-muted-foreground/50">Expanding soon</span>
                       <span className="text-border">—</span>
                       {coming.map((f) => (
-                        <span key={f.city} className="tl-mono text-[11px] text-muted-foreground/50">{f.city}</span>
+                        <span key={f.city} className="tl-mono text-label text-muted-foreground/50">{f.city}</span>
                       )).reduce((acc: React.ReactNode[], el, i) => i === 0 ? [el] : [...acc, <span key={`dot-${i}`} className="text-border/50">·</span>, el], [])}
                     </div>
                   )}
