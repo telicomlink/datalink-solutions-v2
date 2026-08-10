@@ -158,7 +158,7 @@ function WhatsAppStrip() {
           <p className="tl-mono text-[color:var(--tl-accent-text)]">Prefer messaging?</p>
           <h2 className="mt-2 text-h3 font-bold text-foreground">Reach us on WhatsApp.</h2>
           <p className="mt-2 text-small text-muted-foreground">
-            Send a message to our APAC line — we respond during business hours and for emergencies 24/7.
+            Message us directly — we respond during business hours and for emergencies 24/7.
           </p>
           <ul className="mt-4 flex list-none flex-col gap-2 p-0">
             {["Faster than email for urgent tasks", "Direct line to an engineer", "Available for EU and APAC enquiries"].map((item) => (
@@ -168,9 +168,14 @@ function WhatsAppStrip() {
             ))}
           </ul>
         </div>
-        <ButtonAnchor href={CONTACT.whatsapp} external variant="outline" className="shrink-0">
-          <MessageCircle size={16} aria-hidden="true" /> Message on WhatsApp
-        </ButtonAnchor>
+        <div className="flex flex-col gap-3 shrink-0">
+          <ButtonAnchor href={CONTACT.whatsapp} external variant="outline">
+            <MessageCircle size={16} aria-hidden="true" /> WhatsApp EU
+          </ButtonAnchor>
+          <ButtonAnchor href={CONTACT.whatsappApac} external variant="outline">
+            <MessageCircle size={16} aria-hidden="true" /> WhatsApp APAC
+          </ButtonAnchor>
+        </div>
       </div>
     </Section>
   );
