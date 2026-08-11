@@ -253,7 +253,7 @@ export function SiteFooter() {
             <p className="text-small text-muted-foreground" style={{ marginBottom: "4px", display: "flex", alignItems: "center", gap: "4px", flexWrap: "wrap" }}>
               Made with{" "}
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true" style={{ display: "inline", verticalAlign: "middle" }}>
-                <path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z" fill="#e3121e"/>
+                <path d="M12 21.593c-5.63-5.539-11-10.297-11-14.402 0-3.791 3.068-5.191 5.281-5.191 1.312 0 4.151.501 5.719 4.457 1.59-3.968 4.464-4.447 5.726-4.447 2.54 0 5.274 1.621 5.274 5.181 0 4.069-5.136 8.625-11 14.402z" fill="var(--tl-accent)"/>
               </svg>
               {" "}by{" "}
               <a
@@ -264,10 +264,10 @@ export function SiteFooter() {
               >
                 {/* StaffArc mountain/triangle logo */}
                 <svg width="14" height="14" viewBox="0 0 32 32" fill="none" aria-hidden="true">
-                  <polygon points="16,4 30,28 2,28" fill="#e87722" />
-                  <polygon points="16,10 24,28 8,28" fill="#f5a623" opacity="0.6" />
+                  <polygon points="16,4 30,28 2,28" fill="var(--tl-staffarc)" />
+                  <polygon points="16,10 24,28 8,28" fill="var(--tl-staffarc-light)" opacity="0.6" />
                 </svg>
-                <span style={{ color: "#e87722", fontWeight: 700 }}>StaffArc</span>
+                <span style={{ color: "var(--tl-staffarc)", fontWeight: 700 }}>StaffArc</span>
               </a>
             </p>
             <p className="text-small text-muted-foreground">

@@ -118,6 +118,9 @@
   --tl-map-border: #2a3040;
   --tl-map-label: #ffffff;
 
+  --tl-staffarc: #e87722;
+  --tl-staffarc-light: #f5a623;
+
   --tl-dur-fast: 150ms;
   --tl-dur: 200ms;
   --tl-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
