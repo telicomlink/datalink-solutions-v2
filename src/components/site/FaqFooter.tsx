@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Plus, Linkedin, ArrowRight } from "lucide-react";
+import { Plus, Linkedin, ArrowRight, ShieldCheck, Lock } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { FAQS, SERVICES, CONTACT } from "@/lib/site-data";
@@ -122,6 +122,65 @@ export function SiteFooter() {
             >
               <Linkedin size={16} aria-hidden="true" />
             </a>
+
+            {/* ISO Certification Badges */}
+            <div className="mt-6 flex flex-col gap-3">
+              <div
+                style={{
+                  background: "var(--tl-surface)",
+                  border: "1px solid var(--tl-border)",
+                  borderLeft: "3px solid var(--tl-accent)",
+                  borderRadius: "var(--tl-r-md)",
+                  padding: "10px 12px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                }}
+              >
+                <div
+                  style={{
+                    background: "var(--tl-accent-a12)",
+                    borderRadius: "var(--tl-r-sm)",
+                    padding: "6px",
+                    flexShrink: 0,
+                  }}
+                >
+                  <ShieldCheck size={16} style={{ color: "var(--tl-accent-text)" }} aria-hidden="true" />
+                </div>
+                <div>
+                  <p style={{ fontSize: "var(--tl-fs-label)", color: "var(--tl-accent-text)", letterSpacing: "var(--tl-tracking-label)", fontFamily: "var(--tl-font-mono)", textTransform: "uppercase", margin: 0 }}>ISO 9001:2015</p>
+                  <p style={{ fontSize: "var(--tl-fs-label)", color: "var(--tl-text-dim)", margin: 0, marginTop: "2px" }}>Quality Management</p>
+                </div>
+              </div>
+
+              <div
+                style={{
+                  background: "var(--tl-surface)",
+                  border: "1px solid var(--tl-border)",
+                  borderLeft: "3px solid var(--tl-accent)",
+                  borderRadius: "var(--tl-r-md)",
+                  padding: "10px 12px",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "10px",
+                }}
+              >
+                <div
+                  style={{
+                    background: "var(--tl-accent-a12)",
+                    borderRadius: "var(--tl-r-sm)",
+                    padding: "6px",
+                    flexShrink: 0,
+                  }}
+                >
+                  <Lock size={16} style={{ color: "var(--tl-accent-text)" }} aria-hidden="true" />
+                </div>
+                <div>
+                  <p style={{ fontSize: "var(--tl-fs-label)", color: "var(--tl-accent-text)", letterSpacing: "var(--tl-tracking-label)", fontFamily: "var(--tl-font-mono)", textTransform: "uppercase", margin: 0 }}>ISO/IEC 27001:2022</p>
+                  <p style={{ fontSize: "var(--tl-fs-label)", color: "var(--tl-text-dim)", margin: 0, marginTop: "2px" }}>Information Security</p>
+                </div>
+              </div>
+            </div>
           </div>
 
           <nav aria-label="Services">
