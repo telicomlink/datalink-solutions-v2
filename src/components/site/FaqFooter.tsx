@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Plus, Linkedin, ArrowRight, ShieldCheck, Lock } from "lucide-react";
+import { Plus, Linkedin, ArrowRight } from "lucide-react";
 import { Link } from "@tanstack/react-router";
 import { useTranslation } from "react-i18next";
 import { FAQS, SERVICES, CONTACT } from "@/lib/site-data";
@@ -124,62 +124,60 @@ export function SiteFooter() {
             </a>
 
             {/* ISO Certification Badges */}
-            <div className="mt-6 flex flex-col gap-3">
-              <div
-                style={{
-                  background: "var(--tl-surface)",
-                  border: "1px solid var(--tl-border)",
-                  borderLeft: "3px solid var(--tl-accent)",
-                  borderRadius: "var(--tl-r-md)",
-                  padding: "10px 12px",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                }}
-              >
-                <div
-                  style={{
-                    background: "var(--tl-accent-a12)",
-                    borderRadius: "var(--tl-r-sm)",
-                    padding: "6px",
-                    flexShrink: 0,
-                  }}
-                >
-                  <ShieldCheck size={16} style={{ color: "var(--tl-accent-text)" }} aria-hidden="true" />
-                </div>
-                <div>
-                  <p style={{ fontSize: "var(--tl-fs-label)", color: "var(--tl-accent-text)", letterSpacing: "var(--tl-tracking-label)", fontFamily: "var(--tl-font-mono)", textTransform: "uppercase", margin: 0 }}>ISO 9001:2015</p>
-                  <p style={{ fontSize: "var(--tl-fs-label)", color: "var(--tl-text-dim)", margin: 0, marginTop: "2px" }}>Quality Management</p>
+            <div style={{ marginTop: "var(--tl-s-6)", display: "flex", flexDirection: "column", gap: "var(--tl-s-3)" }}>
+
+              {/* ISO 9001:2015 */}
+              <div style={{ background: "var(--tl-surface)", border: "1px solid var(--tl-border)", borderLeft: "3px solid var(--tl-accent)", borderRadius: "var(--tl-r-md)", padding: "10px 12px", display: "flex", alignItems: "flex-start", gap: "10px" }}>
+                {/* Shield + checkmark SVG */}
+                <svg width="32" height="36" viewBox="0 0 32 36" fill="none" aria-hidden="true" style={{ flexShrink: 0, marginTop: "2px" }}>
+                  <path d="M16 1L2 7v10c0 9.25 6 17.9 14 20 8-2.1 14-10.75 14-20V7L16 1z" fill="var(--tl-accent)" />
+                  <path d="M16 1L2 7v10c0 9.25 6 17.9 14 20 8-2.1 14-10.75 14-20V7L16 1z" fill="url(#sh1)" opacity="0.3" />
+                  <polyline points="9,18 14,23 23,13" stroke="white" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                  <defs>
+                    <linearGradient id="sh1" x1="16" y1="1" x2="16" y2="36" gradientUnits="userSpaceOnUse">
+                      <stop offset="0" stopColor="white" />
+                      <stop offset="1" stopColor="black" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+                <div style={{ minWidth: 0 }}>
+                  <p style={{ fontSize: "var(--tl-fs-label)", color: "var(--tl-accent-text)", letterSpacing: "var(--tl-tracking-label)", fontFamily: "var(--tl-font-mono)", textTransform: "uppercase", margin: 0 }}>Quality Management</p>
+                  <p style={{ fontSize: "0.9rem", color: "var(--tl-text)", fontFamily: "var(--tl-font-display)", fontWeight: 700, margin: 0, marginTop: "2px", letterSpacing: "-0.01em" }}>ISO 9001:2015</p>
+                  <div style={{ borderTop: "1px solid var(--tl-border)", marginTop: "8px", paddingTop: "6px" }}>
+                    <p style={{ fontSize: "var(--tl-fs-label)", color: "var(--tl-text-dim)", margin: 0, fontFamily: "var(--tl-font-mono)" }}>
+                      Cert No. <span style={{ color: "var(--tl-text)", fontWeight: 600 }}>110826013307</span>
+                    </p>
+                  </div>
                 </div>
               </div>
 
-              <div
-                style={{
-                  background: "var(--tl-surface)",
-                  border: "1px solid var(--tl-border)",
-                  borderLeft: "3px solid var(--tl-accent)",
-                  borderRadius: "var(--tl-r-md)",
-                  padding: "10px 12px",
-                  display: "flex",
-                  alignItems: "center",
-                  gap: "10px",
-                }}
-              >
-                <div
-                  style={{
-                    background: "var(--tl-accent-a12)",
-                    borderRadius: "var(--tl-r-sm)",
-                    padding: "6px",
-                    flexShrink: 0,
-                  }}
-                >
-                  <Lock size={16} style={{ color: "var(--tl-accent-text)" }} aria-hidden="true" />
-                </div>
-                <div>
-                  <p style={{ fontSize: "var(--tl-fs-label)", color: "var(--tl-accent-text)", letterSpacing: "var(--tl-tracking-label)", fontFamily: "var(--tl-font-mono)", textTransform: "uppercase", margin: 0 }}>ISO/IEC 27001:2022</p>
-                  <p style={{ fontSize: "var(--tl-fs-label)", color: "var(--tl-text-dim)", margin: 0, marginTop: "2px" }}>Information Security</p>
+              {/* ISO/IEC 27001:2022 */}
+              <div style={{ background: "var(--tl-surface)", border: "1px solid var(--tl-border)", borderLeft: "3px solid var(--tl-accent)", borderRadius: "var(--tl-r-md)", padding: "10px 12px", display: "flex", alignItems: "flex-start", gap: "10px" }}>
+                {/* Shield + lock SVG */}
+                <svg width="32" height="36" viewBox="0 0 32 36" fill="none" aria-hidden="true" style={{ flexShrink: 0, marginTop: "2px" }}>
+                  <path d="M16 1L2 7v10c0 9.25 6 17.9 14 20 8-2.1 14-10.75 14-20V7L16 1z" fill="var(--tl-accent)" />
+                  <path d="M16 1L2 7v10c0 9.25 6 17.9 14 20 8-2.1 14-10.75 14-20V7L16 1z" fill="url(#sh2)" opacity="0.3" />
+                  <rect x="11" y="19" width="10" height="8" rx="1.5" fill="white" />
+                  <path d="M13 19v-2.5a3 3 0 0 1 6 0V19" stroke="white" strokeWidth="2" strokeLinecap="round" fill="none" />
+                  <circle cx="16" cy="23" r="1.2" fill="var(--tl-accent)" />
+                  <defs>
+                    <linearGradient id="sh2" x1="16" y1="1" x2="16" y2="36" gradientUnits="userSpaceOnUse">
+                      <stop offset="0" stopColor="white" />
+                      <stop offset="1" stopColor="black" />
+                    </linearGradient>
+                  </defs>
+                </svg>
+                <div style={{ minWidth: 0 }}>
+                  <p style={{ fontSize: "var(--tl-fs-label)", color: "var(--tl-accent-text)", letterSpacing: "var(--tl-tracking-label)", fontFamily: "var(--tl-font-mono)", textTransform: "uppercase", margin: 0 }}>Info Security Mgmt</p>
+                  <p style={{ fontSize: "0.9rem", color: "var(--tl-text)", fontFamily: "var(--tl-font-display)", fontWeight: 700, margin: 0, marginTop: "2px", letterSpacing: "-0.01em" }}>ISO/IEC 27001:2022</p>
+                  <div style={{ borderTop: "1px solid var(--tl-border)", marginTop: "8px", paddingTop: "6px" }}>
+                    <p style={{ fontSize: "var(--tl-fs-label)", color: "var(--tl-text-dim)", margin: 0, fontFamily: "var(--tl-font-mono)" }}>
+                      Cert No. <span style={{ color: "var(--tl-text)", fontWeight: 600 }}>110826053308</span>
+                    </p>
+                  </div>
                 </div>
               </div>
+
             </div>
           </div>
 
