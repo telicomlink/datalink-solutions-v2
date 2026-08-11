@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { Check, ArrowRight, ChevronDown, MapPin, Clock } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { SiteLayout, PageHero } from "@/components/site/SiteLayout";
 import { Capabilities, SERVICE_IMAGES } from "@/components/site/Services";
 import { Section, MonoLabel, SectionHeading, SectionLead, Container } from "@/components/site/Section";
@@ -273,12 +274,13 @@ function ColoFacilities() {
 }
 
 function ServicesPage() {
+  const { t } = useTranslation();
   return (
     <SiteLayout>
       <PageHero
-        eyebrow="Services"
-        title="Everything inside the rack, handled by one team."
-        lead="From the first site survey to the final certificate of destruction — deployment, testing, and day-2 operations delivered by our own engineers in Europe and APAC."
+        eyebrow={t("services.eyebrow")}
+        title={t("services.title")}
+        lead={t("services.lead")}
         image={servicesHero}
         imageAlt="Technician terminating fibre patch cords in a dense cable management panel"
       />

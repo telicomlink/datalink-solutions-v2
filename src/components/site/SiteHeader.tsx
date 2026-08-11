@@ -1,17 +1,11 @@
 import { useEffect, useId, useRef, useState } from "react";
 import { Link, useRouterState } from "@tanstack/react-router";
 import { ChevronDown, Menu, X, Home, ArrowRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { SERVICES } from "@/lib/site-data";
 import { serviceIcon } from "@/lib/service-icons";
 import { ButtonLink } from "./Button";
 import { Wordmark } from "./Logo";
-
-const NAV = [
-  { to: "/", label: "Home" },
-  { to: "/why-us", label: "Why us" },
-  { to: "/coverage", label: "Coverage" },
-  { to: "/contact", label: "Contact" },
-] as const;
 
 const HOVER_OPEN_DELAY = 100;
 const HOVER_CLOSE_DELAY = 160;
@@ -45,6 +39,10 @@ function NavLink({
 }
 
 export function SiteHeader() {
+  const { t, i18n } = useTranslation();
+  const [lang, setLang] = useState<"en" | "fr">(
+    () => (typeof window !== "undefined" && localStorage.getItem("tl-lang") === "fr" ? "fr" : "en")
+  );
   const [scrolled, setScrolled] = useState(false);
   const [mega, setMega] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -58,6 +56,13 @@ export function SiteHeader() {
 
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const servicesActive = pathname.startsWith("/services");
+
+  const toggleLang = () => {
+    const next: "en" | "fr" = lang === "en" ? "fr" : "en";
+    setLang(next);
+    i18n.changeLanguage(next);
+    localStorage.setItem("tl-lang", next);
+  };
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 40);
@@ -115,7 +120,7 @@ export function SiteHeader() {
         href="#main"
         className="tl-sr-focusable rounded-[var(--tl-r-md)] bg-primary px-4 py-2 text-small font-semibold text-primary-foreground no-underline"
       >
-        Skip to content
+        {t("nav.skipToContent")}
       </a>
 
       <header
@@ -131,10 +136,8 @@ export function SiteHeader() {
 
           {/* Desktop nav */}
           <nav aria-label="Primary" className="hidden items-center gap-8 lg:flex">
-            {/* Home */}
-            <NavLink to="/" exact>Home</NavLink>
+            <NavLink to="/" exact>{t("nav.home")}</NavLink>
 
-            {/* Services disclosure */}
             <button
               ref={triggerRef}
               type="button"
@@ -145,7 +148,7 @@ export function SiteHeader() {
               onMouseEnter={hoverOpen}
               className="group relative inline-flex cursor-pointer items-center gap-1 border-0 bg-transparent py-2 text-small font-medium text-muted-foreground transition-colors duration-[var(--tl-dur)] ease-tl hover:text-foreground aria-[current=page]:text-foreground aria-expanded:text-foreground"
             >
-              Services
+              {t("nav.services")}
               <ChevronDown
                 size={14}
                 aria-hidden="true"
@@ -157,17 +160,27 @@ export function SiteHeader() {
               />
             </button>
 
-            {NAV.filter((n) => n.to !== "/").map((item) => (
-              <NavLink key={item.to} to={item.to} onMouseEnter={hoverClose}>
-                {item.label}
-              </NavLink>
-            ))}
+            <NavLink to="/why-us" onMouseEnter={hoverClose}>{t("nav.whyUs")}</NavLink>
+            <NavLink to="/coverage" onMouseEnter={hoverClose}>{t("nav.coverage")}</NavLink>
+            <NavLink to="/contact" onMouseEnter={hoverClose}>{t("nav.contact")}</NavLink>
+
+            {/* Language toggle */}
+            <button
+              type="button"
+              onClick={toggleLang}
+              aria-label={lang === "en" ? "Switch to French" : "Passer en anglais"}
+              className="inline-flex items-center gap-1 rounded-[var(--tl-r-md)] border border-border bg-surface px-3 py-1 tl-mono text-small transition-colors hover:border-primary/40 hover:text-foreground"
+            >
+              <span className={lang === "en" ? "text-foreground font-semibold" : "text-muted-foreground"}>EN</span>
+              <span className="text-border mx-px">|</span>
+              <span className={lang === "fr" ? "text-foreground font-semibold" : "text-muted-foreground"}>FR</span>
+            </button>
           </nav>
 
           {/* Mobile hamburger */}
           <button
             type="button"
-            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            aria-label={mobileOpen ? t("nav.closeMenu") : t("nav.openMenu")}
             aria-expanded={mobileOpen}
             onClick={() => setMobileOpen((v) => !v)}
             className="inline-flex h-[var(--tl-control-h-sm)] w-[var(--tl-control-h-sm)] cursor-pointer items-center justify-center rounded-[var(--tl-r-md)] border border-border bg-transparent text-foreground transition-colors duration-[var(--tl-dur)] hover:bg-surface lg:hidden"
@@ -185,13 +198,13 @@ export function SiteHeader() {
         >
           <div className="mx-auto max-w-[var(--tl-container)] px-[var(--tl-gutter)] py-8">
             <div className="mb-4 flex items-center justify-between">
-              <p className="tl-mono text-[color:var(--tl-accent-text)]">All services</p>
+              <p className="tl-mono text-[color:var(--tl-accent-text)]">{t("nav.allServices")}</p>
               <Link
                 to="/services/"
                 onClick={() => setMega(false)}
                 className="tl-arrow inline-flex items-center gap-2 tl-mono text-muted-foreground no-underline transition-colors duration-[var(--tl-dur)] hover:text-foreground"
               >
-                View all <ArrowRight size={13} aria-hidden="true" />
+                {t("nav.viewAll")} <ArrowRight size={13} aria-hidden="true" />
               </Link>
             </div>
             <ul className="grid list-none grid-cols-3 gap-x-8 gap-y-1 p-0">
@@ -219,19 +232,17 @@ export function SiteHeader() {
         </div>
       </header>
 
-      {/* ── Mobile overlay ─────────────────────────────────────────────────── */}
+      {/* Mobile overlay */}
       {mobileOpen && (
         <div
           id="mobile-menu"
           className="fixed inset-0 z-40 flex flex-col bg-background lg:hidden"
           style={{ paddingTop: "var(--tl-header-h-mobile)" }}
         >
-          {/* Scrollable nav area */}
           <nav
             aria-label="Mobile"
             className="flex flex-1 flex-col overflow-y-auto px-[var(--tl-gutter)] py-6"
           >
-            {/* Home */}
             <Link
               to="/"
               onClick={() => setMobileOpen(false)}
@@ -240,12 +251,11 @@ export function SiteHeader() {
               className="flex min-h-[var(--tl-control-h)] items-center gap-3 rounded-[var(--tl-r-lg)] border border-transparent px-4 text-body font-semibold text-foreground no-underline transition-colors duration-[var(--tl-dur)] hover:bg-surface aria-[current=page]:border-border aria-[current=page]:bg-surface aria-[current=page]:text-[color:var(--tl-accent-text)]"
             >
               <Home size={18} aria-hidden="true" className="shrink-0 text-primary" />
-              Home
+              {t("nav.home")}
             </Link>
 
             <div className="my-3 h-px bg-border" />
 
-            {/* Services accordion */}
             <div>
               <button
                 type="button"
@@ -262,7 +272,7 @@ export function SiteHeader() {
                   <span className="inline-flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-primary/10 text-primary">
                     <ChevronDown size={14} aria-hidden="true" className={`transition-transform duration-[var(--tl-dur)] ${mobileServices ? "rotate-180" : ""}`} />
                   </span>
-                  Services
+                  {t("nav.services")}
                 </span>
                 <span className="tl-mono text-label text-muted-foreground">9</span>
               </button>
@@ -294,7 +304,7 @@ export function SiteHeader() {
                       onClick={() => setMobileOpen(false)}
                       className="tl-arrow flex min-h-[var(--tl-control-h-sm)] items-center gap-2 rounded-[var(--tl-r-md)] px-3 tl-mono text-[color:var(--tl-accent-text)] no-underline transition-colors duration-[var(--tl-dur)] hover:bg-surface-raised"
                     >
-                      All services <ArrowRight size={13} aria-hidden="true" />
+                      {t("nav.allServices")} <ArrowRight size={13} aria-hidden="true" />
                     </Link>
                   </li>
                 </ul>
@@ -303,28 +313,31 @@ export function SiteHeader() {
 
             <div className="my-3 h-px bg-border" />
 
-            {/* Other nav links */}
-            {NAV.filter((n) => n.to !== "/").map((item) => (
-              <Link
-                key={item.to}
-                to={item.to}
-                onClick={() => setMobileOpen(false)}
-                activeProps={{ "aria-current": "page" }}
-                className="flex min-h-[var(--tl-control-h)] items-center rounded-[var(--tl-r-lg)] border border-transparent px-4 text-body font-semibold text-foreground no-underline transition-colors duration-[var(--tl-dur)] hover:bg-surface aria-[current=page]:border-border aria-[current=page]:bg-surface aria-[current=page]:text-[color:var(--tl-accent-text)]"
-              >
-                {item.label}
-              </Link>
-            ))}
+            <NavLink to="/why-us">{t("nav.whyUs")}</NavLink>
+            <NavLink to="/coverage">{t("nav.coverage")}</NavLink>
+            <NavLink to="/contact">{t("nav.contact")}</NavLink>
+
+            <div className="my-3 h-px bg-border" />
+
+            {/* Mobile language toggle */}
+            <button
+              type="button"
+              onClick={toggleLang}
+              className="flex min-h-[var(--tl-control-h)] items-center justify-center gap-3 rounded-[var(--tl-r-lg)] border border-border bg-surface px-4 text-body font-semibold text-foreground"
+            >
+              <span className={lang === "en" ? "text-primary" : "text-muted-foreground"}>EN — English</span>
+              <span className="text-border">/</span>
+              <span className={lang === "fr" ? "text-primary" : "text-muted-foreground"}>FR — Français</span>
+            </button>
           </nav>
 
-          {/* Pinned CTA */}
           <div className="border-t border-border bg-surface px-[var(--tl-gutter)] py-4">
             <ButtonLink
               to="/contact"
               className="w-full"
               onClick={() => setMobileOpen(false)}
             >
-              Talk to an engineer
+              {t("nav.talkToEngineer")}
             </ButtonLink>
           </div>
         </div>

@@ -1,5 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { ArrowRight } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import fiberImage from "@/assets/fiber-testing.webp";
 import imgRemoteHands from "@/assets/svc-remote-hands.webp";
 import imgRackStack from "@/assets/svc-rack-stack.webp";
@@ -63,6 +64,7 @@ export const SERVICE_IMAGES: Record<string, { src: string; alt: string }> = {
  * The card never scales on hover — it lifts 4px and warms its surface instead.
  */
 function ServiceCard({ svc }: { svc: (typeof SERVICES)[number] }) {
+  const { t } = useTranslation();
   const Icon = serviceIcon(svc.icon);
   const img = SERVICE_IMAGES[svc.slug];
 
@@ -113,7 +115,7 @@ function ServiceCard({ svc }: { svc: (typeof SERVICES)[number] }) {
           params={{ slug: svc.slug }}
           className="tl-stretch tl-arrow tl-mono mt-6 inline-flex items-center gap-2 text-muted-foreground no-underline transition-colors duration-[var(--tl-dur)] ease-tl group-hover:text-foreground"
         >
-          Open
+          {t("services.open")}
           <ArrowRight size={14} aria-hidden="true" />
           <span className="sr-only">— {svc.name}</span>
         </Link>
@@ -162,6 +164,7 @@ export function Services({
  * replaces what used to be a second copy of the navigation.
  */
 export function Capabilities({ variant = "surface" }: { variant?: SectionVariant } = {}) {
+  const { t } = useTranslation();
   const ref = useReveal<HTMLDListElement>();
 
   return (
@@ -192,12 +195,9 @@ export function Capabilities({ variant = "surface" }: { variant?: SectionVariant
           </div>
 
           <div>
-            <MonoLabel>Testing &amp; certification</MonoLabel>
-            <SectionHeading>Proof, not assumptions, before you take handover.</SectionHeading>
-            <SectionLead>
-              OTDR traces, insertion loss, and BERT validation at 10G, 100G, and 400G — specialist
-              capability most remote-hands vendors don&apos;t carry.
-            </SectionLead>
+            <MonoLabel>{t("services.testingLabel")}</MonoLabel>
+            <SectionHeading>{t("services.testingHeading")}</SectionHeading>
+            <SectionLead>{t("services.testingLead")}</SectionLead>
 
             <dl ref={ref} className="mt-12 grid grid-cols-1 gap-8 sm:grid-cols-2">
               {CAPABILITIES.map((cap) => (

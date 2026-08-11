@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { Check, ArrowLeft, ArrowRight, Clock, MapPin, Phone } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { Section, MonoLabel, SectionHeading, SectionLead, Container } from "@/components/site/Section";
 import { ButtonLink, ButtonAnchor } from "@/components/site/Button";
@@ -15,20 +16,23 @@ export const Route = createFileRoute("/services/$slug")({
     return svc;
   },
   component: ServicePage,
-  notFoundComponent: () => (
+  notFoundComponent: () => {
+    const { t } = useTranslation();
+    return (
     <SiteLayout>
       <Section>
-        <MonoLabel>Not found</MonoLabel>
-        <SectionHeading>Service not found.</SectionHeading>
+        <MonoLabel>{t("services.notFound")}</MonoLabel>
+        <SectionHeading>{t("services.notFound")}</SectionHeading>
         <div className="mt-8">
-          <ButtonLink to="/services/" arrow>Back to all services</ButtonLink>
+          <ButtonLink to="/services/" arrow>{t("services.backToServices")}</ButtonLink>
         </div>
       </Section>
     </SiteLayout>
-  ),
+  );},
 });
 
 function ServicePage() {
+  const { t } = useTranslation();
   const svc = Route.useLoaderData();
   const detail = SERVICE_DETAILS[svc.slug];
   const img = SERVICE_IMAGES[svc.slug];
@@ -51,7 +55,7 @@ function ServicePage() {
                 className="tl-arrow tl-mono mb-6 inline-flex items-center gap-2 text-muted-foreground no-underline transition-colors hover:text-foreground"
               >
                 <ArrowLeft size={14} aria-hidden="true" />
-                All services
+                {t("services.allServices")}
               </Link>
               <div className="mb-4 inline-flex items-center gap-3">
                 <span className="inline-flex h-8 w-8 items-center justify-center rounded-[var(--tl-r-md)] border border-border bg-surface text-primary">
@@ -66,12 +70,8 @@ function ServicePage() {
                 {detail?.intro}
               </p>
               <div className="mt-8 flex flex-wrap gap-4">
-                <ButtonLink to="/contact" arrow glow>
-                  Scope this service
-                </ButtonLink>
-                <ButtonAnchor href={CONTACT.phoneEuropeHref} variant="outline">
-                  Call Europe
-                </ButtonAnchor>
+                <ButtonLink to="/contact" arrow glow>{t("services.scopeService")}</ButtonLink>
+                <ButtonAnchor href={CONTACT.phoneEuropeHref} variant="outline">{t("services.callEurope")}</ButtonAnchor>
               </div>
             </div>
 
@@ -112,8 +112,8 @@ function ServicePage() {
       {/* What's included */}
       {detail && (
         <Section variant="surface">
-          <MonoLabel>What&apos;s included</MonoLabel>
-          <SectionHeading>Everything in scope, nothing left out.</SectionHeading>
+          <MonoLabel>{t("services.whatsIncluded")}</MonoLabel>
+          <SectionHeading>{t("services.everythingInScope")}</SectionHeading>
           <ul className="mt-12 grid list-none grid-cols-1 gap-4 p-0 sm:grid-cols-2">
             {detail.bullets.map((b) => (
               <li
@@ -133,9 +133,9 @@ function ServicePage() {
       {/* Colocation facilities grid */}
       {svc.slug === "colocation" && (
         <Section>
-          <MonoLabel>Our facilities</MonoLabel>
-          <SectionHeading>Where you can put a rack today.</SectionHeading>
-          <SectionLead>Carrier-neutral facilities across Europe and APAC — with our engineers already on site.</SectionLead>
+          <MonoLabel>{t("colocation.ourFacilities")}</MonoLabel>
+          <SectionHeading>{t("colocation.whereRack")}</SectionHeading>
+          <SectionLead>{t("colocation.carrierNeutral")}</SectionLead>
 
           <div className="mt-12 flex flex-col gap-16">
             {(["Europe", "APAC"] as const).map((region) => {
@@ -149,7 +149,7 @@ function ServicePage() {
                     <div className="flex items-center gap-3">
                       <div className="bg-primary rounded-full" style={{ height: "20px", width: "2px" }} />
                       <h3 className="text-h3 font-bold text-foreground">
-                        {region === "Europe" ? "Europe Operations" : "India & APAC"}
+                        {region === "Europe" ? t("colocation.europeOps") : t("colocation.indiaApac")}
                       </h3>
                     </div>
                     <span className="inline-flex items-center gap-2 rounded-full border border-[color:var(--tl-live-a30)] bg-[color:var(--tl-live-a12)] px-3 py-1 tl-mono text-xs text-[color:var(--tl-live)]">
@@ -157,7 +157,7 @@ function ServicePage() {
                         <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[color:var(--tl-live)] opacity-75" />
                         <span className="relative inline-flex rounded-full bg-[color:var(--tl-live)]" style={{ height: "6px", width: "6px" }} />
                       </span>
-                      {available.length} live
+                      {available.length} {t("colocation.live")}
                     </span>
                   </div>
 
@@ -197,7 +197,7 @@ function ServicePage() {
                   {/* Expanding soon */}
                   {coming.length > 0 && (
                     <div className="mt-4 flex flex-wrap items-center gap-2">
-                      <span className="tl-mono text-label text-muted-foreground/50">Expanding soon</span>
+                      <span className="tl-mono text-label text-muted-foreground/50">{t("colocation.expandingSoon")}</span>
                       <span className="text-border">—</span>
                       {coming.map((f) => (
                         <span key={f.city} className="tl-mono text-label text-muted-foreground/50">{f.city}</span>
@@ -215,11 +215,11 @@ function ServicePage() {
               style={{ background: "radial-gradient(circle, rgba(220,38,38,0.06) 0%, transparent 70%)" }} />
             <div className="relative flex flex-col gap-6 md:flex-row md:items-center md:justify-between">
               <div>
-                <p className="tl-mono text-xs uppercase tracking-widest text-[color:var(--tl-accent-text)]">Need a different site?</p>
-                <h3 className="mt-2 text-h3 font-bold text-foreground">We mobilise into new facilities on request.</h3>
-                <p className="mt-2 max-w-[48ch] text-sm text-muted-foreground">Tell us the address — we'll confirm coverage and lead time, usually within the hour.</p>
+                <p className="tl-mono text-xs uppercase tracking-widest text-[color:var(--tl-accent-text)]">{t("colocation.needDifferent")}</p>
+                <h3 className="mt-2 text-h3 font-bold text-foreground">{t("colocation.mobilise")}</h3>
+                <p className="mt-2 max-w-[48ch] text-sm text-muted-foreground">{t("colocation.mobiliseBody")}</p>
               </div>
-              <ButtonLink to="/contact" arrow className="shrink-0">Check coverage</ButtonLink>
+              <ButtonLink to="/contact" arrow className="shrink-0">{t("colocation.checkCoverage")}</ButtonLink>
             </div>
           </div>
         </Section>
@@ -229,21 +229,21 @@ function ServicePage() {
       <Section>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
           <div className="rounded-[var(--tl-r-lg)] border border-border bg-surface p-6">
-            <p className="tl-mono text-[color:var(--tl-accent-text)]">SLA</p>
+            <p className="tl-mono text-[color:var(--tl-accent-text)]">{t("services.sla")}</p>
             <p className="mt-2 text-h3 font-bold text-foreground">{detail?.sla}</p>
           </div>
           <div className="rounded-[var(--tl-r-lg)] border border-border bg-surface p-6">
             <p className="tl-mono text-[color:var(--tl-accent-text)]">Europe</p>
             <p className="mt-2 text-body font-semibold text-foreground">{CONTACT.europeBase}</p>
             <a href={CONTACT.phoneEuropeHref} className="mt-3 inline-flex items-center gap-2 rounded-[var(--tl-r-pill)] bg-primary px-4 py-2 tl-mono text-white no-underline transition-opacity hover:opacity-90">
-              <Phone size={13} aria-hidden="true" /> Call EU
+              <Phone size={13} aria-hidden="true" /> {t("contact.callEu")}
             </a>
           </div>
           <div className="rounded-[var(--tl-r-lg)] border border-border bg-surface p-6">
             <p className="tl-mono text-[color:var(--tl-accent-text)]">India &amp; APAC</p>
             <p className="mt-2 text-body font-semibold text-foreground">{CONTACT.apacBase}</p>
             <a href={CONTACT.phoneApacHref} className="mt-3 inline-flex items-center gap-2 rounded-[var(--tl-r-pill)] bg-primary px-4 py-2 tl-mono text-white no-underline transition-opacity hover:opacity-90">
-              <Phone size={13} aria-hidden="true" /> Call APAC
+              <Phone size={13} aria-hidden="true" /> {t("contact.callApac")}
             </a>
           </div>
         </div>
@@ -251,7 +251,7 @@ function ServicePage() {
 
       {/* Prev / Next navigation */}
       <Section variant="surface">
-        <MonoLabel>Other services</MonoLabel>
+        <MonoLabel>{t("services.otherServices")}</MonoLabel>
         <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2">
           {prev ? (
             <Link
@@ -261,7 +261,7 @@ function ServicePage() {
             >
               <ArrowLeft size={18} aria-hidden="true" className="shrink-0 text-muted-foreground transition-transform group-hover:-translate-x-1" />
               <div>
-                <p className="tl-mono text-muted-foreground">Previous</p>
+                <p className="tl-mono text-muted-foreground">{t("services.previous")}</p>
                 <p className="mt-1 text-body font-semibold text-foreground">{prev.name}</p>
               </div>
             </Link>
@@ -273,7 +273,7 @@ function ServicePage() {
               className="group flex items-center justify-end gap-4 rounded-[var(--tl-r-lg)] border border-border bg-background p-6 no-underline shadow-[var(--tl-edge),var(--tl-shadow-md)] transition-colors hover:border-primary/40 sm:text-right"
             >
               <div>
-                <p className="tl-mono text-muted-foreground">Next</p>
+                <p className="tl-mono text-muted-foreground">{t("services.next")}</p>
                 <p className="mt-1 text-body font-semibold text-foreground">{next.name}</p>
               </div>
               <ArrowRight size={18} aria-hidden="true" className="shrink-0 text-muted-foreground transition-transform group-hover:translate-x-1" />
@@ -281,9 +281,7 @@ function ServicePage() {
           ) : <div />}
         </div>
         <div className="mt-8">
-          <ButtonLink to="/services/" variant="outline" arrow>
-            View all services
-          </ButtonLink>
+          <ButtonLink to="/services/" variant="outline" arrow>{t("services.viewAllServices")}</ButtonLink>
         </div>
       </Section>
     </SiteLayout>

@@ -2,6 +2,7 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import { RouterProvider } from "@tanstack/react-router";
 import { getRouter } from "./router";
+import "./lib/i18n";
 // Tokens first: every value in the build resolves through these.
 import "./styles/tokens.css";
 import "./styles/fonts.css";

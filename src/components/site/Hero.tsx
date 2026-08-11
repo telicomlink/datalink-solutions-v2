@@ -1,6 +1,7 @@
 import { preload } from "react-dom";
 import { useEffect, useRef } from "react";
 import { Activity, MapPin, Clock } from "lucide-react";
+import { useTranslation } from "react-i18next";
 import heroImage from "@/assets/hero-datacenter.webp";
 import rackImage from "@/assets/rack-stack.webp";
 import gsap from "gsap";
@@ -77,6 +78,7 @@ function WordReveal({ text, className, as: Tag = "p", delay = 0 }: {
 }
 
 export function Hero() {
+  const { t } = useTranslation();
   preload(heroImage, { as: "image", fetchPriority: "high" });
   const revealRef = useReveal<HTMLDivElement>();
 
@@ -124,33 +126,26 @@ export function Hero() {
                 <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[color:var(--tl-live)] opacity-75" />
                 <span className="relative inline-flex h-2 w-2 rounded-full bg-[color:var(--tl-live)]" />
               </span>
-              <span className="tl-mono text-[color:var(--tl-live)]">Engineers on site — EU &amp; APAC</span>
+              <span className="tl-mono text-[color:var(--tl-live)]">{t("hero.pill")}</span>
             </div>
 
-            <MonoLabel>Data center infrastructure</MonoLabel>
+            <MonoLabel>{t("hero.label")}</MonoLabel>
 
             <h1 className="mt-4 text-display font-bold leading-tight text-foreground">
-              <span className="block">Our engineers.</span>
-              <span className="block text-primary">Inside the Data Center.</span>
+              <span className="block">{t("hero.line1")}</span>
+              <span className="block text-primary">{t("hero.line2")}</span>
             </h1>
 
             <p className="mt-6 max-w-[52ch] text-body-lg text-muted-foreground">
-              24/7 Data Center Engineering across Europe and APAC — Server Deployment, DWDM, Patching, and Testing.
+              {t("hero.subtitle")}
             </p>
 
             <div className="mt-8 flex flex-wrap gap-4">
-              <ButtonLink to="/contact" glow arrow>
-                Talk to an engineer
-              </ButtonLink>
-              <ButtonLink to="/services/" variant="outline" arrow>
-                View services
-              </ButtonLink>
+              <ButtonLink to="/contact" glow arrow>{t("hero.cta1")}</ButtonLink>
+              <ButtonLink to="/services/" variant="outline" arrow>{t("hero.cta2")}</ButtonLink>
             </div>
 
-            {/* Trust line */}
-            <p className="mt-8 text-small text-muted-foreground">
-              Trusted by network operators, hyperscalers, and system integrators across Europe and APAC.
-            </p>
+            <p className="mt-8 text-small text-muted-foreground">{t("hero.trust")}</p>
           </div>
 
           {/* Right column — photo card */}
@@ -214,9 +209,9 @@ export function Hero() {
       {/* City strip */}
       <Container>
         <div className="mt-8">
-          <p className="tl-mono text-muted-foreground">Colocation across Europe &amp; APAC</p>
+          <p className="tl-mono text-muted-foreground">{t("hero.coloLabel")}</p>
           <p className="mt-2 text-body text-foreground">
-            {[...EUROPE_CITIES, ...APAC_CITIES].join(" · ")} · and more on request
+            {[...EUROPE_CITIES, ...APAC_CITIES].join(" · ")} · {t("hero.coloMore")}
           </p>
         </div>
       </Container>
