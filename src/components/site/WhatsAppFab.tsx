@@ -7,7 +7,7 @@ export function WhatsAppFab() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat on WhatsApp"
-      className="fixed bottom-6 right-6 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-[var(--tl-wa-glow)] transition-transform duration-[var(--tl-dur)] ease-tl hover:scale-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tl-wa)]"
+      className="fixed bottom-6 right-6 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-transparent shadow-[var(--tl-wa-glow)] transition-transform duration-[var(--tl-dur)] ease-tl hover:scale-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--tl-wa)]"
     >
       <svg viewBox="0 0 48 48" fill="none" className="h-8 w-8" aria-hidden="true">
         <circle cx="24" cy="24" r="24" fill="var(--tl-wa)"/>
