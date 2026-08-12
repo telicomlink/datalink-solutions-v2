@@ -121,6 +121,10 @@
   --tl-staffarc: #e87722;
   --tl-staffarc-light: #f5a623;
 
+  /* WhatsApp brand green — used only for the floating chat button. */
+  --tl-wa: #25d366;
+  --tl-wa-glow: 0 4px 32px color-mix(in srgb, #25d366 40%, transparent);
+
   --tl-dur-fast: 150ms;
   --tl-dur: 200ms;
   --tl-ease: cubic-bezier(0.22, 0.61, 0.36, 1);
