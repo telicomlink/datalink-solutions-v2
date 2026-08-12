@@ -7,10 +7,12 @@ export function WhatsAppFab() {
       target="_blank"
       rel="noopener noreferrer"
       aria-label="Chat on WhatsApp"
-      className="fixed bottom-6 right-6 z-50 flex h-14 w-14 items-center justify-center rounded-full bg-[#25d366] text-white shadow-[0_4px_24px_rgba(37,211,102,0.4)] transition-transform duration-[var(--tl-dur)] ease-tl hover:scale-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25d366]"
+      className="fixed bottom-6 right-6 z-50 flex h-16 w-16 items-center justify-center rounded-full bg-white shadow-[0_4px_32px_rgba(37,211,102,0.5)] transition-transform duration-[var(--tl-dur)] ease-tl hover:scale-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#25d366] before:absolute before:inset-0 before:rounded-full before:border-2 before:border-[#25d366] before:animate-ping before:opacity-60"
     >
-      <svg viewBox="0 0 32 32" fill="currentColor" className="h-7 w-7" aria-hidden="true">
-        <path d="M16 2C8.268 2 2 8.268 2 16c0 2.49.648 4.829 1.782 6.86L2 30l7.347-1.757A13.93 13.93 0 0 0 16 30c7.732 0 14-6.268 14-14S23.732 2 16 2Zm0 25.6a11.55 11.55 0 0 1-5.89-1.608l-.422-.252-4.36 1.043 1.072-4.25-.276-.436A11.56 11.56 0 0 1 4.4 16C4.4 9.59 9.59 4.4 16 4.4S27.6 9.59 27.6 16 22.41 27.6 16 27.6Zm6.34-8.64c-.347-.174-2.055-1.013-2.374-1.129-.319-.116-.551-.174-.783.174-.232.347-.899 1.129-1.102 1.362-.203.232-.406.26-.753.087-.347-.174-1.464-.54-2.788-1.72-1.03-.918-1.726-2.052-1.929-2.399-.203-.347-.022-.535.153-.708.157-.156.347-.406.521-.609.174-.203.232-.347.347-.579.116-.232.058-.435-.029-.609-.087-.174-.783-1.887-1.073-2.585-.283-.678-.57-.586-.783-.597l-.667-.011c-.232 0-.609.087-.928.435-.319.347-1.218 1.19-1.218 2.903s1.247 3.367 1.42 3.599c.174.232 2.453 3.745 5.944 5.252.831.359 1.48.573 1.985.733.834.265 1.594.228 2.194.138.669-.1 2.055-.84 2.345-1.652.29-.812.29-1.508.203-1.652-.086-.145-.318-.232-.666-.406Z"/>
+      {/* Official WhatsApp logo — green on white */}
+      <svg viewBox="0 0 48 48" fill="none" className="h-9 w-9" aria-hidden="true">
+        <circle cx="24" cy="24" r="24" fill="#25d366"/>
+        <path fill="#fff" d="M24 10C16.27 10 10 16.27 10 24c0 2.82.78 5.46 2.14 7.72L10 38l6.47-1.97A13.93 13.93 0 0 0 24 38c7.73 0 14-6.27 14-14S31.73 10 24 10Zm0 25.6a11.55 11.55 0 0 1-5.89-1.61l-.42-.25-3.87.93.96-3.76-.28-.44A11.56 11.56 0 0 1 12.4 24c0-6.4 5.2-11.6 11.6-11.6S35.6 17.6 35.6 24 30.4 35.6 24 35.6Zm6.34-8.64c-.35-.17-2.06-1.01-2.38-1.13-.32-.12-.55-.17-.78.17-.23.35-.9 1.13-1.1 1.36-.2.23-.41.26-.75.09-.35-.17-1.46-.54-2.79-1.72-1.03-.92-1.73-2.05-1.93-2.4-.2-.35-.02-.53.15-.71.16-.16.35-.41.52-.61.17-.2.23-.35.35-.58.12-.23.06-.44-.03-.61-.09-.17-.78-1.89-1.07-2.59-.28-.68-.57-.59-.78-.6l-.67-.01c-.23 0-.61.09-.93.44-.32.35-1.22 1.19-1.22 2.9s1.25 3.37 1.42 3.6c.17.23 2.45 3.74 5.94 5.25.83.36 1.48.57 1.99.73.83.26 1.59.23 2.19.14.67-.1 2.06-.84 2.35-1.65.29-.81.29-1.51.2-1.65-.08-.15-.32-.23-.67-.41Z"/>
       </svg>
     </a>
   );
