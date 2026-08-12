@@ -7,7 +7,7 @@ export const CONTACT = {
   phoneEuropeHref: "tel:+33646018040",
   phoneApac: "+91 90141 27090",
   phoneApacHref: "tel:+919014127090",
-  whatsapp: "https://wa.me/33646018040",
+  whatsapp: "https://wa.me/33768486964",
   whatsappApac: "https://wa.me/919014127090",
   linkedin: "https://www.linkedin.com/company/telicomlink/",
   europeBase: "Paris, France",
