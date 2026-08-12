@@ -3,6 +3,7 @@ import { SiteHeader } from "./SiteHeader";
 import { SiteFooter, CtaBand } from "./FaqFooter";
 import { Container, MonoLabel } from "./Section";
 import { useReveal } from "./Reveal";
+import { WhatsAppFab } from "./WhatsAppFab";
 
 export function SiteLayout({
   children,
@@ -19,6 +20,7 @@ export function SiteLayout({
         {withCta && <CtaBand />}
       </main>
       <SiteFooter />
+      <WhatsAppFab />
     </div>
   );
 }
