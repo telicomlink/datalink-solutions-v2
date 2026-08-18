@@ -1,4 +1,5 @@
-name = "datalink"
+name = "datalink-solutions-v2"
+compatibility_date = "2026-08-18"
 pages_build_output_dir = "dist"
 
 [assets]
