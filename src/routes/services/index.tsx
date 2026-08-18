@@ -10,6 +10,7 @@ import { useReveal } from "@/components/site/Reveal";
 import { serviceIcon } from "@/lib/service-icons";
 import { SERVICES, SERVICE_DETAILS, PROJECT_STATS, FACILITIES, type Facility } from "@/lib/site-data";
 import servicesHero from "@/assets/hero-services.webp";
+import { PageSeo } from "@/components/site/PageSeo";
 
 export const Route = createFileRoute("/services/")({ component: ServicesPage });
 
@@ -277,6 +278,11 @@ function ServicesPage() {
   const { t } = useTranslation();
   return (
     <SiteLayout>
+      <PageSeo
+        title="Data Center Services — Remote Hands, Rack & Stack, Testing | TelicomLink"
+        description="Nine data center services: remote hands, rack & stack, site survey, migrations, colocation, data destruction, testing, commissioning, and spare parts management."
+        canonical="https://telicomlink.com/services"
+      />
       <PageHero
         eyebrow={t("services.eyebrow")}
         title={t("services.title")}

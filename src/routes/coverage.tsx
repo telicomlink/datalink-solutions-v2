@@ -9,6 +9,7 @@ import { ButtonLink } from "@/components/site/Button";
 import { useReveal } from "@/components/site/Reveal";
 import { FACILITIES, CONTACT, type Facility } from "@/lib/site-data";
 import coverageHero from "@/assets/hero-coverage.webp";
+import { PageSeo } from "@/components/site/PageSeo";
 
 export const Route = createFileRoute("/coverage")({ component: CoveragePage });
 
@@ -164,6 +165,11 @@ function CoveragePage() {
   const { t } = useTranslation();
   return (
     <SiteLayout>
+      <PageSeo
+        title="Coverage — Data Center Locations Europe & APAC | TelicomLink"
+        description="TelicomLink operates across Paris, Marseille, Frankfurt, Amsterdam, Mumbai, Bangalore, Visakhapatnam, Singapore and Jakarta. 24/7 dispatch coverage."
+        canonical="https://telicomlink.com/coverage"
+      />
       <PageHero
         eyebrow={t("coverage.eyebrow")}
         title={t("coverage.title")}

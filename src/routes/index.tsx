@@ -20,6 +20,7 @@ import {
   DIFFERENTIATORS, INDUSTRIES, PROCESS_STEPS, CONTACT,
 } from "@/lib/site-data";
 import whyImage from "@/assets/why-engineer.webp";
+import { PageSeo, ORG_SCHEMA } from "@/components/site/PageSeo";
 
 export const Route = createFileRoute("/")({ component: Index });
 
@@ -204,6 +205,12 @@ function Index() {
   const { t } = useTranslation();
   return (
     <SiteLayout>
+      <PageSeo
+        title="TelicomLink — Data Center Services Europe & APAC"
+        description="24/7 data center deployment, remote hands, rack & stack, testing, and colocation across Europe and APAC. One team, two regions."
+        canonical="https://telicomlink.com/"
+        structuredData={ORG_SCHEMA}
+      />
       <Hero />
       <Services
         limit={6}

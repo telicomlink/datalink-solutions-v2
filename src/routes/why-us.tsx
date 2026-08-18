@@ -10,6 +10,7 @@ import { ButtonLink } from "@/components/site/Button";
 import { useReveal } from "@/components/site/Reveal";
 import { WHY_STATS, INDUSTRIES } from "@/lib/site-data";
 import whyHero from "@/assets/hero-why.webp";
+import { PageSeo } from "@/components/site/PageSeo";
 
 export const Route = createFileRoute("/why-us")({ component: WhyUsPage });
 
@@ -162,6 +163,11 @@ function WhyUsPage() {
   const { t } = useTranslation();
   return (
     <SiteLayout>
+      <PageSeo
+        title="Why TelicomLink — Expert Data Center Engineers Europe & APAC"
+        description="Discover why enterprises and network operators choose TelicomLink for 24/7 remote hands, 400G testing, and multi-region data center operations."
+        canonical="https://telicomlink.com/why-us"
+      />
       <PageHero
         eyebrow={t("whyUs.eyebrow")}
         title={t("whyUs.title")}

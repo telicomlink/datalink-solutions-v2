@@ -4,6 +4,7 @@ import { Mail } from "lucide-react";
 import { Section, Container, MonoLabel, SectionHeading, SectionLead } from "@/components/site/Section";
 import { SiteLayout } from "@/components/site/SiteLayout";
 import { CONTACT } from "@/lib/site-data";
+import { PageSeo } from "@/components/site/PageSeo";
 
 export const Route = createFileRoute("/privacy-policy")({ component: PrivacyPolicyPage });
 
@@ -19,6 +20,11 @@ function LegalBlock({ heading, children }: { heading: string; children: ReactNod
 function PrivacyPolicyPage() {
   return (
     <SiteLayout withCta={false}>
+      <PageSeo
+        title="Privacy Policy | TelicomLink"
+        description="How TelicomLink collects, uses, and protects personal data in line with GDPR."
+        canonical="https://telicomlink.com/privacy-policy"
+      />
       <section className="pb-[var(--tl-section-y)] pt-[calc(var(--tl-header-h)+var(--tl-s-16))]">
         <Container className="flex flex-col items-start">
           <MonoLabel>Legal</MonoLabel>

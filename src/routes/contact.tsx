@@ -7,6 +7,7 @@ import { Section, Container, MonoLabel, SectionHeading, SectionLead } from "@/co
 import { useReveal } from "@/components/site/Reveal";
 import { ButtonAnchor } from "@/components/site/Button";
 import { CONTACT, HOURS } from "@/lib/site-data";
+import { PageSeo } from "@/components/site/PageSeo";
 
 export const Route = createFileRoute("/contact")({ component: ContactPage });
 
@@ -185,6 +186,11 @@ function WhatsAppStrip() {
 function ContactPage() {
   return (
     <SiteLayout withCta={false}>
+      <PageSeo
+        title="Contact TelicomLink — 24/7 Data Center Support"
+        description="Get in touch with TelicomLink for data center remote hands, deployments, and colocation. 24/7 support across Europe and APAC."
+        canonical="https://telicomlink.com/contact"
+      />
       <ContactHero />
       <WhatToExpect />
       <Contact />

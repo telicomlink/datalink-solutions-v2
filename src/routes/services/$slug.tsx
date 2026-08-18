@@ -8,6 +8,7 @@ import { useReveal } from "@/components/site/Reveal";
 import { serviceIcon } from "@/lib/service-icons";
 import { SERVICE_IMAGES } from "@/components/site/Services";
 import { SERVICES, SERVICE_DETAILS, CONTACT, FACILITIES } from "@/lib/site-data";
+import { PageSeo } from "@/components/site/PageSeo";
 
 export const Route = createFileRoute("/services/$slug")({
   loader: ({ params }) => {
@@ -45,6 +46,11 @@ function ServicePage() {
 
   return (
     <SiteLayout>
+      <PageSeo
+        title={`${svc.name} — Data Center Services | TelicomLink`}
+        description={detail?.intro.slice(0, 155) ?? svc.descriptor}
+        canonical={`https://telicomlink.com/services/${svc.slug}`}
+      />
       {/* Hero */}
       <section className="pb-[var(--tl-section-y)] pt-[calc(var(--tl-header-h)+var(--tl-s-16))]">
         <Container>
